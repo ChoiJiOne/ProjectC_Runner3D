@@ -16,5 +16,7 @@ add_library(cgltf STATIC ${CGLTF_INCLUDE_FILE} ${CGLTF_SOURCE_FILE})
 
 target_include_directories(cgltf PUBLIC ${CGLTF_INCLUDE})
 
+set_property(TARGET cgltf PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
 source_group(include FILES ${CGLTF_INCLUDE_FILE})
 source_group(src FILES ${CGLTF_SOURCE_FILE})
