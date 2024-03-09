@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+#include "Vec3.h"
+
 
 /**
  * @brief 템플릿 기반의 4x4 행렬입니다.
@@ -467,6 +469,135 @@ struct TMat4x4
 	 * @return 4x4 행렬의 역행렬을 반환합니다.
 	 */
 	static inline TMat4x4<T> Inverse(const TMat4x4<T>& m);
+
+
+	/**
+	 * @brief 이동 변환 행렬을 생성합니다.
+	 *
+	 * @param x 이동할 x 좌표값입니다.
+	 * @param y 이동할 y 좌표값입니다.
+	 * @param z 이동할 z 좌표값입니다.
+	 *
+	 * @return 생성된 이동 변환 행렬을 반환합니다.
+	 */
+	static inline TMat4x4<T> Translation(float x, float y, float z);
+
+
+	/**
+	 * @brief 이동 변환 행렬을 생성합니다.
+	 *
+	 * @param p 이동할 위치 좌표입니다.
+	 *
+	 * @return 생성된 이동 변환 행렬을 반환합니다.
+	 */
+	static inline TMat4x4<T> Translation(const TVec3<T>& p);
+
+
+	/**
+	 * @brief 스케일 변환 행렬을 생성합니다.
+	 *
+	 * @param xScale 변환할 x축 방향의 스케일입니다.
+	 * @param yScale 변환할 y축 방향의 스케일입니다.
+	 * @param zScale 변환할 z축 방향의 스케일입니다.
+	 *
+	 * @return 생성된 스케일 변환 행렬을 반환합니다.
+	 */
+	static inline TMat4x4<T> Scale(float xScale, float yScale, float zScale);
+
+
+	/**
+	 * @brief 스케일 변환 행렬을 생성합니다.
+	 *
+	 * @param scale 변환할 스케일 벡터입니다.
+	 *
+	 * @return 생성된 스케일 변환 행렬을 반환합니다.
+	 */
+	static inline TMat4x4<T> Scale(const Vec3f& scale);
+
+
+	/**
+	 * @brief X축으로 회전시키는 회전 행렬을 생성합니다.
+	 *
+	 * @param radian 회전할 라디안 각도입니다.
+	 *
+	 * @return 생성된 회전 행렬을 반환합니다.
+	 */
+	static inline TMat4x4<T> RotateX(float radian);
+
+
+	/**
+	 * @brief Y축으로 회전시키는 회전 행렬을 생성합니다.
+	 *
+	 * @param radian 회전할 라디안 각도입니다.
+	 *
+	 * @return 생성된 회전 행렬을 반환합니다.
+	 */
+	static inline TMat4x4<T> RotateY(float radian);
+
+
+	/**
+	 * @brief Z축으로 회전시키는 회전 행렬을 생성합니다.
+	 *
+	 * @param radian 회전할 라디안 각도입니다.
+	 *
+	 * @return 생성된 회전 행렬을 반환합니다.
+	 */
+	static inline TMat4x4<T> RotateZ(float radian);
+
+
+	/**
+	 * @brief 임의의 벡터를 기준으로 회전 행렬을 생성합니다.
+	 * 
+	 * @param radian 회전할 회전 각도입니다.
+	 * @param axis 회전축입니다.
+	 * 
+	 * @return 생성된 회전 행렬을 반환합니다.
+	 * 
+	 * @see 
+	 * - 로드리게스 회전 공식 참조
+	 * - https://en.wikipedia.org/wiki/Rodrigues%27_rotation_formula
+	 */
+	static inline TMat4x4<T> Rotate(float radian, const Vec3f& axis);
+
+
+	/**
+	 * @brief 직교 투영 행렬을 생성합니다.
+	 *
+	 * @param left   투영 공간의 좌측 경계 평면 값
+	 * @param right  투영 공간의 우측 경계 평면 값
+	 * @param bottom 투영 공간의 하단 경계 평면 값
+	 * @param top    투영 공간의 상단 경계 평면 값
+	 * @param zNear  투영 공간의 전방 경계 평면 값
+	 * @param zFar   투영 공간의 후방 경계 평면 값
+	 *
+	 * @return 생성된 직교 투영 행렬을 반환합니다.
+	 */
+	static inline TMat4x4<T> Ortho(float left, float right, float bottom, float top, float zNear, float zFar);
+
+
+	/**
+	 * @brief 원근 투영 행렬을 생성합니다.
+	 * 
+	 * @param fov 라디안 단위의 시야 각도입니다.
+	 * @param aspect 뷰 공간의 가로/세로 비율입니다.
+	 * @param nearZ 가까운 클리핑 평면 사이의 거리입니다. 0보다 커야 합니다.
+	 * @param farZ 원거리 클리핑 평면 사이의 거리입니다. 0보다 커야 합니다.
+	 * 
+	 * @return 생성된 원근 투영 행렬을 반환합니다.
+	 */
+	static inline TMat4x4<T> Perspective(float fov, float aspect, float nearZ, float farZ);
+
+
+	/**
+	 * @brief 시야 행렬을 생성합니다.
+	 * 
+	 * @param eyePosition 카메라의 위치입니다.
+	 * @param focusPosition 초점의 위치입니다.
+	 * @param upDirection 카메라의 위쪽 방향입니다. 일반적으로 <0.0f, 1.0f, 0.0f> 입니다.
+	 * 
+	 * @return 생성된 시야 행렬을 반환합니다.
+	 */
+	static inline TMat4x4<T> LookAt(const Vec3f& eyePosition, const Vec3f& focusPosition, const Vec3f& upDirection);
 
 
 	/**

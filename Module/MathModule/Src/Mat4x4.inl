@@ -1,4 +1,5 @@
-#include "Vec4.h"
+#include "MathModule.h"
+#include "..\Inc\Mat4x4.h"
 
 template<typename T>
 inline TMat4x4<T> TMat4x4<T>::Zero()
@@ -111,4 +112,152 @@ inline TMat4x4<T> TMat4x4<T>::Inverse(const TMat4x4<T>& m)
 		col2.x, col2.y, col2.z, col2.w,
 		col3.x, col3.y, col3.z, col3.w,
 		);
+}
+
+template<typename T>
+inline TMat4x4<T> TMat4x4<T>::Translation(float x, float y, float z)
+{		
+	return Mat4x4f(
+		1.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		   x,    y,    z, 1.0f
+	);
+}
+
+template<typename T>
+inline TMat4x4<T> TMat4x4<T>::Translation(const TVec3<T>& p)
+{
+	return TMat4x4<T>(
+		1.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		 p.x,  p.y,  p.z, 1.0f
+	);
+}
+
+template<typename T>
+inline TMat4x4<T> TMat4x4<T>::Scale(float xScale, float yScale, float zScale)
+{
+	return TMat4x4<T>(
+		xScale,   0.0f,   0.0f, 0.0f,
+		  0.0f, yScale,   0.0f, 0.0f,
+		  0.0f,   0.0f, zScale, 0.0f,
+		  0.0f,   0.0f,   0.0f, 1.0f
+	);
+}
+
+template<typename T>
+inline TMat4x4<T> TMat4x4<T>::Scale(const Vec3f& scale)
+{
+	return TMat4x4<T>(
+		scale.x,    0.0f,    0.0f, 0.0f,
+		   0.0f, scale.y,    0.0f, 0.0f,
+		   0.0f,    0.0f, scale.z, 0.0f,
+		   0.0f,    0.0f,    0.0f, 1.0f
+	);
+}
+
+template<typename T>
+inline TMat4x4<T> TMat4x4<T>::RotateX(float radian)
+{
+	float c = MathModule::Cos(radian);
+	float s = MathModule::Sin(radian);
+
+	return TMat4x4<T>(
+		1.0f, 0.0f, 0.0f, 0.0f,
+		0.0f,    c,    s, 0.0f,
+		0.0f,   -s,    c, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f
+	);
+}
+
+template<typename T>
+inline TMat4x4<T> TMat4x4<T>::RotateY(float radian)
+{
+	float c = MathModule::Cos(radian);
+	float s = MathModule::Sin(radian);
+
+	return TMat4x4<T>(
+		   c, 0.0f,   -s, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
+		   s, 0.0f,    c, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f
+	);
+}
+
+template<typename T>
+inline TMat4x4<T> TMat4x4<T>::RotateZ(float radian)
+{
+	float c = MathModule::Cos(radian);
+	float s = MathModule::Sin(radian);
+
+	return TMat4x4<T>(
+		  c,     s, 0.0f, 0.0f,
+	   	 -s,     c, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f
+	);
+}
+
+template<typename T>
+inline TMat4x4<T> TMat4x4<T>::Rotate(float radian, const Vec3f& axis)
+{		
+	float c = MathModule::Cos(radian);
+	float s = MathModule::Sin(radian);
+	Vec3f r = Vec3f::Normalize(axis);
+
+	return TMat4x4<T>(
+		      c + r.x * r.x * (1.0f - c), r.y * r.x * (1.0f - c) + r.z * s, r.z * r.x * (1.0f - c) - r.y * s, 0.0f,
+		r.x * r.y * (1.0f - c) - r.z * s,       c + r.y * r.y * (1.0f - c), r.z * r.y * (1.0f - c) + r.x * s, 0.0f,
+		r.x * r.z * (1.0f - c) + r.y * s, r.y * r.z * (1.0f - c) - r.x * s,       c + r.z * r.z * (1.0f - c), 0.0f,
+	    	                        0.0f,                             0.0f,                             0.0f, 1.0f
+	);
+}
+
+template<typename T>
+inline TMat4x4<T> TMat4x4<T>::Ortho(float left, float right, float bottom, float top, float zNear, float zFar)
+{		
+	float width = (right - left);
+	float sumLR = (right + left);
+	float height = (top - bottom);
+	float sumTB = (top + bottom);
+	float depth = (zFar - zNear);
+	float sumNF = (zFar + zNear);
+
+	return TMat4x4<T>(
+		  2.0f / width,            0.0f,           0.0f, 0.0f,
+		          0.0f,   2.0f / height,           0.0f, 0.0f,
+		          0.0f,            0.0f,  -2.0f / depth, 0.0f,
+		-sumLR / width, -sumTB / height, -sumNF / depth, 1.0f
+	);
+}
+
+template<typename T>
+inline TMat4x4<T> TMat4x4<T>::Perspective(float fov, float aspect, float nearZ, float farZ)
+{
+	float halfFov = fov / 2.0f;
+	float tanHalfFovy = Sin(halfFov) / Cos(halfFov);
+		
+	return TMat4x4<T>(
+		1.0f / (aspect * tanHalfFovy),                 0.0f,                                    0.0f,  0.0f,
+			                     0.0f, 1.0f / (tanHalfFovy),                                    0.0f,  0.0f,
+			                     0.0f,                 0.0f,        -(farZ + nearZ) / (farZ - nearZ), -1.0f,
+			                     0.0f,                 0.0f, -(2.0f * farZ * nearZ) / (farZ - nearZ),  1.0f
+	);
+}
+
+template<typename T>
+inline TMat4x4<T> TMat4x4<T>::LookAt(const Vec3f& eyePosition, const Vec3f& focusPosition, const Vec3f& upDirection)
+{
+	Vec3f f = Vec3f::Normalize(focusPosition - eyePosition);
+	Vec3f s = Vec3f::Normalize(Vec3f::Cross(f, upDirection));
+	Vec3f u = Vec3f::Cross(s, f);
+
+	return TMat4x4<T>(
+			                    s.x,                         u.x,                       -f.x, 0.0f,
+			                    s.y,                         u.y,                       -f.y, 0.0f,
+			                    s.z,                         u.z,                       -f.z, 0.0f,
+		-Vec3f::Dot(s, eyePosition), -Vec3f::Dot(u, eyePosition), Vec3f::Dot(f, eyePosition), 1.0f
+	);
 }
