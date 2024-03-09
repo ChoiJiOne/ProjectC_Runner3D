@@ -1,5 +1,4 @@
 #include "MathModule.h"
-#include "..\Inc\Quat.h"
 
 inline Quat Quat::AxisRadian(const Vec3f& axis, float radian)
 {
