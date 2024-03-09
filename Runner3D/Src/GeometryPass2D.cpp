@@ -1,7 +1,5 @@
 #include <glad/glad.h>
 
-#include "MathModule.h"
-
 #include "Assertion.h"
 #include "GeometryPass2D.h"
 
@@ -130,9 +128,9 @@ void GeometryPass2D::DrawRectangle2D(const Mat4x4f& ortho, const Vec2f& center, 
 	vertices_[2] = VertexPositionColor2D(Vec2f(center.x + width / 2.0f + 0.5f, center.y - height / 2.0f + 0.5f), color);
 	vertices_[3] = VertexPositionColor2D(Vec2f(center.x - width / 2.0f + 0.5f, center.y - height / 2.0f + 0.5f), color);
 	
-	Mat4x4f transform = MathModule::CreateTranslation(Vec3f(-center.x, -center.y, 0.0f))
-		* MathModule::CreateRotateZ(rotate)
-		* MathModule::CreateTranslation(Vec3f(+center.x, +center.y, 0.0f));
+	Mat4x4f transform = Mat4x4f::Translation(Vec3f(-center.x, -center.y, 0.0f))
+		* Mat4x4f::RotateZ(rotate)
+		* Mat4x4f::Translation(Vec3f(+center.x, +center.y, 0.0f));
 
 	DrawGeometry2D(transform, ortho, EDrawType::TriangleFan, 4);
 }
@@ -145,9 +143,9 @@ void GeometryPass2D::DrawWireframeRectangle2D(const Mat4x4f& ortho, const Vec2f&
 	vertices_[3] = VertexPositionColor2D(Vec2f(center.x + width / 2.0f + 0.5f, center.y - height / 2.0f + 0.5f), color);
 	vertices_[4] = VertexPositionColor2D(Vec2f(center.x - width / 2.0f + 0.5f, center.y - height / 2.0f + 0.5f), color);
 
-	Mat4x4f transform = MathModule::CreateTranslation(Vec3f(-center.x, -center.y, 0.0f))
-		* MathModule::CreateRotateZ(rotate)
-		* MathModule::CreateTranslation(Vec3f(+center.x, +center.y, 0.0f));
+	Mat4x4f transform = Mat4x4f::Translation(Vec3f(-center.x, -center.y, 0.0f))
+		* Mat4x4f::RotateZ(rotate)
+		* Mat4x4f::Translation(Vec3f(+center.x, +center.y, 0.0f));
 
 	DrawGeometry2D(transform, ortho, EDrawType::LineStrip, 5);
 }
@@ -203,9 +201,9 @@ void GeometryPass2D::DrawRoundRectangle2D(const Mat4x4f& ortho, const Vec2f& cen
 		vertices_[index].color = color;
 	}
 
-	Mat4x4f transform = MathModule::CreateTranslation(Vec3f(-center.x, -center.y, 0.0f))
-		* MathModule::CreateRotateZ(rotate)
-		* MathModule::CreateTranslation(Vec3f(+center.x, +center.y, 0.0f));
+	Mat4x4f transform = Mat4x4f::Translation(Vec3f(-center.x, -center.y, 0.0f))
+		* Mat4x4f::RotateZ(rotate)
+		* Mat4x4f::Translation(Vec3f(+center.x, +center.y, 0.0f));
 
 	DrawGeometry2D(transform, ortho, EDrawType::TriangleFan, vertexCount);
 }
@@ -260,9 +258,9 @@ void GeometryPass2D::DrawWireframeRoundRectangle2D(const Mat4x4f& ortho, const V
 		vertices_[index].color = color;
 	}
 
-	Mat4x4f transform = MathModule::CreateTranslation(Vec3f(-center.x, -center.y, 0.0f))
-		* MathModule::CreateRotateZ(rotate)
-		* MathModule::CreateTranslation(Vec3f(+center.x, +center.y, 0.0f));
+	Mat4x4f transform = Mat4x4f::Translation(Vec3f(-center.x, -center.y, 0.0f))
+		* Mat4x4f::RotateZ(rotate)
+		* Mat4x4f::Translation(Vec3f(+center.x, +center.y, 0.0f));
 
 	DrawGeometry2D(transform, ortho, EDrawType::LineStrip, vertexCount);
 }

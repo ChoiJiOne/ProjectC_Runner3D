@@ -3,7 +3,7 @@
 #include <SDL.h>
 #include <glad/glad.h>
 
-#include "MathModule.h"
+#include "Mat4x4.h"
 
 #include "Assertion.h"
 #include "GeometryPass2D.h"
@@ -64,7 +64,7 @@ void RenderManager::BeginFrame(float red, float green, float blue, float alpha, 
 	int32_t width = 0;
 	int32_t height = 0;
 	GetRenderTargetWindowSize(width, height);
-	screenOrtho_ = MathModule::CreateOrtho(0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f, -1.0f, 1.0f);
+	screenOrtho_ = Mat4x4f::Ortho(0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f, -1.0f, 1.0f);
 
 	glClearColor(red, green, blue, alpha);
 	glClearDepth(depth);

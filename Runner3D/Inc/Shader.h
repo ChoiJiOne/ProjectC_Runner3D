@@ -3,7 +3,12 @@
 #include <map>
 #include <string>
 
-#include "MathModule.h"
+#include "Mat2x2.h"
+#include "Mat3x3.h"
+#include "Mat4x4.h"
+#include "Vec2.h"
+#include "Vec3.h"
+#include "Vec4.h"
 
 #include "IResource.h"
 
