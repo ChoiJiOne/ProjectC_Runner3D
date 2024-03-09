@@ -416,6 +416,18 @@ struct TVec3
 
 
 	/**
+	 * @brief 두 벡터를 선형 보간한 벡터를 계산합니다.
+	 *
+	 * @param s 보간의 시작 벡터입니다.
+	 * @param e 보간의 끝 벡터입니다.
+	 * @param t 두 벡터의 보간 비율입니다.
+	 *
+	 * @return 보간된 벡터를 반환합니다.
+	 */
+	static inline TVec3<T> Lerp(const TVec3<T>& s, const TVec3<T>& e, const float& t);
+
+
+	/**
 	 * @brief 3차원 벡터의 다양한 원소 형식입니다.
 	 */
 	union

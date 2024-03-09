@@ -69,3 +69,9 @@ inline TVec2<T> TVec2<T>::Reject(const TVec2<T>& target, const TVec2<T>& base)
 	TVec2<T> project = TVec2<T>::Project(target, base);
 	return target - project;
 }
+
+template<typename T>
+inline TVec2<T> TVec2<T>::Lerp(const TVec2<T>& s, const TVec2<T>& e, const float& t)
+{
+	return s * (1.0f - t) + e * t;
+}
