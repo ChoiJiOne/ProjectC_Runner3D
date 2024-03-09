@@ -1,5 +1,4 @@
 #include "MathModule.h"
-#include "..\Inc\Vec3.h"
 
 template<typename T>
 inline T TVec3<T>::Dot(const TVec3<T>& lhs, const TVec3<T>& rhs)
@@ -57,4 +56,14 @@ inline float TVec3<T>::Degree(const TVec3<T>& lhs, const TVec3<T>& rhs)
 {
 	float radian = TVec3::Radian(lhs, rhs);
 	return MathModule::ToDegree(radian);
+}
+
+template<typename T>
+inline TVec3<T> TVec3<T>::Project(const TVec3<T>& target, const TVec3<T>& base)
+{
+	T dot = TVec3::Dot(target, base);
+	T lengthSq = TVec3::LengthSq(base);
+	T scale = dot / lengthSq;
+
+	return TVec3<T>(base.x * scale, base.y * scale, base.z * scale);
 }

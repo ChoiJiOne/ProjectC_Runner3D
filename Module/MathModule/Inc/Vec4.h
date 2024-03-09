@@ -398,6 +398,17 @@ struct TVec4
 
 
 	/**
+	 * @brief Base 4차원 벡터에 Target 4차원 벡터를 투영합니다.
+	 *
+	 * @param target 투영 대상에 투영할 벡터입니다.
+	 * @param base 투영 대상이 되는 벡터입니다.
+	 *
+	 * @return base에 투영된 target 벡터를 반환합니다.
+	 */
+	static inline TVec4<T> Project(const TVec4<T>& target, const TVec4<T>& base);
+
+
+	/**
 	 * @brief 4차원 벡터의 다양한 원소 형식입니다.
 	 */
 	union
