@@ -236,6 +236,60 @@ struct TVec3
 
 
 	/**
+	 * @brief 두 3차원 벡터가 동일한지 검사합니다.
+	 *
+	 * @param v 검사를 수행할 피연산자입니다.
+	 *
+	 * @return 두 벡터가 동일하다면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	bool operator==(TVec3<T>&& v) const
+	{
+		T d = (x - v.x) * (x - v.x) + (y - v.y) * (y - v.y) + (z - v.z) * (z - v.z);
+		return static_cast<float>(d) < 1.192092896e-07F;
+	}
+
+
+	/**
+	 * @brief 두 3차원 벡터가 동일한지 검사합니다.
+	 * 
+	 * @param v 검사를 수행할 피연산자입니다.
+	 * 
+	 * @return 두 벡터가 동일하다면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	bool operator==(const TVec3<T>& v) const
+	{
+		T d = (x - v.x) * (x - v.x) + (y - v.y) * (y - v.y) + (z - v.z) * (z - v.z);
+		return static_cast<float>(d) < 1.192092896e-07F;
+	}
+
+
+	/**
+	 * @brief 두 3차원 벡터가 동일하지 않은지 검사합니다.
+	 *
+	 * @param v 검사를 수행할 피연산자입니다.
+	 *
+	 * @return 두 벡터가 동일하지 않다면 true, 그렇다면 false를 반환합니다.
+	 */
+	bool operator!=(TVec3<T>&& v) const
+	{
+		return !(*this == v);
+	}
+
+
+	/**
+	 * @brief 두 3차원 벡터가 동일하지 않은지 검사합니다.
+	 *
+	 * @param v 검사를 수행할 피연산자입니다.
+	 *
+	 * @return 두 벡터가 동일하지 않다면 true, 그렇다면 false를 반환합니다.
+	 */
+	bool operator!=(const TVec3<T>& v) const
+	{
+		return !(*this == v);
+	}
+
+
+	/**
 	 * @brief 두 3차원 벡터에 대응하는 원소를 더합니다.
 	 *
 	 * @param v 연산을 수행할 피연산자입니다.
