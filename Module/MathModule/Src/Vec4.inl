@@ -71,3 +71,18 @@ inline TVec4<T> TVec4<T>::Lerp(const TVec4<T>& s, const TVec4<T>& e, const float
 {
 	return s * (1.0f - t) + e * t;
 }
+
+template<typename T>
+inline TVec4<T> TVec4<T>::Slerp(const TVec4<T>& s, const TVec4<T>& e, const float& t)
+{
+	TVec4<T> start = TVec4<T>::Normalize(s);
+	TVec4<T> end = TVec4<T>::Normalize(e);
+
+	float theta = TVec4<T>::Radian(start, end);
+	float sinTheta = MathModule::Sin(theta);
+
+	float a = MathModule::Sin((1.0f - t) * theta) / sinTheta;
+	float b = MathModule::Sin(t * theta) / sinTheta;
+
+	return s * a + e * b;
+}
