@@ -12,8 +12,6 @@
 #include "Vec3.h"
 #include "Vec4.h"
 
-#include "Quat.h"
-
 
 /**
  * 수학 관련 기능을 제공합니다.
