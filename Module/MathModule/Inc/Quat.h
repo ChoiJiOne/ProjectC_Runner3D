@@ -189,6 +189,42 @@ struct Quat
 
 
 	/**
+	 * @brief 쿼터니언 곱셈 연산을 수행합니다.
+	 *
+	 * @param q 곱셈 연산을 수행할 쿼터니언 값입니다.
+	 *
+	 * @return 곱셈 연산을 수행한 결과를 반환합니다.
+	 */
+	Quat operator*(Quat&& q) const
+	{
+		return Quat(
+			+q.x * w + q.y * z - q.z * y + q.w * x,
+			-q.x * z + q.y * w + q.z * x + q.w * y,
+			+q.x * y - q.y * x + q.z * w + q.w * z,
+			-q.x * x - q.y * y - q.z * z + q.w * w
+		);
+	}
+
+
+	/**
+	 * @brief 쿼터니언 곱셈 연산을 수행합니다.
+	 * 
+	 * @param q 곱셈 연산을 수행할 쿼터니언 값입니다.
+	 * 
+	 * @return 곱셈 연산을 수행한 결과를 반환합니다.
+	 */
+	Quat operator*(const Quat& q) const
+	{
+		return Quat(
+			+q.x * w + q.y * z - q.z * y + q.w * x,
+			-q.x * z + q.y * w + q.z * x + q.w * y,
+			+q.x * y - q.y * x + q.z * w + q.w * z,
+			-q.x * x - q.y * y - q.z * z + q.w * w
+		);
+	}
+
+
+	/**
 	 * @brief 두 쿼터니언에 대응하는 원소를 더합니다.
 	 *
 	 * @param q 쿼터니언의 덧셈을 수행할 피연산자입니다.
