@@ -501,6 +501,17 @@ struct Quat
 
 
 	/**
+	 * @brief 쿼터니언의 거듭 제곱을 수행합니다.
+	 * 
+	 * @param q 거듭 제곱 연산을 수행할 쿼터니언입니다.
+	 * @param power 거듭제곱 값입니다.
+	 * 
+	 * @return 거듭 제곱이 수행된 쿼터니언 값을 반환합니다.
+	 */
+	static inline Quat Pow(const Quat& q, const float power);
+
+
+	/**
 	 * @brief 쿼터니언의 원소입니다.
 	 */
 	union

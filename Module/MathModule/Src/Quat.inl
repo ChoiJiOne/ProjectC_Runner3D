@@ -130,3 +130,14 @@ inline Quat Quat::Nlerp(const Quat& s, const Quat& e, const float& t)
 {
 	return Normalize(Lerp(s, e, t));
 }
+
+inline Quat Quat::Pow(const Quat& q, const float power)
+{
+	float radian = Quat::Radian(q);
+	Vec3f axis = Vec3f::Normalize(Quat::Axis(q));
+
+	float c = MathModule::Cos(power * radian * 0.5f);
+	float s = MathModule::Sin(power * radian * 0.5f);
+
+	return Quat(axis.x * s, axis.y * s, axis.z * s, c);
+}
