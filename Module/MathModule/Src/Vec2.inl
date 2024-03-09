@@ -11,7 +11,7 @@ inline T TVec2<T>::Cross(const TVec2<T>& lhs, const TVec2<T>& rhs)
 }
 
 template<typename T>
-inline T TVec2<T>::LengthSquare(const TVec2<T>& v)
+inline T TVec2<T>::LengthSq(const TVec2<T>& v)
 {
 	return v.x * v.x + v.y * v.y;
 }
@@ -19,7 +19,7 @@ inline T TVec2<T>::LengthSquare(const TVec2<T>& v)
 template<typename T>
 inline float TVec2<T>::Length(const TVec2<T>& v)
 {
-	float lengthSquare = static_cast<float>(TVec2<T>::LengthSquare(v));
+	float lengthSquare = static_cast<float>(TVec2<T>::LengthSq(v));
 	return std::sqrtf(lengthSquare);
 }
 

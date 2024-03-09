@@ -352,7 +352,7 @@ struct TVec4
 	 *
 	 * @return 계산된 크기 제곱 값을 반환합니다.
 	 */
-	static inline T LengthSquare(const TVec4<T>& v);
+	static inline T LengthSq(const TVec4<T>& v);
 
 
 	/**
