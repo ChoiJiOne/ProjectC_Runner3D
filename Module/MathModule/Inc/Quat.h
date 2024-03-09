@@ -546,6 +546,26 @@ struct Quat
 	 * @return 생성된 쿼터니언을 반환합니다.
 	 */
 	static inline Quat LookRotate(const Vec3f& direction, const Vec3f& up);
+
+
+	/**
+	 * @brief 쿼터니언을 행렬로 변환합니다.
+	 * 
+	 * @param q 행렬로 변환할 쿼터니언입니다.
+	 * 
+	 * @return 변환된 행렬을 반환합니다.
+	 */
+	static inline Mat4x4f ToMat(const Quat& q);
+
+
+	/**
+	 * @brief 행렬을 쿼터니언으로 변환합니다.
+	 * 
+	 * @param m 쿼터니언으로 변환할 행렬입니다.
+	 * 
+	 * @return 변환된 쿼터니언을 반환합니다.
+	 */
+	static inline Quat ToQuat(const Mat4x4f& m);
 	
 	
 	/**
