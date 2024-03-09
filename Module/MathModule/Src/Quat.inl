@@ -1,5 +1,4 @@
 #include "MathModule.h"
-#include "..\Inc\Quat.h"
 
 inline Quat Quat::AxisRadian(const Vec3f& axis, float radian)
 {
@@ -150,4 +149,19 @@ inline Quat Quat::Pow(const Quat& q, const float power)
 	float s = MathModule::Sin(power * radian * 0.5f);
 
 	return Quat(axis.x * s, axis.y * s, axis.z * s, c);
+}
+
+inline Quat Quat::LookRotate(const Vec3f& direction, const Vec3f& up)
+{
+	Vec3f f = Vec3f::Normalize(direction);
+	Vec3f u = Vec3f::Normalize(up);
+	Vec3f r = Vec3f::Cross(u, f);
+
+	u = Vec3f::Cross(f, r);
+
+	Quat f2d = Quat::Rotate(Vec3f(0.0f, 0.0f, 1.0f), f);
+	Vec3f objectUp = f2d * Vec3f(0.0f, 1.0f, 0.0f);
+	Quat u2u = Quat::Rotate(objectUp, u);
+
+	return Quat::Normalize(f2d * u2u);
 }

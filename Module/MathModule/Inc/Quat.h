@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Mat4x4.h"
+
 #include "Vec3.h"
 
 
@@ -535,6 +537,17 @@ struct Quat
 	static inline Quat Pow(const Quat& q, const float power);
 
 
+	/**
+	 * @brief 방향과 위를 기준으로 쿼터니언을 생성합니다.
+	 * 
+	 * @param direction 쿼터니언 생성에 사용할 방향입니다.
+	 * @param up  쿼터니언 생성에 사용할 위 방향입니다.
+	 * 
+	 * @return 생성된 쿼터니언을 반환합니다.
+	 */
+	static inline Quat LookRotate(const Vec3f& direction, const Vec3f& up);
+	
+	
 	/**
 	 * @brief 쿼터니언의 원소입니다.
 	 */
