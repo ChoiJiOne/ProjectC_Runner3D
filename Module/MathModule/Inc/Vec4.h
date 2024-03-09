@@ -376,6 +376,17 @@ struct TVec4
 
 
 	/**
+	 * @brief 두 4차원 벡터 사이의 각을 계산합니다.
+	 *
+	 * @param lhs 벡터 사이의 각을 계산할 왼쪽 피연산자 벡터입니다.
+	 * @param rhs 벡터 사이의 각을 계산할 오른쪽 피연산자 벡터입니다.
+	 *
+	 * @return 두 4차원 벡터 사이의 라디안 각도를 반환합니다.
+	 */
+	static inline float Radian(const TVec4<T>& lhs, const TVec4<T>& rhs);
+
+
+	/**
 	 * @brief 4차원 벡터의 다양한 원소 형식입니다.
 	 */
 	union
