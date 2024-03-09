@@ -3,6 +3,7 @@
 #include <windows.h>
 
 #include "CrashModule.h"
+#include "Quat.h"
 
 #include "Assertion.h"
 #include "GameTimer.h"
@@ -16,22 +17,14 @@ bool bIsDone = false;
 int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR pCmdLine, _In_ int32_t nCmdShow)
 {
 	CHECK(CrashModule::RegisterExceptionFilter());
-
-	Vec3f a(1.0f, 0.0f, 1.1f);
-	Vec3f b(1.0f, 0.0f, 1.0f);
-	if (a != b)
-	{
-		//SDL_Log("Test")
-		int c = 10;
-	}
-
+	
 	SDLManager::Get().Startup();
 	InputManager::Get().Startup();
 	ResourceManager::Get().Startup();
 	RenderManager::Get().Startup();
 
 	InputManager::Get().AddWindowEventAction(EWindowEvent::CLOSE, [&]() {bIsDone = true; }, true);
-
+	
 	Vec2f start(0.0f, 200.0f);
 	Vec2f end(200.0f, 0.0f);
 	Vec2f position;
