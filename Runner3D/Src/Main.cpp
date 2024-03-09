@@ -5,6 +5,7 @@
 #include "CrashModule.h"
 
 #include "Assertion.h"
+#include "GameTimer.h"
 #include "InputManager.h"
 #include "RenderManager.h"
 #include "ResourceManager.h"
@@ -16,6 +17,14 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 {
 	CHECK(CrashModule::RegisterExceptionFilter());
 
+	Vec3f a(1.0f, 0.0f, 1.1f);
+	Vec3f b(1.0f, 0.0f, 1.0f);
+	if (a != b)
+	{
+		//SDL_Log("Test")
+		int c = 10;
+	}
+
 	SDLManager::Get().Startup();
 	InputManager::Get().Startup();
 	ResourceManager::Get().Startup();
@@ -23,11 +32,24 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 
 	InputManager::Get().AddWindowEventAction(EWindowEvent::CLOSE, [&]() {bIsDone = true; }, true);
 
+	Vec2f start(0.0f, 200.0f);
+	Vec2f end(200.0f, 0.0f);
+	Vec2f position;
+	GameTimer timer;
+
+	timer.Reset();
 	while (!bIsDone)
 	{
 		InputManager::Get().Tick();
+		timer.Tick();
 
+		position = Vec2f::Slerp(start, end, timer.GetTotalSeconds() / 10.0f);
+		
 		RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
+
+		RenderManager::Get().RenderWireframeCircle2D(Vec2f(), 200.0f, Vec4f(0.0f, 0.0f, 1.0f, 1.0f));
+		RenderManager::Get().RenderLine2D(Vec2f(0.0f, 0.0f), position, Vec4f(0.0f, 1.0f, 0.0f, 1.0f));
+
 		RenderManager::Get().EndFrame();
 	}
 	
