@@ -1,3 +1,6 @@
+#include "MathModule.h"
+#include "..\Inc\Vec3.h"
+
 template<typename T>
 inline T TVec3<T>::Dot(const TVec3<T>& lhs, const TVec3<T>& rhs)
 {
@@ -23,18 +26,28 @@ inline T TVec3<T>::LengthSq(const TVec3<T>& v)
 template<typename T>
 inline float TVec3<T>::Length(const TVec3<T>& v)
 {
-	float lengthSquare = static_cast<float>(TVec3<T>::LengthSq(v));
-	return std::sqrtf(lengthSquare);
+	float lengthSq = static_cast<float>(TVec3<T>::LengthSq(v));
+	return std::sqrtf(lengthSq);
 }
 
 template<typename T>
 inline TVec3<T> TVec3<T>::Normalize(const TVec3<T>& v)
 {
-	float length = TVec3<T>::Length(v);
+	float invLength = 1.0f / static_cast<float>(TVec3<T>::Length(v));
 
 	return TVec3<T>(
-		static_cast<T>(static_cast<float>(v.x) / length),
-		static_cast<T>(static_cast<float>(v.y) / length),
-		static_cast<T>(static_cast<float>(v.z) / length)
-		);
+		static_cast<T>(static_cast<float>(v.x) * invLength),
+		static_cast<T>(static_cast<float>(v.y) * invLength),
+		static_cast<T>(static_cast<float>(v.z) * invLength)
+	);
+}
+
+template<typename T>
+inline float TVec3<T>::Radian(const TVec3<T>& lhs, const TVec3<T>& rhs)
+{
+	float lengthL = TVec3::Length(lhs);
+	float lengthR = TVec3::Length(rhs);
+	float dot = TVec3::Dot(lhs, rhs);
+
+	return MathModule::ACos(dot / (lengthL * lengthR));
 }
