@@ -1,5 +1,4 @@
 #include "MathModule.h"
-#include "..\Inc\Mat4x4.h"
 
 template<typename T>
 inline TMat4x4<T> TMat4x4<T>::Zero()
@@ -237,8 +236,8 @@ template<typename T>
 inline TMat4x4<T> TMat4x4<T>::Perspective(float fov, float aspect, float nearZ, float farZ)
 {
 	float halfFov = fov / 2.0f;
-	float tanHalfFovy = Sin(halfFov) / Cos(halfFov);
-		
+	float tanHalfFovy = MathModule::Sin(halfFov) / MathModule::Cos(halfFov);
+
 	return TMat4x4<T>(
 		1.0f / (aspect * tanHalfFovy),                 0.0f,                                    0.0f,  0.0f,
 			                     0.0f, 1.0f / (tanHalfFovy),                                    0.0f,  0.0f,
@@ -250,14 +249,15 @@ inline TMat4x4<T> TMat4x4<T>::Perspective(float fov, float aspect, float nearZ, 
 template<typename T>
 inline TMat4x4<T> TMat4x4<T>::LookAt(const Vec3f& eyePosition, const Vec3f& focusPosition, const Vec3f& upDirection)
 {
-	Vec3f f = Vec3f::Normalize(focusPosition - eyePosition);
-	Vec3f s = Vec3f::Normalize(Vec3f::Cross(f, upDirection));
-	Vec3f u = Vec3f::Cross(s, f);
+	Vec3f f = -Vec3f::Normalize(focusPosition - eyePosition);
+	Vec3f s = Vec3f::Normalize(Vec3f::Cross(upDirection, f));
+	Vec3f u = Vec3f::Cross(f, s);
+	Vec3f t = Vec3f(-Vec3f::Dot(s, eyePosition), -Vec3f::Dot(u, eyePosition), -Vec3f::Dot(f, eyePosition));
 
 	return TMat4x4<T>(
-			                    s.x,                         u.x,                       -f.x, 0.0f,
-			                    s.y,                         u.y,                       -f.y, 0.0f,
-			                    s.z,                         u.z,                       -f.z, 0.0f,
-		-Vec3f::Dot(s, eyePosition), -Vec3f::Dot(u, eyePosition), Vec3f::Dot(f, eyePosition), 1.0f
+		s.x, u.x, f.x, 0.0f,
+		s.y, u.y, f.y, 0.0f,
+		s.z, u.z, f.z, 0.0f,
+		t.x, t.y, t.z, 1.0f
 	);
 }
