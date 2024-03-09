@@ -501,6 +501,30 @@ struct Quat
 
 
 	/**
+	 * @brief 두 쿼터니언을 구면 선형 보간합니다.
+	 *
+	 * @param s 보간의 시작 쿼터니언입니다.
+	 * @param e 보간의 끝 쿼터니언입니다.
+	 * @param t 두 쿼터니언의 보간 비율입니다.
+	 *
+	 * @return 보간된 쿼터니언을 반환합니다.
+	 */
+	static inline Quat Slerp(const Quat& s, const Quat& e, const float& t);
+
+
+	/**
+	 * @brief 두 쿼터니언의 정규화된 구면 선형 보간값을 계산합니다.
+	 *
+	 * @param s 보간의 시작 쿼터니언입니다.
+	 * @param e 보간의 끝 쿼터니언입니다.
+	 * @param t 두 쿼터니언의 보간 비율입니다.
+	 *
+	 * @return 정규화된 선형 보간 값을 반환합니다.
+	 */
+	static inline Quat Nslerp(const Quat& s, const Quat& e, const float& t);
+
+
+	/**
 	 * @brief 쿼터니언의 거듭 제곱을 수행합니다.
 	 * 
 	 * @param q 거듭 제곱 연산을 수행할 쿼터니언입니다.

@@ -131,6 +131,16 @@ inline Quat Quat::Nlerp(const Quat& s, const Quat& e, const float& t)
 	return Normalize(Lerp(s, e, t));
 }
 
+inline Quat Quat::Slerp(const Quat& s, const Quat& e, const float& t)
+{
+	return Pow(Inverse(s) * e, t) * s;
+}
+
+inline Quat Quat::Nslerp(const Quat& s, const Quat& e, const float& t)
+{
+	return Normalize(Slerp(s, e, t));
+}
+
 inline Quat Quat::Pow(const Quat& q, const float power)
 {
 	float radian = Quat::Radian(q);
