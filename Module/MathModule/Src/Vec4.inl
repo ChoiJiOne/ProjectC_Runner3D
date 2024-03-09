@@ -42,3 +42,10 @@ inline float TVec4<T>::Radian(const TVec4<T>& lhs, const TVec4<T>& rhs)
 
 	return MathModule::ACos(dot / (lengthL * lengthR));
 }
+
+template<typename T>
+inline float TVec4<T>::Degree(const TVec4<T>& lhs, const TVec4<T>& rhs)
+{
+	float radian = TVec4::Radian(lhs, rhs);
+	return MathModule::ToDegree(radian);
+}
