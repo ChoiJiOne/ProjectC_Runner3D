@@ -120,3 +120,13 @@ inline Quat Quat::Rotate(const Vec3f& s, const Vec3f& e)
 
 	return quat;
 }
+
+inline Quat Quat::Lerp(const Quat& s, const Quat& e, const float& t)
+{
+	return s * (1.0f - t) + e * t;
+}
+
+inline Quat Quat::Nlerp(const Quat& s, const Quat& e, const float& t)
+{
+	return Normalize(Lerp(s, e, t));
+}
