@@ -67,3 +67,10 @@ inline TVec3<T> TVec3<T>::Project(const TVec3<T>& target, const TVec3<T>& base)
 
 	return TVec3<T>(base.x * scale, base.y * scale, base.z * scale);
 }
+
+template<typename T>
+inline TVec3<T> TVec3<T>::Reject(const TVec3<T>& target, const TVec3<T>& base)
+{
+	TVec3<T> project = TVec3<T>::Project(target, base);
+	return target - project;
+}
