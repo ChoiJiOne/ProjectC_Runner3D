@@ -106,6 +106,16 @@ struct Transform
 
 
 	/**
+	 * @brief 트랜스 폼을 행렬로 변환합니다.
+	 * 
+	 * @param transform 행렬로 변환할 트랜스폼입니다.
+	 * 
+	 * @return 변환된 행렬을 반환합니다.
+	 */
+	static inline Mat4x4f ToMat(const Transform& transform);
+
+
+	/**
 	 * @brief 이동 변환 수행 시 이동할 위치입니다.
 	 */
 	Vec3f position;
@@ -122,3 +132,6 @@ struct Transform
 	 */
 	Vec3f scale;
 };
+
+
+#include "Transform.inl"
