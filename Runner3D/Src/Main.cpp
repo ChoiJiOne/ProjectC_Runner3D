@@ -5,7 +5,7 @@
 #include <glad/glad.h>
 
 #include "CrashModule.h"
-#include "Quat.h"
+#include "Transform.h"
 
 #include "Assertion.h"
 #include "GameTimer.h"
@@ -49,6 +49,8 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 	RUID meshID = ResourceManager::Get().Create<StaticMesh>(vertices, indices);
 	StaticMesh* mesh = ResourceManager::Get().GetResource<StaticMesh>(meshID);
 
+	Transform t;
+
 	timer.Reset();
 	while (!bIsDone)
 	{
@@ -57,11 +59,16 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 
 		RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
 
+		t.position.y = 3.0f * MathModule::Sin(timer.GetTotalSeconds());
+		t.rotate = Quat::AxisRadian(Vec3f(1.0f, 0.0f, 0.0f), timer.GetTotalSeconds());
+
+		Mat4x4f m = Transform::ToMat(t);
+
 		shader->Bind();
 		{
 			texture->Active(0);
 
-			shader->SetUniform("world", Mat4x4f::Identity());
+			shader->SetUniform("world", m);
 			shader->SetUniform("view", Mat4x4f::LookAt(Vec3f(3.0f, 3.0f, 3.0f), Vec3f(0.0f, 0.0f, 0.0f), Vec3f(0.0f, 1.0f, 0.0f)));
 			shader->SetUniform("projection", Mat4x4f::Perspective(MathModule::ToRadian(45.0f), 1.25f, 0.1f, 100.0f));
 
