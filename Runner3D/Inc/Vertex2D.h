@@ -51,7 +51,7 @@ struct VertexPositionColor2D
 	 * @param a 정점 색상의 A입니다.
 	 */
 	VertexPositionColor2D(
-		float x, float y, float z,
+		float x, float y,
 		float r, float g, float b, float a
 	) noexcept
 		: position(x, y)
