@@ -126,6 +126,15 @@ struct Transform
 
 
 	/**
+	 * @brief 두 트랜스폼을 결합합니다.
+	 * 
+	 * @param lhs 결합할 트랜스폼입니다.
+	 * @param rhs 결합할 또 다른 트랜스폼입니다.
+	 */
+	static inline Transform Combine(const Transform& lhs, const Transform& rhs);
+
+
+	/**
 	 * @brief 이동 변환 수행 시 이동할 위치입니다.
 	 */
 	Vec3f position;

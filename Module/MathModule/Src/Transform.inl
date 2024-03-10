@@ -1,4 +1,5 @@
 #include "MathModule.h"
+#include "..\Inc\Transform.h"
 
 Mat4x4f Transform::ToMat(const Transform& transform)
 {
@@ -38,6 +39,19 @@ inline Transform Transform::ToTransform(const Mat4x4f& m)
 	Mat4x4f scaleKew = rotateScale * invRotateScale;
 
 	t.scale = Vec3f(scaleKew.e00, scaleKew.e11, scaleKew.e22);
+
+	return t;
+}
+
+inline Transform Transform::Combine(const Transform& lhs, const Transform& rhs)
+{
+	Transform t;
+
+	t.scale = lhs.scale * rhs.scale;
+	t.rotate = rhs.rotate * lhs.rotate;
+
+	t.position = lhs.rotate * (lhs.scale * rhs.position);
+	t.position = lhs.position + t.position;
 
 	return t;
 }
