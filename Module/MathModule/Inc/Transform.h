@@ -116,6 +116,16 @@ struct Transform
 
 
 	/**
+	 * @brief 행렬을 트랜스폼으로 변환합니다.
+	 * 
+	 * @param m 트랜스폼으로 변환할 행렬입니다.
+	 * 
+	 * @return 변환된 트랜스폼을 반환합니다.
+	 */
+	static inline Transform ToTransform(const Mat4x4f& m);
+
+
+	/**
 	 * @brief 이동 변환 수행 시 이동할 위치입니다.
 	 */
 	Vec3f position;

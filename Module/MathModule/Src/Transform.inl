@@ -19,3 +19,25 @@ Mat4x4f Transform::ToMat(const Transform& transform)
 		p.x, p.y, p.z, 1
 	);
 }
+
+inline Transform Transform::ToTransform(const Mat4x4f& m)
+{
+	Transform t;
+
+	t.position = Vec3f(m.e30, m.e31, m.e32);
+	t.rotate = Quat::ToQuat(m);
+
+	Mat4x4f rotateScale(
+		m.e00, m.e01, m.e02, 0.0f,
+		m.e10, m.e11, m.e12, 0.0f,
+		m.e20, m.e21, m.e22, 0.0f,
+		 0.0f,  0.0f,  0.0f, 1.0f
+	);
+
+	Mat4x4f invRotateScale = Quat::ToMat(Quat::Inverse(t.rotate));
+	Mat4x4f scaleKew = rotateScale * invRotateScale;
+
+	t.scale = Vec3f(scaleKew.e00, scaleKew.e11, scaleKew.e22);
+
+	return t;
+}
