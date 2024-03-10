@@ -135,6 +135,16 @@ struct Transform
 
 
 	/**
+	 * @brief 트랜스폼의 역변환을 얻습니다.
+	 * 
+	 * @param transform 역변환을 계산할 트랜스폼입니다.
+	 * 
+	 * @return 계산된 역변환 트랜스폼을 반환합니다.
+	 */
+	static inline Transform Inverse(const Transform& transform);
+
+
+	/**
 	 * @brief 이동 변환 수행 시 이동할 위치입니다.
 	 */
 	Vec3f position;
