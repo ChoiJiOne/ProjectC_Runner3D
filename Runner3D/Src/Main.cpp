@@ -49,7 +49,8 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 	RUID meshID = ResourceManager::Get().Create<StaticMesh>(vertices, indices);
 	StaticMesh* mesh = ResourceManager::Get().GetResource<StaticMesh>(meshID);
 
-	Transform t;
+	Transform s(Vec3f(0.0f, 0.0f, 1.0f), Quat(0.0f, 1.0f, 0.0f, 0.0f), Vec3f(1.0f, 1.0f, 1.0f));
+	Transform e(Vec3f(1.0f, 0.0f, 0.0f), Quat(0.0f, 1.0f, 0.0f, 0.0f), Vec3f(1.0f, 1.0f, 1.0f));
 
 	timer.Reset();
 	while (!bIsDone)
@@ -57,13 +58,11 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 		InputManager::Get().Tick();
 		timer.Tick();
 
+		float t = timer.GetTotalSeconds() / 10.0f;
+		Mat4x4f m = Transform::ToMat(Transform::Mix(s, e, t));
+
 		RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
-
-		t.position.y = 3.0f * MathModule::Sin(timer.GetTotalSeconds());
-		t.rotate = Quat::AxisRadian(Vec3f(1.0f, 0.0f, 0.0f), timer.GetTotalSeconds());
-
-		Mat4x4f m = Transform::ToMat(t);
-
+		
 		shader->Bind();
 		{
 			texture->Active(0);
