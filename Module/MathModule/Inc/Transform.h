@@ -145,6 +145,18 @@ struct Transform
 
 
 	/**
+	 * @brief 두 트랜스폼을 보간합니다.
+	 * 
+	 * @param s 보간의 시작 트랜스폼입니다.
+	 * @param e 보간의 끝 트랜스폼입니다.
+	 * @param t 두 트랜스폼의 보간 비율입니다.
+	 * 
+	 * @return 보간된 트랜스폼을 반환합니다.
+	 */
+	static inline Transform Mix(const Transform& s, const Transform& e, const float& t);
+
+
+	/**
 	 * @brief 이동 변환 수행 시 이동할 위치입니다.
 	 */
 	Vec3f position;

@@ -1,5 +1,4 @@
 #include "MathModule.h"
-#include "..\Inc\Transform.h"
 
 Mat4x4f Transform::ToMat(const Transform& transform)
 {
@@ -70,4 +69,20 @@ inline Transform Transform::Inverse(const Transform& transform)
 	inv.position = inv.rotate * (inv.scale * invTranslation);
 
 	return inv;
+}
+
+inline Transform Transform::Mix(const Transform& s, const Transform& e, const float& t)
+{
+	Quat eRotate = e.rotate;
+
+	if (Quat::Dot(s.rotate, eRotate) < 0.0f)
+	{
+		eRotate = -eRotate;
+	}
+
+	return Transform(
+		Vec3f::Lerp(s.position, e.position, t),
+		Quat::Nlerp(s.rotate, eRotate, t),
+		Vec3f::Lerp(s.scale, e.scale, t)
+	);
 }
