@@ -4,8 +4,6 @@
 #include "SpritePass2D.h"
 #include "Texture2D.h"
 
-#include <glad/glad.h>
-
 SpritePass2D::SpritePass2D() : Shader("Shader/SpritePass2D.vert", "Shader/SpritePass2D.frag")
 {
 	GL_FAILED(glGenVertexArrays(1, &vertexArrayObject_));
