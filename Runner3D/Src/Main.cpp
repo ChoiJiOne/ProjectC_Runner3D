@@ -2,6 +2,7 @@
 #include <functional>
 #include <windows.h>
 
+#include <SDL.h>
 #include <glad/glad.h>
 #include <cgltf.h>
 
@@ -10,12 +11,10 @@
 
 #include "Assertion.h"
 #include "GameTimer.h"
-#include "GeometryGenerator.h"
 #include "InputManager.h"
 #include "RenderManager.h"
 #include "ResourceManager.h"
 #include "Shader.h"
-#include "StaticMesh.h"
 #include "SDLManager.h"
 #include "Texture2D.h"
 
@@ -36,7 +35,7 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 	RenderManager::Get().SetMultisampleMode(true);
 
 	InputManager::Get().AddWindowEventAction(EWindowEvent::CLOSE, [&]() {bIsDone = true; }, true);
-		
+	
 	timer.Reset();
 	while (!bIsDone)
 	{
