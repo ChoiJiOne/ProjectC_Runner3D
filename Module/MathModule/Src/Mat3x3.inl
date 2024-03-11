@@ -1,5 +1,3 @@
-#include "Vec3.h"
-
 template<typename T>
 inline TMat3x3<T> TMat3x3<T>::Zero()
 {

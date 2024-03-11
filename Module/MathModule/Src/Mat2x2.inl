@@ -1,5 +1,3 @@
-#include "Vec2.h"
-
 template<typename T>
 inline TMat2x2<T> TMat2x2<T>::Zero()
 {
