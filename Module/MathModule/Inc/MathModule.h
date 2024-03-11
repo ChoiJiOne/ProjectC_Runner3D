@@ -1,8 +1,6 @@
 #pragma once
 
 #include <cstdint>
-#include <chrono>
-#include <random>
 
 
 /**
@@ -59,10 +57,7 @@ namespace MathModule
 	 *
 	 * @return 변환된 육십분법 각입니다.
 	 */
-	inline float ToDegree(float radian)
-	{
-		return (radian * 180.0f) / Pi;
-	}
+	float ToDegree(float radian);
 
 
 	/**
@@ -72,10 +67,7 @@ namespace MathModule
 	 *
 	 * @return 변환된 라디안 각입니다.
 	 */
-	inline float ToRadian(float degree)
-	{
-		return (degree * Pi) / 180.0f;
-	}
+	float ToRadian(float degree);
 
 
 	/**
@@ -86,10 +78,7 @@ namespace MathModule
 	 *
 	 * @return 부동 소수점 값이 0에 가깝다면 true, 그렇지 않다면 false를 반환합니다.
 	 */
-	inline bool NearZero(float value, float epsilon = Epsilon)
-	{
-		return (std::fabsf(value) <= epsilon);
-	}
+	bool NearZero(float value, float epsilon = Epsilon);
 
 
 	/**
@@ -101,10 +90,7 @@ namespace MathModule
 	 * @return 두 값 중 큰 값을 반환합니다.
 	 */
 	template <typename T>
-	inline T Max(const T& lhs, const T& rhs)
-	{
-		return (lhs < rhs ? rhs : lhs);
-	}
+	T Max(const T& lhs, const T& rhs);
 
 
 	/**
@@ -116,10 +102,7 @@ namespace MathModule
 	 * @return 두 값 중 작은 값을 반환합니다.
 	 */
 	template <typename T>
-	inline T Min(const T& lhs, const T& rhs)
-	{
-		return (lhs < rhs ? lhs : rhs);
-	}
+	T Min(const T& lhs, const T& rhs);
 
 
 	/**
@@ -134,32 +117,7 @@ namespace MathModule
 	 * - 알고리즘은 11차원 미니맥스(Minimax) 근사치(1th-degree Minimax approximation) 사용
 	 * - https://gist.github.com/publik-void/067f7f2fef32dbe5c27d6e215f824c91
 	 */
-	inline float Sin(float radian)
-	{
-		float quotient = OneDivTwoPi * radian;
-		if (radian >= 0.0f)
-		{
-			quotient = static_cast<float>(static_cast<int>(quotient + 0.5f));
-		}
-		else
-		{
-			quotient = static_cast<float>(static_cast<int>(quotient - 0.5f));
-		}
-
-		float y = radian - TwoPi * quotient;
-
-		if (y > PiDiv2)
-		{
-			y = Pi - y;
-		}
-		else if (y < -PiDiv2)
-		{
-			y = -Pi - y;
-		}
-
-		float y2 = y * y;
-		return (((((-2.3889859e-08f * y2 + 2.7525562e-06f) * y2 - 0.00019840874f) * y2 + 0.0083333310f) * y2 - 0.16666667f) * y2 + 1.0f) * y;
-	}
+	float Sin(float radian);
 
 
 	/**
@@ -174,37 +132,7 @@ namespace MathModule
 	 * - 알고리즘은 10차원 미니맥스(Minimax) 근사치(1th-degree Minimax approximation) 사용
 	 * - https://gist.github.com/publik-void/067f7f2fef32dbe5c27d6e215f824c91
 	 */
-	inline float Cos(float radian)
-	{
-		float quotient = OneDivTwoPi * radian;
-		if (radian >= 0.0f)
-		{
-			quotient = static_cast<float>(static_cast<int>(quotient + 0.5f));
-		}
-		else
-		{
-			quotient = static_cast<float>(static_cast<int>(quotient - 0.5f));
-		}
-
-		float y = radian - TwoPi * quotient;
-		float sign = 1.0f;
-
-		if (y > PiDiv2)
-		{
-			y = Pi - y;
-			sign = -1.0f;
-		}
-		else if (y < -PiDiv2)
-		{
-			y = -Pi - y;
-			sign = -1.0f;
-		}
-
-		float y2 = y * y;
-		float p = ((((-2.6051615e-07f * y2 + 2.4760495e-05f) * y2 - 0.0013888378f) * y2 + 0.041666638f) * y2 - 0.5f) * y2 + 1.0f;
-
-		return sign * p;
-	}
+	float Cos(float radian);
 
 
 	/**
@@ -219,28 +147,8 @@ namespace MathModule
 	 * - 알고리즘은 7차원 미니맥스(Minimax) 근사치(1th-degree Minimax approximation) 사용
 	 * - https://gist.github.com/publik-void/067f7f2fef32dbe5c27d6e215f824c91
 	 */
-	inline float ASin(float value)
-	{
-		float x = fabsf(value);
-		float omx = 1.0f - x;
-		if (omx < 0.0f)
-		{
-			omx = 0.0f;
-		}
+	float ASin(float value);
 
-		float root = sqrtf(omx);
-		float result = ((((((-0.0012624911f * x + 0.0066700901f) * x - 0.0170881256f) * x + 0.0308918810f) * x - 0.0501743046f) * x + 0.0889789874f) * x - 0.2145988016f) * x + 1.5707963050f;
-		result *= root;
-
-		if (value >= 0.0f)
-		{
-			return (PiDiv2 - result);
-		}
-		else
-		{
-			return (result - PiDiv2);
-		}
-	}
 
 	/**
 	 * @brief 부동 소수점 숫자의 아크 코사인을 계산합니다.
@@ -254,28 +162,7 @@ namespace MathModule
 	 * - 알고리즘은 7차원 미니맥스(Minimax) 근사치(1th-degree Minimax approximation) 사용
 	 * - https://gist.github.com/publik-void/067f7f2fef32dbe5c27d6e215f824c91
 	 */
-	inline float ACos(float value)
-	{
-		float x = fabsf(value);
-		float omx = 1.0f - x;
-		if (omx < 0.0f)
-		{
-			omx = 0.0f;
-		}
-
-		float root = sqrtf(omx);
-		float result = ((((((-0.0012624911f * x + 0.0066700901f) * x - 0.0170881256f) * x + 0.0308918810f) * x - 0.0501743046f) * x + 0.0889789874f) * x - 0.2145988016f) * x + 1.5707963050f;
-		result *= root;
-
-		if (value >= 0.0f)
-		{
-			return result;
-		}
-		else
-		{
-			return Pi - result;
-		}
-	}
+	float ACos(float value);
 
 
 	/**
@@ -290,7 +177,7 @@ namespace MathModule
 	template <typename T>
 	inline T Clamp(const T& value, const T& lower, const T& upper)
 	{
-		return Min(upper, Max(lower, value));
+		return Min<T>(upper, Max<T>(lower, value));
 	}
 	
 
@@ -302,14 +189,7 @@ namespace MathModule
 	 *
 	 * @return 생성된 임의의 정수를 반환합니다.
 	 */
-	inline int32_t GenerateRandomInt(int32_t minValue, int32_t maxValue)
-	{
-		std::random_device randomDevice;
-		std::mt19937 generator(randomDevice());
-		std::uniform_int_distribution<int32_t> distribution(Min<int32_t>(minValue, maxValue), Max<int32_t>(minValue, maxValue));
-
-		return distribution(generator);
-	}
+	int32_t GenerateRandomInt(int32_t minValue, int32_t maxValue);
 
 
 	/**
@@ -320,12 +200,5 @@ namespace MathModule
 	 *
 	 * @return 생성된 임의의 실수를 반환합니다.
 	 */
-	inline float GenerateRandomFloat(float minValue, float maxValue)
-	{
-		std::random_device randomDevice;
-		std::mt19937 generator(randomDevice());
-		std::uniform_real_distribution<float> distribution(Min<float>(minValue, maxValue), Max<float>(minValue, maxValue));
-
-		return distribution(generator);
-	}
+	float GenerateRandomFloat(float minValue, float maxValue);
 }
