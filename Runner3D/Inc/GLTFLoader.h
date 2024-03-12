@@ -1,8 +1,11 @@
 #pragma once
 
+#include <vector>
 #include <string>
 
 #include <cgltf.h>
+
+#include "Vertex3D.h"
 
 
 /**
@@ -14,6 +17,19 @@ class GLTFLoader
 {
 public:
 	/**
+	 * @brief GLTF 메시 데이터입니다.
+	 */
+	struct MeshData
+	{
+		std::vector<Vec3f> positions;
+		std::vector<Vec3f> normals;
+		std::vector<Vec2f> texCoords;
+		std::vector<uint32_t> indices;
+	};
+
+
+public:
+	/**
 	 * @brief GLTF 파일을 로딩합니다.
 	 * 
 	 * @param path GLTF파일의 경로입니다.
@@ -23,6 +39,16 @@ public:
 	 * @note 이 메서드를 이용해서 얻은 포인터는 반드시 Free 메서드를 이용해서 해제해야 합니다.
 	 */
 	static cgltf_data* LoadFromFile(const std::string& path);
+
+
+	/**
+	 * @brief GLTF 데이터로부터 메시 데이터를 로딩합니다.
+	 * 
+	 * @param data 메시 데이터를 로딩할 GLTF 데이터입니다.
+	 * 
+	 * @return GLTF 데이터 내의 메시 데이터 목록을 반환합니다.
+	 */
+	static std::vector<MeshData> LoadMeshData(cgltf_data* data);
 
 
 	/**

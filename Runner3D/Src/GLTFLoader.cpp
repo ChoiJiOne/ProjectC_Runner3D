@@ -19,6 +19,72 @@ cgltf_data* GLTFLoader::LoadFromFile(const std::string& path)
 	return data;
 }
 
+std::vector<GLTFLoader::MeshData> GLTFLoader::LoadMeshData(cgltf_data* data)
+{
+	std::vector<MeshData> meshes;
+
+	for (cgltf_node* node = data->nodes; node != (data->nodes + data->nodes_count); ++node)
+	{
+		if (!node->mesh || !node->skin) continue;
+
+		uint32_t numPrimitives = static_cast<uint32_t>(node->mesh->primitives_count);
+		for (int32_t index = 0; index < numPrimitives; ++index)
+		{
+			meshes.push_back(MeshData());
+			MeshData& mesh = meshes[meshes.size() - 1];
+
+			cgltf_primitive* primitive = &node->mesh->primitives[index];
+
+			uint32_t numAttributes = static_cast<uint32_t>(primitive->attributes_count);
+			for (uint32_t attrib = 0; attrib < numAttributes; ++attrib)
+			{
+				cgltf_attribute* attribute = &primitive->attributes[attrib];
+				cgltf_attribute_type type = attribute->type;
+				cgltf_accessor* accessor = attribute->data;
+
+				std::vector<float> values(accessor->count * accessor->type);
+				for (cgltf_size i = 0; i < accessor->count; ++i)
+				{
+					cgltf_accessor_read_float(accessor, i, &values[i * accessor->type], accessor->type);
+				}
+
+				for (uint32_t i = 0; i < accessor->count; ++i)
+				{
+					int32_t index = i * accessor->type;
+
+					switch (type)
+					{
+					case cgltf_attribute_type_position:
+						mesh.positions.push_back(Vec3f(values[index + 0], values[index + 1], values[index + 2]));
+						break;
+
+					case cgltf_attribute_type_normal:
+						mesh.normals.push_back(Vec3f(values[index + 0], values[index + 1], values[index + 2]));
+						break;
+
+					case cgltf_attribute_type_texcoord:
+						mesh.texCoords.push_back(Vec2f(values[index + 0], values[index + 1]));
+						break;
+					}
+				}
+
+				if (primitive->indices)
+				{
+					uint32_t indexCount = static_cast<uint32_t>(primitive->indices->count);
+					mesh.indices.resize(indexCount);
+
+					for (uint32_t index = 0; index < indexCount; ++index)
+					{
+						mesh.indices[index] = static_cast<uint32_t>(cgltf_accessor_read_index(primitive->indices, index));
+					}
+				}
+			}
+		}
+	}
+
+	return meshes;
+}
+
 void GLTFLoader::Free(cgltf_data* data)
 {
 	if (data)
