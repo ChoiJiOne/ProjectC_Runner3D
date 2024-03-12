@@ -35,11 +35,6 @@ void RenderManager::Startup()
 
 	CHECK(gladLoadGLLoader((GLADloadproc)(SDL_GL_GetProcAddress)));
 
-	shaderCache_ = std::map<std::string, RUID>();
-	shaderCache_.insert({ "GeometryPass2D", ResourceManager::Get().Create<GeometryPass2D>() });
-	shaderCache_.insert({ "SpritePass2D",   ResourceManager::Get().Create<SpritePass2D>()   });
-	shaderCache_.insert({ "GlyphPass2D",    ResourceManager::Get().Create<GlyphPass2D>()    });
-
 	bIsStartup_ = true;
 }
 
@@ -59,11 +54,6 @@ void RenderManager::Shutdown()
 
 void RenderManager::BeginFrame(float red, float green, float blue, float alpha, float depth, uint8_t stencil)
 {
-	int32_t width = 0;
-	int32_t height = 0;
-	GetRenderTargetWindowSize(width, height);
-	screenOrtho_ = Mat4x4f::Ortho(0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f, -1.0f, 1.0f);
-
 	glClearColor(red, green, blue, alpha);
 	glClearDepth(depth);
 	glClearStencil(stencil);

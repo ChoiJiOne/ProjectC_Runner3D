@@ -183,16 +183,4 @@ private:
 	 * @brief OpenGL 컨텍스트입니다.
 	 */
 	void* context_ = nullptr;
-
-
-	/**
-	 * @brief 스크린 투영 행렬입니다.
-	 */
-	Mat4x4f screenOrtho_;
-
-
-	/**
-	 * @brief 렌더 매니저가 렌더링 시 사용할 셰이더입니다.
-	 */
-	std::map<std::string, RUID> shaderCache_;
 };
