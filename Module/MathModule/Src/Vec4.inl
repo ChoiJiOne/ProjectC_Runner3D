@@ -16,7 +16,7 @@ template<typename T>
 inline float TVec4<T>::Length(const TVec4<T>& v)
 {
 	float lengthSq = static_cast<float>(TVec4<T>::LengthSq(v));
-	return std::sqrtf(lengthSq);
+	return MathModule::Sqrt(lengthSq);
 }
 
 template<typename T>

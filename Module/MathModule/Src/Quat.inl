@@ -49,7 +49,7 @@ inline float Quat::LengthSq(const Quat& q)
 inline float Quat::Length(const Quat& q)
 {
 	float lengthSq = Quat::LengthSq(q);
-	return std::sqrtf(lengthSq);
+	return MathModule::Sqrt(lengthSq);
 }
 
 inline Quat Quat::Normalize(const Quat& q)
@@ -93,11 +93,11 @@ inline Quat Quat::Rotate(const Vec3f& s, const Vec3f& e)
 	{
 		Vec3f ortho;
 
-		if (fabsf(start.y) < fabsf(start.x))
+		if (MathModule::Abs(start.y) < MathModule::Abs(start.x))
 		{
 			ortho = Vec3f(0.0f, 1.0f, 0.0f);
 		}
-		else if (fabsf(start.z) < fabsf(start.y) && fabsf(start.z) < fabsf(start.x))
+		else if (MathModule::Abs(start.z) < MathModule::Abs(start.y) && MathModule::Abs(start.z) < MathModule::Abs(start.x))
 		{
 			ortho = Vec3f(0.0f, 0.0f, 1.0f);
 		}
