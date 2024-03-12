@@ -22,7 +22,7 @@ public:
 	 * 
 	 * @note 이 메서드를 이용해서 얻은 포인터는 반드시 Free 메서드를 이용해서 해제해야 합니다.
 	 */
-	cgltf_data* LoadFromFile(const std::string& path);
+	static cgltf_data* LoadFromFile(const std::string& path);
 
 
 	/**
@@ -30,5 +30,5 @@ public:
 	 * 
 	 * @param data 할당을 해제할 GLTF 데이터입니다.
 	 */
-	void Free(cgltf_data* data);
+	static void Free(cgltf_data* data);
 };
