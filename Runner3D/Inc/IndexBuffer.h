@@ -65,13 +65,13 @@ public:
 	/**
 	 * @brief 정점 인덱스 버퍼을 바인딩합니다.
 	 */
-	void Bind();
+	void Bind() const;
 
 
 	/**
 	 * @brief 정점 인덱스 버퍼 바인딩을 해제합니다.
 	 */
-	void Unbind();
+	void Unbind() const;
 
 
 private:

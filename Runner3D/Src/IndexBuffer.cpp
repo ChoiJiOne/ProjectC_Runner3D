@@ -29,12 +29,12 @@ void IndexBuffer::Set(const std::vector<uint32_t>& buffer)
 	Set(buffer.data(), static_cast<uint32_t>(buffer.size()));
 }
 
-void IndexBuffer::Bind()
+void IndexBuffer::Bind() const
 {
 	GL_FAILED(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferID_));
 }
 
-void IndexBuffer::Unbind()
+void IndexBuffer::Unbind() const
 {
 	GL_FAILED(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 }
