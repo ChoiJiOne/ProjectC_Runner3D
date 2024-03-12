@@ -43,6 +43,8 @@ Shader::Shader(const std::string& vsPath, const std::string& fsPath)
 	GL_FAILED(glDeleteShader(vsID));
 	GL_FAILED(glDeleteShader(fsID));
 
+	CreateVertexAttributes();
+
 	bIsInitialized_ = true;
 }
 
@@ -82,6 +84,8 @@ Shader::Shader(const std::string& vsPath, const std::string& gsPath, const std::
 	GL_FAILED(glDeleteShader(vsID));
 	GL_FAILED(glDeleteShader(gsID));
 	GL_FAILED(glDeleteShader(fsID));
+
+	CreateVertexAttributes();
 
 	bIsInitialized_ = true;
 }
@@ -235,6 +239,20 @@ void Shader::SetUniform(const std::string& name, const Mat4x4f& value)
 	GL_FAILED(glUniformMatrix4fv(location, 1, GL_FALSE, value.GetPtr()));
 }
 
+int32_t Shader::GetVertexAttribute(const std::string& name)
+{
+	std::map<std::string, uint32_t>::iterator attribute = attributeCache_.find(name);
+
+	if (attribute == attributeCache_.end())
+	{
+		return -1;
+	}
+	else
+	{
+		return attribute->second;
+	}
+}
+
 int32_t Shader::GetUniformLocation(const std::string& name)
 {
 	std::map<std::string, uint32_t>::iterator uniformLocation = uniformLocationCache_.find(name);
@@ -302,6 +320,31 @@ uint32_t Shader::CreateAndCompileShader(const EType& type, const std::string& so
 	}
 
 	return shaderID;
+}
+
+void Shader::CreateVertexAttributes()
+{
+	static const int32_t MAX_BUFFER = 128;
+	static char buffer[MAX_BUFFER];
+
+	int32_t length;
+	int32_t size;
+	GLenum type;
+
+	Bind();
+	int32_t attributes;
+	GL_FAILED(glGetProgramiv(programID_, GL_ACTIVE_ATTRIBUTES, &attributes));
+
+	for (int32_t index = 0; index < attributes; ++index)
+	{
+		GL_FAILED(glGetActiveAttrib(programID_, static_cast<uint32_t>(index), MAX_BUFFER, &length, &size, &type, buffer));
+
+		std::string name = std::string(buffer);
+		int32_t attribute = glGetAttribLocation(programID_, name.c_str());
+
+		attributeCache_[name] = attribute;
+	}
+	Unbind();
 }
 
 void Shader::WriteDynamicVertexBuffer(uint32_t vertexBufferID, const void* vertexPtr, uint32_t bufferByteSize)

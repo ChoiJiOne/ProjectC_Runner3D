@@ -240,18 +240,20 @@ public:
 	 * @param value 유니폼 변수의 설정 값입니다.
 	 */
 	void SetUniform(const std::string& name, const Mat4x4f& value);
-	
 
-protected:
+
 	/**
-	 * @brief 셰이더의 종류입니다.
+	 * @brief 버텍스 속성 위치를 얻습니다.
+	 * 
+	 * @param name 위치를 찾을 버텍스 레이아웃의 이름입니다.
+	 * 
+	 * @return 버텍스 속성 위치를 반환합니다. 찾지 못하면 -1을 반환합니다.
+	 * 
+	 * @see
+	 * - https://registry.khronos.org/OpenGL-Refpages/gl4/html/glGetAttribLocation.xhtml
+	 * - https://registry.khronos.org/OpenGL-Refpages/gl4/html/glGetActiveAttrib.xhtml
 	 */
-	enum class EType : int32_t
-	{
-		Vertex   = 0x00,
-		Geometry = 0x01,
-		Fragment = 0x02,
-	};
+	int32_t GetVertexAttribute(const std::string& name);
 
 
 	/**
@@ -264,6 +266,18 @@ protected:
 	 * @see https://registry.khronos.org/OpenGL-Refpages/gl4/html/glGetUniformLocation.xhtml
 	 */
 	int32_t GetUniformLocation(const std::string& name);
+	
+
+protected:
+	/**
+	 * @brief 셰이더의 종류입니다.
+	 */
+	enum class EType : int32_t
+	{
+		Vertex   = 0x00,
+		Geometry = 0x01,
+		Fragment = 0x02,
+	};
 
 
 	/**
@@ -290,6 +304,12 @@ protected:
 
 
 	/**
+	 * @brief 셰이더의 정점 속성을 생성합니다.
+	 */
+	void CreateVertexAttributes();
+
+
+	/**
 	 * @brief 버텍스로 부터 다이나믹 버텍스 버퍼를 씁니다.
 	 *
 	 * @param vertexBufferID 쓰기를 수행할 버텍스 버퍼의 ID입니다.
@@ -297,13 +317,19 @@ protected:
 	 * @param bufferByteSize 버텍스 버퍼의 바이트 크기입니다.
 	 */
 	void WriteDynamicVertexBuffer(uint32_t vertexBufferID, const void* vertexPtr, uint32_t bufferByteSize);
-
+	
 
 protected:
 	/**
 	 * @brief 셰이더 프로그램의 아이디입니다.
 	 */
 	uint32_t programID_ = 0;
+
+
+	/**
+	 * @brief 셰이더의 속성 위치값입니다.
+	 */
+	std::map<std::string, uint32_t> attributeCache_;
 
 
 	/**
