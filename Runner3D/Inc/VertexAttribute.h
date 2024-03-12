@@ -25,6 +25,12 @@ public:
 
 
 	/**
+	 * @brief 정점 속성의 복사 생성자와 대입 연산자를 명시적으로 삭제합니다.
+	 */
+	DISALLOW_COPY_AND_ASSIGN(VertexAttribute);
+
+
+	/**
 	 * @brief 정점 버퍼의 ID 값을 얻습니다.
 	 * 
 	 * @return 정점 버퍼의 ID 값을 반환합니다.
