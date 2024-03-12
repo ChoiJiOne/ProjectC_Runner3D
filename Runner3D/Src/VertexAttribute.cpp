@@ -68,53 +68,53 @@ void VertexAttribute<T>::Unbind(uint32_t slot)
 template<>
 void VertexAttribute<int32_t>::SetAttribPointer(uint32_t slot)
 {
-	glVertexAttribIPointer(slot, 1, GL_INT, 0, (void*)0);
+	GL_FAILED(glVertexAttribIPointer(slot, 1, GL_INT, 0, (void*)0));
 }
 
 template<>
 void VertexAttribute<Vec2i>::SetAttribPointer(uint32_t slot)
 {
-	glVertexAttribIPointer(slot, 2, GL_INT, 0, (void*)0);
+	GL_FAILED(glVertexAttribIPointer(slot, 2, GL_INT, 0, (void*)0));
 }
 
 template<>
 void VertexAttribute<Vec3i>::SetAttribPointer(uint32_t slot)
 {
-	glVertexAttribIPointer(slot, 3, GL_INT, 0, (void*)0);
+	GL_FAILED(glVertexAttribIPointer(slot, 3, GL_INT, 0, (void*)0));
 }
 
 template<>
 void VertexAttribute<Vec4i>::SetAttribPointer(uint32_t slot)
 {
-	glVertexAttribIPointer(slot, 4, GL_INT, 0, (void*)0);
+	GL_FAILED(glVertexAttribIPointer(slot, 4, GL_INT, 0, (void*)0));
 }
 
 template<>
 void VertexAttribute<float>::SetAttribPointer(uint32_t slot)
 {
-	glVertexAttribPointer(slot, 1, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	GL_FAILED(glVertexAttribPointer(slot, 1, GL_FLOAT, GL_FALSE, 0, (void*)0));
 }
 
 template<>
 void VertexAttribute<Vec2f>::SetAttribPointer(uint32_t slot)
 {
-	glVertexAttribPointer(slot, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	GL_FAILED(glVertexAttribPointer(slot, 2, GL_FLOAT, GL_FALSE, 0, (void*)0));
 }
 
 template<>
 void VertexAttribute<Vec3f>::SetAttribPointer(uint32_t slot)
 {
-	glVertexAttribPointer(slot, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	GL_FAILED(glVertexAttribPointer(slot, 3, GL_FLOAT, GL_FALSE, 0, (void*)0));
 }
 
 template<>
 void VertexAttribute<Vec4f>::SetAttribPointer(uint32_t slot)
 {
-	glVertexAttribPointer(slot, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	GL_FAILED(glVertexAttribPointer(slot, 4, GL_FLOAT, GL_FALSE, 0, (void*)0));
 }
 
 template<>
 void VertexAttribute<Quat>::SetAttribPointer(uint32_t slot)
 {
-	glVertexAttribPointer(slot, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	GL_FAILED(glVertexAttribPointer(slot, 4, GL_FLOAT, GL_FALSE, 0, (void*)0));
 }
