@@ -135,6 +135,16 @@ float MathModule::ACos(float value)
 	}
 }
 
+float MathModule::Sqrt(float x)
+{
+	return std::sqrtf(x);
+}
+
+float MathModule::Abs(float x)
+{
+	return std::fabsf(x);
+}
+
 int32_t MathModule::GenerateRandomInt(int32_t minValue, int32_t maxValue)
 {
 	std::random_device randomDevice;

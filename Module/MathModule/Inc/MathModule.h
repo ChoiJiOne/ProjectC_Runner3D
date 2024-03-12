@@ -166,6 +166,26 @@ namespace MathModule
 
 
 	/**
+	 * @brief 제곱근을 계산합니다.
+	 *
+	 * @param x 제곱근을 계산할 부동소수점수입니다.
+	 *
+	 * @return 제곱근 값을 반환합니다.
+	 */
+	float Sqrt(float x);
+
+
+	/**
+	 * @brief 절댓값을 계산합니다.
+	 *
+	 * @param x 절댓값을 계산할 부동소수점수입니다.
+	 *
+	 * @return 절대값을 반환합니다.
+	 */
+	float Abs(float x);
+
+
+	/**
 	 * @brief 값을 [lower, upper] 범위로 자릅니다.
 	 *
 	 * @param value 범위로 자를 값입니다.
