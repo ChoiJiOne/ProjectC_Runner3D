@@ -4,13 +4,27 @@
 #include <vector>
 #include <map>
 
-#include "Mat4x4.h"
-#include "Vec2.h"
-#include "Vec3.h"
-#include "Vec4.h"
-
 #include "IManager.h"
 #include "IResource.h"
+
+class IndexBuffer;
+
+
+/**
+ * @brief 그리기 모드입니다.
+ * 
+ * @see https://www.khronos.org/opengl/wiki/Primitive
+ */
+enum class ERenderMode
+{
+	Points        = 0x0000,
+	Lines         = 0x0001,
+	LineLoop      = 0x0002,
+	LineStrip     = 0x0003,
+	Triangles     = 0x0004,
+	TriangleStrip = 0x0005,
+	TriangleFan   = 0x0006,
+};
 
 
 /**
@@ -131,6 +145,15 @@ public:
 	 * @param bIsEnable 멀티 샘플링 옵션을 활성화하려면 true, 비활성화하려면 false입니다.
 	 */
 	void SetMultisampleMode(bool bIsEnable);
+
+
+	/**
+	 * @brief 바인딩된 화면에 그리기를 수행합니다.
+	 * 
+	 * @param indexBuffer 화면에 그리기를 수행할 때 참조할 인덱스 버퍼입니다.
+	 * @param mode 그리기 모드입니다.
+	 */
+	void Render(const IndexBuffer* indexBuffer, const ERenderMode& mode);
 
 	
 	/**

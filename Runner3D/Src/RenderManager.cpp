@@ -6,13 +6,11 @@
 #include "Mat4x4.h"
 
 #include "Assertion.h"
-#include "GeometryPass2D.h"
-#include "GlyphPass2D.h"
+#include "IndexBuffer.h"
 #include "IResource.h"
 #include "RenderManager.h"
 #include "ResourceManager.h"
 #include "SDLManager.h"
-#include "SpritePass2D.h"
 #include "Texture2D.h"
 #include "TTFont.h"
 
@@ -144,6 +142,13 @@ void RenderManager::SetMultisampleMode(bool bIsEnable)
 	{
 		GL_FAILED(glDisable(GL_MULTISAMPLE));
 	}
+}
+
+void RenderManager::Render(const IndexBuffer* indexBuffer, const ERenderMode& mode)
+{
+	indexBuffer->Bind();
+	GL_FAILED(glDrawElements(static_cast<GLenum>(mode), indexBuffer->GetBufferCount(), GL_UNSIGNED_INT, 0));
+	indexBuffer->Unbind();
 }
 
 void RenderManager::GetRenderTargetWindowSize(int32_t& outWidth, int32_t& outHeight)
