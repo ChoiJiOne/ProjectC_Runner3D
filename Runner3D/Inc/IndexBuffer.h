@@ -34,7 +34,7 @@ public:
 	 *
 	 * @return 인덱스 버퍼의 ID 값을 반환합니다.
 	 */
-	uint32_t GetBufferID() { return bufferID_; }
+	uint32_t GetBufferID() const { return bufferID_; }
 
 
 	/**
@@ -42,7 +42,7 @@ public:
 	 *
 	 * @return 인덱스 버퍼의 원소 수를 반환합니다.
 	 */
-	uint32_t GetBufferCount() { return bufferCount_; }
+	uint32_t GetBufferCount() const { return bufferCount_; }
 
 
 	/**
