@@ -32,7 +32,7 @@ struct Frame
 	float value[N];
 	float in[N];
 	float out[N];
-	float time[N];
+	float time;
 };
 
 using ScalarFrame = Frame<1>;
@@ -173,13 +173,13 @@ private:
 	/**
 	 * @brief 해밀턴 스플라인 곡선 값을 계산합니다.
 	 * 
-	 * @param time
-	 * @param point1
-	 * @param slope1
-	 * @param point2
-	 * @param slope2
+	 * @param time 시간 값입니다.
+	 * @param point1 곡선의 첫 번째 지점입니다.
+	 * @param slope1 곡선의 첫 번째 기울기입니다.
+	 * @param point2 곡선의 두 번째 지점입니다.
+	 * @param slope2 곡선의 두 번째 기울기입니다.
 	 * 
-	 * @return 
+	 * @return 계산된 해밀턴 스플라인 곡선 값을 반환합니다.
 	 */
 	T Hermite(float time, const T& point1, const T& slope1, const T& point2, const T& slope2);
 
@@ -192,12 +192,29 @@ private:
 	 * 
 	 * @return 시간 값에 대응하는 프레임 인덱스 값을 반환합니다.
 	 */
-	int GetFrameIndex(float time, bool bIsLooping);
+	int32_t GetFrameIndex(float time, bool bIsLooping);
 
 
+	/**
+	 * @brief 트랙의 시작/끝 프레임 범위 내로 조정합니다.
+	 * 
+	 * @param time 조정할 트랙 시간 값입니다.
+	 * @param bIsLooping 반복 여부입니다.
+	 * 
+	 * @return 조정된 시간값을 반환합니다.
+	 */
+	float AdjustTimeToFitTrack(float time, bool bIsLooping);
 
-	//float AdjustTimeToFitTrack(float time, bool looping);
-	//T Cast(float* value);
+
+	/**
+	 * @brief 부동 소수점 배열을 캐스팅합니다.
+	 * 
+	 * @param value 캐스팅할 부동 소수점 배열입니다.
+	 * 
+	 * @return 캐스팅된 값을 반환합니다.
+	 */
+	T Cast(float* value);
+
 
 private:
 	/**
