@@ -61,9 +61,9 @@ inline Transform Transform::Inverse(const Transform& transform)
 
 	inv.rotate = Quat::Inverse(transform.rotate);
 
-	inv.scale.x = std::fabsf(transform.scale.x) < MathModule::Epsilon ? 0.0f : 1.0f / transform.scale.x;
-	inv.scale.y = std::fabsf(transform.scale.y) < MathModule::Epsilon ? 0.0f : 1.0f / transform.scale.y;
-	inv.scale.z = std::fabsf(transform.scale.z) < MathModule::Epsilon ? 0.0f : 1.0f / transform.scale.z;
+	inv.scale.x = MathModule::Abs(transform.scale.x) < MathModule::Epsilon ? 0.0f : 1.0f / transform.scale.x;
+	inv.scale.y = MathModule::Abs(transform.scale.y) < MathModule::Epsilon ? 0.0f : 1.0f / transform.scale.y;
+	inv.scale.z = MathModule::Abs(transform.scale.z) < MathModule::Epsilon ? 0.0f : 1.0f / transform.scale.z;
 
 	Vec3f invTranslation = -transform.position;
 	inv.position = inv.rotate * (inv.scale * invTranslation);
