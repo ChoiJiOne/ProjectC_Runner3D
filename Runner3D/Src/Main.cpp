@@ -40,8 +40,8 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 	InputManager::Get().AddWindowEventAction(EWindowEvent::CLOSE, [&]() {bIsDone = true; }, true);
 
 	cgltf_data* data = GLTFLoader::LoadFromFile("Resource/Model/Zombie.gltf");
-	std::vector<GLTFLoader::StaticMeshData> meshDatas = GLTFLoader::LoadStaticMeshData(data);
-	GLTFLoader::StaticMeshData& meshData = meshDatas.front();
+	std::vector<GLTFLoader::SkinnedMeshData> meshDatas = GLTFLoader::LoadSkinnedMeshData(data);
+	GLTFLoader::SkinnedMeshData& meshData = meshDatas.front();
 
 	std::vector<VertexPositionNormalUv3D> vertices;
 	std::vector<uint32_t> indices = meshData.indices;
