@@ -8,5 +8,6 @@ layout(binding = 0) uniform sampler2D albedoMap;
 
 void main()
 {
-	outFragColor = texture(albedoMap, inTexCoords);
+	vec2 texCoords = vec2(inTexCoords.x, 1.0f - inTexCoords.y);
+	outFragColor = texture(albedoMap, texCoords);
 }
