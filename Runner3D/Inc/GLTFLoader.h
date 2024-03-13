@@ -28,6 +28,20 @@ public:
 	};
 
 
+	/**
+	 * @brief GLTF 스키닝 메시 데이터입니다.
+	 */
+	struct SkinnedMeshData
+	{
+		std::vector<Vec3f> positions;
+		std::vector<Vec3f> normals;
+		std::vector<Vec2f> texCoords;
+		std::vector<Vec4i> joints;
+		std::vector<Vec4f> weights;
+		std::vector<uint32_t> indices;
+	};
+
+
 public:
 	/**
 	 * @brief GLTF 파일을 로딩합니다.
@@ -52,9 +66,30 @@ public:
 
 
 	/**
+	 * @brief GLTF 데이터로부터 스키닝 메시 데이터를 로딩합니다.
+	 * 
+	 * @param data 메시 데이터를 로딩할 GLTF 데이터입니다.
+	 *
+	 * @return GLTF 데이터 내의 메시 데이터 목록을 반환합니다.
+	 */
+	static std::vector<SkinnedMeshData> LoadSkinnedMeshData(cgltf_data* data);
+
+
+	/**
 	 * @brief GLTF 데이터 할당을 해제합니다.
 	 * 
 	 * @param data 할당을 해제할 GLTF 데이터입니다.
 	 */
 	static void Free(cgltf_data* data);
+
+
+private:
+	/**
+	 * @brief 전체 노드 목록으로부터 타겟 노드의 인덱스를 얻습니다.
+	 * 
+	 * @param target 인덱스를 얻을 노드입니다.
+	 * @param nodes 전체 노드의 목록입니다.
+	 * @param numNodes 전체 노드의 수입니다.
+	 */
+	static int32_t GetNodeIndex(cgltf_node* target, cgltf_node* nodes, uint32_t numNodes);
 };
