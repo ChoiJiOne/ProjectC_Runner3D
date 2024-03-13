@@ -19,19 +19,22 @@ cgltf_data* GLTFLoader::LoadFromFile(const std::string& path)
 	return data;
 }
 
-std::vector<GLTFLoader::MeshData> GLTFLoader::LoadMeshData(cgltf_data* data)
+std::vector<GLTFLoader::StaticMeshData> GLTFLoader::LoadStaticMeshData(cgltf_data* data)
 {
-	std::vector<MeshData> meshes;
+	std::vector<StaticMeshData> meshes;
 
-	for (cgltf_node* node = data->nodes; node != (data->nodes + data->nodes_count); ++node)
+	cgltf_node* begin = data->nodes;
+	cgltf_node* end = data->nodes + data->nodes_count;
+
+	for (cgltf_node* node = begin; node != end; ++node)
 	{
-		if (!node->mesh || !node->skin) continue;
+		if (!node->mesh) continue;
 
 		uint32_t numPrimitives = static_cast<uint32_t>(node->mesh->primitives_count);
 		for (int32_t index = 0; index < numPrimitives; ++index)
 		{
-			meshes.push_back(MeshData());
-			MeshData& mesh = meshes[meshes.size() - 1];
+			meshes.push_back(StaticMeshData());
+			StaticMeshData& mesh = meshes.back();
 
 			cgltf_primitive* primitive = &node->mesh->primitives[index];
 

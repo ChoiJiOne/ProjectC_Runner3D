@@ -17,9 +17,9 @@ class GLTFLoader
 {
 public:
 	/**
-	 * @brief GLTF 메시 데이터입니다.
+	 * @brief GLTF 정적 메시 데이터입니다.
 	 */
-	struct MeshData
+	struct StaticMeshData
 	{
 		std::vector<Vec3f> positions;
 		std::vector<Vec3f> normals;
@@ -42,13 +42,13 @@ public:
 
 
 	/**
-	 * @brief GLTF 데이터로부터 메시 데이터를 로딩합니다.
+	 * @brief GLTF 데이터로부터 정적 메시 데이터를 로딩합니다.
 	 * 
 	 * @param data 메시 데이터를 로딩할 GLTF 데이터입니다.
 	 * 
 	 * @return GLTF 데이터 내의 메시 데이터 목록을 반환합니다.
 	 */
-	static std::vector<MeshData> LoadMeshData(cgltf_data* data);
+	static std::vector<StaticMeshData> LoadStaticMeshData(cgltf_data* data);
 
 
 	/**
