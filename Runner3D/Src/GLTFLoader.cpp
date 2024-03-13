@@ -21,7 +21,7 @@ cgltf_data* GLTFLoader::LoadFromFile(const std::string& path)
 
 std::vector<GLTFLoader::StaticMeshData> GLTFLoader::LoadStaticMeshData(cgltf_data* data)
 {
-	std::vector<StaticMeshData> meshes;
+	std::vector<StaticMeshData> staticMeshes;
 
 	cgltf_node* begin = data->nodes;
 	cgltf_node* end = data->nodes + data->nodes_count;
@@ -29,19 +29,20 @@ std::vector<GLTFLoader::StaticMeshData> GLTFLoader::LoadStaticMeshData(cgltf_dat
 	for (cgltf_node* node = begin; node != end; ++node)
 	{
 		if (!node->mesh) continue;
-
-		uint32_t numPrimitives = static_cast<uint32_t>(node->mesh->primitives_count);
-		for (int32_t index = 0; index < numPrimitives; ++index)
+		
+		cgltf_primitive* beginPrimitive = node->mesh->primitives;
+		cgltf_primitive* endPrimitive = node->mesh->primitives + node->mesh->primitives_count;
+		
+		for (cgltf_primitive* primitive = beginPrimitive; primitive != endPrimitive; ++primitive)
 		{
-			meshes.push_back(StaticMeshData());
-			StaticMeshData& mesh = meshes.back();
+			staticMeshes.push_back(StaticMeshData());
+			StaticMeshData& mesh = staticMeshes.back();
 
-			cgltf_primitive* primitive = &node->mesh->primitives[index];
+			cgltf_attribute* beginAttribute = primitive->attributes;
+			cgltf_attribute* endAttribute = primitive->attributes + primitive->attributes_count;
 
-			uint32_t numAttributes = static_cast<uint32_t>(primitive->attributes_count);
-			for (uint32_t attrib = 0; attrib < numAttributes; ++attrib)
+			for (cgltf_attribute* attribute = beginAttribute; attribute != endAttribute; ++attribute)
 			{
-				cgltf_attribute* attribute = &primitive->attributes[attrib];
 				cgltf_attribute_type type = attribute->type;
 				cgltf_accessor* accessor = attribute->data;
 
@@ -85,7 +86,7 @@ std::vector<GLTFLoader::StaticMeshData> GLTFLoader::LoadStaticMeshData(cgltf_dat
 		}
 	}
 
-	return meshes;
+	return staticMeshes;
 }
 
 void GLTFLoader::Free(cgltf_data* data)
