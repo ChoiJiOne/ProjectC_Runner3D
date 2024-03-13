@@ -186,6 +186,17 @@ namespace MathModule
 
 
 	/**
+	 * @brief 부동 소수점 나머지를 계산합니다.
+	 * 
+	 * @param x 부동 소수점 나머지를 계산할 왼쪽 피연산자입니다.
+	 * @param y 부동 소수점 나머지를 계산할 오른쪽 피연산자입니다.
+	 * 
+	 * @return 계산된 부동 소수점 나머지를 반환합니다.
+	 */
+	float Fmod(float x, float y);
+
+
+	/**
 	 * @brief 값을 [lower, upper] 범위로 자릅니다.
 	 *
 	 * @param value 범위로 자를 값입니다.

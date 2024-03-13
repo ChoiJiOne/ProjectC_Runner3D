@@ -145,6 +145,11 @@ float MathModule::Abs(float x)
 	return std::fabsf(x);
 }
 
+float MathModule::Fmod(float x, float y)
+{
+	return std::fmodf(x, y);
+}
+
 int32_t MathModule::GenerateRandomInt(int32_t minValue, int32_t maxValue)
 {
 	std::random_device randomDevice;
