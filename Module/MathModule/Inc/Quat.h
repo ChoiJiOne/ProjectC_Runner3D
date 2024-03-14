@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Mat4x4.h"
-
+#include "MathModule.h"
 #include "Vec3.h"
 
 
@@ -343,12 +343,84 @@ struct Quat
 
 
 	/**
+	 * @brief 두 쿼터니언 동일한지 검사합니다.
+	 *
+	 * @param  q 검사를 수행할 피연산자입니다.
+	 *
+	 * @return 두 쿼터니언이 동일하다면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	bool operator==(Quat&& q) const
+	{
+		return MathModule::Abs(x - q.x) <= MathModule::Epsilon
+			&& MathModule::Abs(y - q.y) <= MathModule::Epsilon
+			&& MathModule::Abs(z - q.z) <= MathModule::Epsilon
+			&& MathModule::Abs(w - q.w) <= MathModule::Epsilon;
+	}
+
+
+	/**
+	 * @brief 두 쿼터니언 동일한지 검사합니다.
+	 *
+	 * @param q 검사를 수행할 피연산자입니다.
+	 *
+	 * @return 두 쿼터니언이 동일하다면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	bool operator==(const Quat& q) const
+	{
+		return MathModule::Abs(x - q.x) <= MathModule::Epsilon
+			&& MathModule::Abs(y - q.y) <= MathModule::Epsilon
+			&& MathModule::Abs(z - q.z) <= MathModule::Epsilon
+			&& MathModule::Abs(w - q.w) <= MathModule::Epsilon;
+	}
+
+
+	/**
+	 * @brief 두 쿼터니언 동일하지 않은지 검사합니다.
+	 *
+	 * @param q 검사를 수행할 피연산자입니다.
+	 *
+	 * @return 두 쿼터니언이 동일하지 않다면 true, 그렇다면 false를 반환합니다.
+	 */
+	bool operator!=(Quat&& q) const
+	{
+		return MathModule::Abs(x - q.x) > MathModule::Epsilon
+			|| MathModule::Abs(y - q.y) > MathModule::Epsilon
+			|| MathModule::Abs(z - q.z) > MathModule::Epsilon
+			|| MathModule::Abs(w - q.w) > MathModule::Epsilon;
+	}
+
+
+	/**
+	 * @brief 두 쿼터니언 동일하지 않은지 검사합니다.
+	 *
+	 * @param q 검사를 수행할 피연산자입니다.
+	 *
+	 * @return 두 쿼터니언이 동일하지 않다면 true, 그렇다면 false를 반환합니다.
+	 */
+	bool operator!=(const Quat& q) const
+	{
+		return MathModule::Abs(x - q.x) > MathModule::Epsilon
+			|| MathModule::Abs(y - q.y) > MathModule::Epsilon
+			|| MathModule::Abs(z - q.z) > MathModule::Epsilon
+			|| MathModule::Abs(w - q.w) > MathModule::Epsilon;
+	}
+
+
+	/**
 	 * @brief 각도와 축을 이용해서 쿼터니언을 얻습니다.
 	 *
 	 * @parma axis 축 입니다.
 	 * @param radian 라디안 단위의 각도입니다.
 	 */
-	static inline Quat AxisRadian(const Vec3f& axis, float radian);
+	static inline Quat AxisRadian(const Vec3f& axis, float radian)
+	{
+		Vec3f norm = Vec3f::Normalize(axis);
+
+		float s = MathModule::Sin(radian * 0.5f);
+		float c = MathModule::Cos(radian * 0.5f);
+
+		return Quat(norm.x * s, norm.y * s, norm.z * s, c);
+	}
 
 
 	/**
@@ -357,7 +429,16 @@ struct Quat
 	 * @parma axis 축 입니다.
 	 * @param angle 육십분법 단위의 각도입니다.
 	 */
-	static inline Quat AxisAngle(const Vec3f& axis, float angle);
+	static inline Quat AxisAngle(const Vec3f& axis, float angle)
+	{
+		float radian = MathModule::ToRadian(angle);
+
+		float s = MathModule::Sin(radian * 0.5f);
+		float c = MathModule::Cos(radian * 0.5f);
+		Vec3f norm = Vec3f::Normalize(axis);
+
+		return Quat(norm.x * s, norm.y * s, norm.z * s, c);
+	}
 
 
 	/**
@@ -367,7 +448,10 @@ struct Quat
 	 * 
 	 * @return 쿼터니언의 축을 반환합니다.
 	 */
-	static inline Vec3f Axis(const Quat& q);
+	static inline Vec3f Axis(const Quat& q)
+	{
+		return Vec3f::Normalize(Vec3f(q.x, q.y, q.z));
+	}
 
 
 	/**
@@ -377,7 +461,10 @@ struct Quat
 	 *
 	 * @return 쿼터니언의 라디안 각을 반환합니다.
 	 */
-	static inline float Radian(const Quat& q);
+	static inline float Radian(const Quat& q)
+	{
+		return 2.0f * MathModule::ACos(q.w);
+	}
 
 
 	/**
@@ -387,7 +474,10 @@ struct Quat
 	 *
 	 * @return 쿼터니언의 육십분법 각을 반환합니다.
 	 */
-	static inline float Angle(const Quat& q);
+	static inline float Angle(const Quat& q)
+	{
+		return MathModule::ToDegree(2.0f * MathModule::ACos(q.w));
+	}
 
 
 	/**
@@ -398,7 +488,10 @@ struct Quat
 	 *
 	 * @return 내적 연산 결과를 반환합니다.
 	 */
-	static inline float Dot(const Quat& lhs, const Quat& rhs);
+	static inline float Dot(const Quat& lhs, const Quat& rhs)
+	{
+		return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z + lhs.w * rhs.w;
+	}
 
 
 	/**
@@ -408,7 +501,10 @@ struct Quat
 	 *
 	 * @return 계산된 크기 제곱 값을 반환합니다.
 	 */
-	static inline float LengthSq(const Quat& q);
+	static inline float LengthSq(const Quat& q)
+	{
+		return q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w;
+	}
 
 
 	/**
@@ -418,7 +514,11 @@ struct Quat
 	 *
 	 * @return 계산된 크기 값을 반환합니다.
 	 */
-	static inline float Length(const Quat& q);
+	static inline float Length(const Quat& q)
+	{
+		float lengthSq = Quat::LengthSq(q);
+		return MathModule::Sqrt(lengthSq);
+	}
 
 
 	/**
@@ -428,7 +528,11 @@ struct Quat
 	 *
 	 * @return 정규화된 쿼터니언을 반환합니다.
 	 */
-	static inline Quat Normalize(const Quat& q);
+	static inline Quat Normalize(const Quat& q)
+	{
+		float invLength = 1.0f / Quat::Length(q);
+		return Quat(q.x * invLength, q.y * invLength, q.z * invLength, q.w * invLength);
+	}
 
 
 	/**
@@ -438,7 +542,10 @@ struct Quat
 	 * 
 	 * @return 켤레 쿼터니언을 반환합니다.
 	 */
-	static inline Quat Conjugate(const Quat& q);
+	static inline Quat Conjugate(const Quat& q)
+	{
+		return Quat(-q.x, -q.y, -q.z, q.w);
+	}
 
 
 	/**
@@ -448,7 +555,11 @@ struct Quat
 	 * 
 	 * @return 쿼터니언의 곱의 역원을 반환합니다.
 	 */
-	static inline Quat Inverse(const Quat& q);
+	static inline Quat Inverse(const Quat& q)
+	{
+		float invLengthSq = 1.0f / Quat::LengthSq(q);
+		return Quat(-q.x * invLengthSq, -q.y * invLengthSq, -q.z * invLengthSq, q.w * invLengthSq);
+	}
 
 	
 	/**
@@ -456,7 +567,10 @@ struct Quat
 	 * 
 	 * @return 모든 원소가 0인 쿼터니언을 반환합니다.
 	 */
-	static inline Quat Zero();
+	static inline Quat Zero()
+	{
+		return Quat(0.0f, 0.0f, 0.0f, 0.0f);
+	}
 
 
 	/**
@@ -464,7 +578,10 @@ struct Quat
 	 * 
 	 * @return w의 값이 1인 쿼터니언을 얻습니다.
 	 */
-	static inline Quat Identity();
+	static inline Quat Identity()
+	{
+		return Quat(0.0f, 0.0f, 0.0f, 1.0f);
+	}
 
 
 	/**
@@ -475,7 +592,46 @@ struct Quat
 	 * 
 	 * @return 두 벡터 간의 회전 쿼터니언을 반환합니다.
 	 */
-	static inline Quat Rotate(const Vec3f& s, const Vec3f& e);
+	static inline Quat Rotate(const Vec3f& s, const Vec3f& e)
+	{
+		Vec3f start = Vec3f::Normalize(s);
+		Vec3f end = Vec3f::Normalize(e);
+		Quat quat;
+
+		if (start == end)
+		{
+			quat = Quat();
+		}
+		else if (start == end * -1.0f)
+		{
+			Vec3f ortho;
+
+			if (MathModule::Abs(start.y) < MathModule::Abs(start.x))
+			{
+				ortho = Vec3f(0.0f, 1.0f, 0.0f);
+			}
+			else if (MathModule::Abs(start.z) < MathModule::Abs(start.y) && MathModule::Abs(start.z) < MathModule::Abs(start.x))
+			{
+				ortho = Vec3f(0.0f, 0.0f, 1.0f);
+			}
+			else
+			{
+				ortho = Vec3f(1.0f, 0.0f, 0.0f);
+			}
+
+			Vec3f axis = Vec3f::Normalize(Vec3f::Cross(start, ortho));
+			quat = Quat(axis, 0.0f);
+		}
+		else
+		{
+			Vec3f half = Vec3f::Normalize(start + end);
+			Vec3f axis = Vec3f::Cross(start, half);
+
+			quat = Quat(axis, Vec3f::Dot(start, half));
+		}
+
+		return quat;
+	}
 
 
 	/**
@@ -487,7 +643,10 @@ struct Quat
 	 *
 	 * @return 보간된 쿼터니언을 반환합니다.
 	 */
-	static inline Quat Lerp(const Quat& s, const Quat& e, const float& t);
+	static inline Quat Lerp(const Quat& s, const Quat& e, const float& t)
+	{
+		return s * (1.0f - t) + e * t;
+	}
 
 
 	/**
@@ -499,7 +658,10 @@ struct Quat
 	 *
 	 * @return 정규화된 선형 보간 값을 반환합니다.
 	 */
-	static inline Quat Nlerp(const Quat& s, const Quat& e, const float& t);
+	static inline Quat Nlerp(const Quat& s, const Quat& e, const float& t)
+	{
+		return Normalize(Lerp(s, e, t));
+	}
 
 
 	/**
@@ -511,7 +673,10 @@ struct Quat
 	 *
 	 * @return 보간된 쿼터니언을 반환합니다.
 	 */
-	static inline Quat Slerp(const Quat& s, const Quat& e, const float& t);
+	static inline Quat Slerp(const Quat& s, const Quat& e, const float& t)
+	{
+		return Pow(Inverse(s) * e, t) * s;
+	}
 
 
 	/**
@@ -523,7 +688,10 @@ struct Quat
 	 *
 	 * @return 정규화된 선형 보간 값을 반환합니다.
 	 */
-	static inline Quat Nslerp(const Quat& s, const Quat& e, const float& t);
+	static inline Quat Nslerp(const Quat& s, const Quat& e, const float& t)
+	{
+		return Normalize(Slerp(s, e, t));
+	}
 
 
 	/**
@@ -534,7 +702,16 @@ struct Quat
 	 * 
 	 * @return 거듭 제곱이 수행된 쿼터니언 값을 반환합니다.
 	 */
-	static inline Quat Pow(const Quat& q, const float power);
+	static inline Quat Pow(const Quat& q, const float power)
+	{
+		float radian = Quat::Radian(q);
+		Vec3f axis = Vec3f::Normalize(Quat::Axis(q));
+
+		float c = MathModule::Cos(power * radian * 0.5f);
+		float s = MathModule::Sin(power * radian * 0.5f);
+
+		return Quat(axis.x * s, axis.y * s, axis.z * s, c);
+	}
 
 
 	/**
@@ -545,7 +722,20 @@ struct Quat
 	 * 
 	 * @return 생성된 쿼터니언을 반환합니다.
 	 */
-	static inline Quat LookRotate(const Vec3f& direction, const Vec3f& up);
+	static inline Quat LookRotate(const Vec3f& direction, const Vec3f& up)
+	{
+		Vec3f f = Vec3f::Normalize(direction);
+		Vec3f u = Vec3f::Normalize(up);
+		Vec3f r = Vec3f::Cross(u, f);
+
+		u = Vec3f::Cross(f, r);
+
+		Quat f2d = Quat::Rotate(Vec3f(0.0f, 0.0f, 1.0f), f);
+		Vec3f objectUp = f2d * Vec3f(0.0f, 1.0f, 0.0f);
+		Quat u2u = Quat::Rotate(objectUp, u);
+
+		return Quat::Normalize(f2d * u2u);
+	}
 
 
 	/**
@@ -555,7 +745,19 @@ struct Quat
 	 * 
 	 * @return 변환된 행렬을 반환합니다.
 	 */
-	static inline Mat4x4f ToMat(const Quat& q);
+	static inline Mat4x4 ToMat(const Quat& q)
+	{
+		Vec3f r = q * Vec3f(1.0f, 0.0f, 0.0f);
+		Vec3f u = q * Vec3f(0.0f, 1.0f, 0.0f);
+		Vec3f f = q * Vec3f(0.0f, 0.0f, 1.0f);
+
+		return Mat4x4(
+			 r.x,  r.y,  r.z, 0.0f,
+			 u.x,  u.y,  u.z, 0.0f,
+			 f.x,  f.y,  f.z, 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f
+		);
+	}
 
 
 	/**
@@ -565,7 +767,36 @@ struct Quat
 	 * 
 	 * @return 변환된 쿼터니언을 반환합니다.
 	 */
-	static inline Quat ToQuat(const Mat4x4f& m);
+	static inline Quat ToQuat(const Mat4x4& m)
+	{
+		Vec3f u = Vec3f::Normalize(Vec3f(m.e10, m.e11, m.e12));
+		Vec3f f = Vec3f::Normalize(Vec3f(m.e20, m.e21, m.e22));
+		Vec3f r = Vec3f::Cross(u, f);
+		u = Vec3f::Cross(f, r);
+
+		return LookRotate(f, u);
+	}
+
+
+	/**
+	 * @brief 두 쿼터니언의 방향이 같은지 확인합니다.
+	 * 
+	 * @param lhs 방향이 같은지 비교할 쿼터니언입니다.
+	 * @param rhs 방향이 같은지 비교할 또 다른 쿼터니언입니다.
+	 */
+	bool IsSameOrientation(const Quat& lhs, const Quat& rhs)
+	{
+		return (MathModule::Abs(lhs.x - rhs.x) <= MathModule::Epsilon 
+			&& MathModule::Abs(lhs.y - rhs.y) <= MathModule::Epsilon 
+			&& MathModule::Abs(lhs.z - rhs.z) <= MathModule::Epsilon
+			&& MathModule::Abs(lhs.w - rhs.w) <= MathModule::Epsilon
+			)
+			|| (MathModule::Abs(lhs.x + rhs.x) <= MathModule::Epsilon 
+			&& MathModule::Abs(lhs.y + rhs.y) <= MathModule::Epsilon 
+			&& MathModule::Abs(lhs.z + rhs.z) <= MathModule::Epsilon 
+			&& MathModule::Abs(lhs.w + rhs.w) <= MathModule::Epsilon
+			);
+	}
 	
 	
 	/**
@@ -588,6 +819,3 @@ struct Quat
 		float data[4];
 	};
 };
-
-
-#include "Quat.inl"
