@@ -4,6 +4,68 @@
 #include "GLTFLoader.h"
 #include "TransformTrack.h"
 
+void GetScalarValues(std::vector<float>& outScalars, uint32_t componentCount, const cgltf_accessor* accessor) 
+{
+	outScalars.resize(accessor->count * componentCount);
+	for (cgltf_size i = 0; i < accessor->count; ++i)
+	{
+		cgltf_accessor_read_float(accessor, i, &outScalars[i * componentCount], componentCount);
+	}
+}
+
+template<typename T, int N>
+void TrackFromChannel(Track<T, N>& inOutTrack, const cgltf_animation_channel* channel) 
+{
+	cgltf_animation_sampler* sampler = channel->sampler;
+
+	EInterpolation interpolation = EInterpolation::Constant;
+	if (channel->sampler->interpolation == cgltf_interpolation_type_linear) 
+	{
+		interpolation = EInterpolation::Linear;
+	}
+	else if (channel->sampler->interpolation == cgltf_interpolation_type_cubic_spline) 
+	{
+		interpolation = EInterpolation::Cubic;
+	}
+
+	bool isSamplerCubic = interpolation == EInterpolation::Cubic;
+	inOutTrack.SetInterpolation(interpolation);
+
+	std::vector<float> timelineFloats;
+	GetScalarValues(timelineFloats, 1, sampler->input);
+
+	std::vector<float> valueFloats;
+	GetScalarValues(valueFloats, N, sampler->output);
+
+	uint32_t numFrames = (uint32_t)sampler->input->count;
+	uint32_t numberOfValuesPerFrame = valueFloats.size() / timelineFloats.size();
+	inOutTrack.ResizeFrame(numFrames);
+
+	for (uint32_t i = 0; i < numFrames; ++i) 
+	{
+		int baseIndex = i * numberOfValuesPerFrame;
+		Frame<N>& frame = inOutTrack[i];
+		int offset = 0;
+
+		frame.time = timelineFloats[i];
+
+		for (int component = 0; component < N; ++component) 
+		{
+			frame.in[component] = isSamplerCubic ? valueFloats[baseIndex + offset++] : 0.0f;
+		}
+
+		for (int component = 0; component < N; ++component) 
+		{
+			frame.value[component] = valueFloats[baseIndex + offset++];
+		}
+
+		for (int component = 0; component < N; ++component) 
+		{
+			frame.out[component] = isSamplerCubic ? valueFloats[baseIndex + offset++] : 0.0f;
+		}
+	}
+}
+
 cgltf_data* GLTFLoader::LoadFromFile(const std::string& path)
 {
 	cgltf_result result = cgltf_result_success;
@@ -225,6 +287,54 @@ Pose GLTFLoader::LoadRestPose(cgltf_data* data)
 	}
 
 	return result;
+}
+
+std::vector<Clip> GLTFLoader::LoadAnimationClip(cgltf_data* data)
+{
+	std::vector<Clip> clips(static_cast<uint32_t>(data->animations_count));
+
+	for (uint32_t index = 0; index < clips.size(); ++index)
+	{
+		clips[index].SetName(data->animations[index].name);
+
+		cgltf_animation_channel* begin = data->animations[index].channels;
+		cgltf_animation_channel* end = data->animations[index].channels + data->animations[index].channels_count;
+
+		for (cgltf_animation_channel* channel = begin; channel != end; ++channel)
+		{
+			cgltf_node* target = channel->target_node;
+			
+			int32_t nodeID = GetNodeIndex(target, data->nodes, data->nodes_count);
+
+			switch (channel->target_path)
+			{
+			case cgltf_animation_path_type_translation:
+			{
+				VectorTrack& track = clips[index][nodeID].GetPositionTrack();
+				TrackFromChannel<Vec3f, 3>(track, channel);
+			}
+			break;
+
+			case cgltf_animation_path_type_scale:
+			{
+				VectorTrack& track = clips[index][nodeID].GetScaleTrack();
+				TrackFromChannel<Vec3f, 3>(track, channel);
+			}
+			break;
+
+			case cgltf_animation_path_type_rotation:
+			{
+				QuaternionTrack& track = clips[index][nodeID].GetRotateTrack();
+				TrackFromChannel<Quat, 4>(track, channel);
+			}
+			break;
+			}
+		}
+		
+		clips[index].RecomputeDuration();
+	}
+
+	return clips;
 }
 
 void GLTFLoader::Free(cgltf_data* data)

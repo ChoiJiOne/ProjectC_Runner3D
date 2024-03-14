@@ -7,6 +7,7 @@
 
 #include "Transform.h"
 
+#include "Clip.h"
 #include "Pose.h"
 #include "Vertex3D.h"
 
@@ -86,6 +87,16 @@ public:
 	 * @return 리셋 포즈 데이터를 반환합니다.
 	 */
 	static Pose LoadRestPose(cgltf_data* data);
+
+
+	/**
+	 * @brief GLTF 데이터로부터 애니메이션 클립 목록을 로딩합니다.
+	 * 
+	 * @param data 애니메이션 클립 데이터를 로딩할 GLTF 데이터입니다.
+	 * 
+	 * @return 애니메이션 클립 목록을 반환합니다.
+	 */
+	static std::vector<Clip> LoadAnimationClip(cgltf_data* data);
 
 
 	/**
