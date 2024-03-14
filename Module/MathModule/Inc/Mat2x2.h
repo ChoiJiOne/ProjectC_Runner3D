@@ -2,22 +2,23 @@
 
 #include <cstdint>
 
+#include "MathModule.h"
+
 
 /**
- * @brief 템플릿 기반의 2x2 행렬입니다.
+ * @brief 2x2 행렬입니다.
  */
-template <typename T>
-struct TMat2x2
+struct Mat2x2
 {
 	/**
 	 * @brief 2x2 행렬의 기본 생성자입니다.
 	 *
 	 * @note 모든 원소의 값을 0으로 초기화합니다.
 	 */
-	TMat2x2() noexcept
+	Mat2x2() noexcept
 	{
-		e00 = static_cast<T>(0); e01 = static_cast<T>(0);
-		e10 = static_cast<T>(0); e11 = static_cast<T>(0);
+		e00 = 0.0f; e01 = 0.0f;
+		e10 = 0.0f; e11 = 0.0f;
 	}
 
 
@@ -29,9 +30,9 @@ struct TMat2x2
 	 * @param ee10 행렬의 (1, 0) 성분입니다.
 	 * @param ee11 행렬의 (1, 1) 성분입니다.
 	 */
-	TMat2x2(
-		T&& ee00, T&& ee01,
-		T&& ee10, T&& ee11
+	Mat2x2(
+		float&& ee00, float&& ee01,
+		float&& ee10, float&& ee11
 	) noexcept
 	{
 		e00 = ee00; e01 = ee01;
@@ -47,9 +48,9 @@ struct TMat2x2
 	 * @param e10 행렬의 (1, 0) 성분입니다.
 	 * @param e11 행렬의 (1, 1) 성분입니다.
 	 */
-	TMat2x2(
-		const T& ee00, const T& ee01,
-		const T& ee10, const T& ee11
+	Mat2x2(
+		const float& ee00, const float& ee01,
+		const float& ee10, const float& ee11
 	) noexcept
 	{
 		e00 = ee00; e01 = ee01;
@@ -62,7 +63,7 @@ struct TMat2x2
 	 *
 	 * @param e 모든 원소를 초기화 할 값입니다.
 	 */
-	TMat2x2(T&& e) noexcept
+	Mat2x2(float&& e) noexcept
 	{
 		e00 = e; e01 = e;
 		e10 = e; e11 = e;
@@ -74,7 +75,7 @@ struct TMat2x2
 	 *
 	 * @param e 모든 원소를 초기화 할 값입니다.
 	 */
-	TMat2x2(const T& e) noexcept
+	Mat2x2(const float& e) noexcept
 	{
 		e00 = e; e01 = e;
 		e10 = e; e11 = e;
@@ -86,7 +87,7 @@ struct TMat2x2
 	 *
 	 * @param m 원소를 복사할 행렬의 인스턴스입니다.
 	 */
-	TMat2x2(TMat2x2<T>&& m) noexcept
+	Mat2x2(Mat2x2&& m) noexcept
 	{
 		e00 = m.e00; e01 = m.e01;
 		e10 = m.e10; e11 = m.e11;
@@ -98,7 +99,7 @@ struct TMat2x2
 	 *
 	 * @param m 원소를 복사할 행렬의 인스턴스입니다.
 	 */
-	TMat2x2(const TMat2x2<T>& m) noexcept
+	Mat2x2(const Mat2x2& m) noexcept
 	{
 		e00 = m.e00; e01 = m.e01;
 		e10 = m.e10; e11 = m.e11;
@@ -112,7 +113,7 @@ struct TMat2x2
 	 *
 	 * @return 대입한 행렬의 참조자를 반환합니다.
 	 */
-	TMat2x2<T>& operator=(TMat2x2<T>&& m) noexcept
+	Mat2x2& operator=(Mat2x2&& m) noexcept
 	{
 		if (this == &m) return *this;
 
@@ -130,7 +131,7 @@ struct TMat2x2
 	 *
 	 * @return 대입한 행렬의 참조자를 반환합니다.
 	 */
-	TMat2x2<T>& operator=(const TMat2x2<T>& m) noexcept
+	Mat2x2& operator=(const Mat2x2& m) noexcept
 	{
 		if (this == &m) return *this;
 
@@ -142,16 +143,16 @@ struct TMat2x2
 
 
 	/**
-	 * @brief 2x2 행렬의 모든 원소에 - 부호를 취합니다.
+	 * @brief 2x2 행렬의 모든 원소에 -부호를 취합니다.
 	 *
 	 * @return 모든 원소에 -부호를 취한 새로운 행렬을 반환합니다.
 	 */
-	TMat2x2<T> operator-() const
+	Mat2x2 operator-() const
 	{
-		return TMat2x2<T>(
+		return Mat2x2(
 			-e00, -e01,
 			-e10, -e11
-			);
+		);
 	}
 
 
@@ -162,12 +163,12 @@ struct TMat2x2
 	 *
 	 * @return 두 행렬의 대응하는 원소를 더한 결과를 반환합니다.
 	 */
-	TMat2x2<T> operator+(TMat2x2<T>&& m) const
+	Mat2x2 operator+(Mat2x2&& m) const
 	{
-		return TMat2x2<T>(
+		return Mat2x2(
 			e00 + m.e00, e01 + m.e01,
 			e10 + m.e10, e11 + m.e11
-			);
+		);
 	}
 
 
@@ -178,12 +179,12 @@ struct TMat2x2
 	 *
 	 * @return 두 행렬의 대응하는 원소를 더한 결과를 반환합니다.
 	 */
-	TMat2x2<T> operator+(const TMat2x2<T>& m) const
+	Mat2x2 operator+(const Mat2x2& m) const
 	{
-		return TMat2x2<T>(
+		return Mat2x2(
 			e00 + m.e00, e01 + m.e01,
 			e10 + m.e10, e11 + m.e11
-			);
+		);
 	}
 
 
@@ -194,12 +195,12 @@ struct TMat2x2
 	 *
 	 * @return 두 행렬의 대응하는 원소를 뺀 결과를 반환합니다.
 	 */
-	TMat2x2<T> operator-(TMat2x2<T>&& m) const
+	Mat2x2 operator-(Mat2x2&& m) const
 	{
-		return TMat2x2<T>(
+		return Mat2x2(
 			e00 - m.e00, e01 - m.e01,
 			e10 - m.e10, e11 - m.e11
-			);
+		);
 	}
 
 
@@ -210,12 +211,12 @@ struct TMat2x2
 	 *
 	 * @return 두 행렬의 대응하는 원소를 뺀 결과를 반환합니다.
 	 */
-	TMat2x2<T> operator-(const TMat2x2<T>& m) const
+	Mat2x2 operator-(const Mat2x2& m) const
 	{
-		return TMat2x2<T>(
+		return Mat2x2(
 			e00 - m.e00, e01 - m.e01,
 			e10 - m.e10, e11 - m.e11
-			);
+		);
 	}
 
 
@@ -226,9 +227,9 @@ struct TMat2x2
 	 *
 	 * @return 두 행렬을 곱한 결과를 반환합니다.
 	 */
-	TMat2x2<T> operator*(TMat2x2<T>&& m) const
+	Mat2x2 operator*(Mat2x2&& m) const
 	{
-		return TMat2x2(
+		return Mat2x2(
 			e00 * m.e00 + e01 * m.e10,
 			e00 * m.e01 + e01 * m.e11,
 			e10 * m.e00 + e11 * m.e10,
@@ -244,9 +245,9 @@ struct TMat2x2
 	 *
 	 * @return 두 행렬을 곱한 결과를 반환합니다.
 	 */
-	TMat2x2<T> operator*(const TMat2x2<T>& m) const
+	Mat2x2 operator*(const Mat2x2& m) const
 	{
-		return TMat2x2(
+		return Mat2x2(
 			e00 * m.e00 + e01 * m.e10,
 			e00 * m.e01 + e01 * m.e11,
 			e10 * m.e00 + e11 * m.e10,
@@ -262,7 +263,7 @@ struct TMat2x2
 	 *
 	 * @return 연산을 수행한 행렬의 참조자를 반환합니다.
 	 */
-	TMat2x2<T>& operator+=(TMat2x2<T>&& m) noexcept
+	Mat2x2& operator+=(Mat2x2&& m) noexcept
 	{
 		e00 += m.e00; e01 += m.e01;
 		e10 += m.e10; e11 += m.e11;
@@ -278,7 +279,7 @@ struct TMat2x2
 	 *
 	 * @return 연산을 수행한 행렬의 참조자를 반환합니다.
 	 */
-	TMat2x2<T>& operator+=(const TMat2x2<T>& m) noexcept
+	Mat2x2& operator+=(const Mat2x2& m) noexcept
 	{
 		e00 += m.e00; e01 += m.e01;
 		e10 += m.e10; e11 += m.e11;
@@ -294,7 +295,7 @@ struct TMat2x2
 	 *
 	 * @return 연산을 수행한 행렬의 참조자를 반환합니다.
 	 */
-	TMat2x2<T>& operator-=(TMat2x2<T>&& m) noexcept
+	Mat2x2& operator-=(Mat2x2&& m) noexcept
 	{
 		e00 -= m.e00; e01 -= m.e01;
 		e10 -= m.e10; e11 -= m.e11;
@@ -310,7 +311,7 @@ struct TMat2x2
 	 *
 	 * @return 연산을 수행한 행렬의 참조자를 반환합니다.
 	 */
-	TMat2x2<T>& operator-=(const TMat2x2<T>& m) noexcept
+	Mat2x2& operator-=(const Mat2x2& m) noexcept
 	{
 		e00 -= m.e00; e01 -= m.e01;
 		e10 -= m.e10; e11 -= m.e11;
@@ -320,11 +321,67 @@ struct TMat2x2
 
 
 	/**
-	 * @brief 2x2 행렬 원소 배열의 포인터를 얻습니다.
+	 * @brief 두 2x2행렬이 동일한지 검사합니다.
 	 *
-	 * @return 2x2 행렬 원소 배열의 포인터를 반환합니다.
+	 * @param m 검사를 수행할 피연산자입니다.
+	 *
+	 * @return 두 행렬이 동일하다면 true, 그렇지 않으면 false를 반환합니다.
 	 */
-	const T* GetPtr() const { return &data[0]; }
+	bool operator==(Mat2x2&& m) const
+	{
+		return MathModule::Abs(e00 - m.e00) <= MathModule::Epsilon
+			&& MathModule::Abs(e01 - m.e01) <= MathModule::Epsilon
+			&& MathModule::Abs(e10 - m.e10) <= MathModule::Epsilon
+			&& MathModule::Abs(e11 - m.e11) <= MathModule::Epsilon;
+	}
+
+
+	/**
+	 * @brief 두 2x2행렬이 동일한지 검사합니다.
+	 *
+	 * @param m 검사를 수행할 피연산자입니다.
+	 *
+	 * @return 두 행렬이 동일하다면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	bool operator==(const Mat2x2& m) const
+	{
+		return MathModule::Abs(e00 - m.e00) <= MathModule::Epsilon
+			&& MathModule::Abs(e01 - m.e01) <= MathModule::Epsilon
+			&& MathModule::Abs(e10 - m.e10) <= MathModule::Epsilon
+			&& MathModule::Abs(e11 - m.e11) <= MathModule::Epsilon;
+	}
+
+
+	/**
+	 * @brief 두 2x2행렬이 동일하지 않은지 검사합니다.
+	 *
+	 * @param m 검사를 수행할 피연산자입니다.
+	 *
+	 * @return 두 행렬이 동일하지 않다면 true, 그렇다면 false를 반환합니다.
+	 */
+	bool operator!=(Mat2x2&& m) const
+	{
+		return MathModule::Abs(e00 - m.e00) > MathModule::Epsilon
+			|| MathModule::Abs(e01 - m.e01) > MathModule::Epsilon
+			|| MathModule::Abs(e10 - m.e10) > MathModule::Epsilon
+			|| MathModule::Abs(e11 - m.e11) > MathModule::Epsilon;
+	}
+
+
+	/**
+	 * @brief 두 2x2행렬이 동일하지 않은지 검사합니다.
+	 *
+	 * @param m 검사를 수행할 피연산자입니다.
+	 *
+	 * @return 두 행렬이 동일하지 않다면 true, 그렇다면 false를 반환합니다.
+	 */
+	bool operator!=(const Mat2x2& m) const
+	{
+		return MathModule::Abs(e00 - m.e00) > MathModule::Epsilon
+			|| MathModule::Abs(e01 - m.e01) > MathModule::Epsilon
+			|| MathModule::Abs(e10 - m.e10) > MathModule::Epsilon
+			|| MathModule::Abs(e11 - m.e11) > MathModule::Epsilon;
+	}
 
 
 	/**
@@ -332,7 +389,15 @@ struct TMat2x2
 	 *
 	 * @return 2x2 행렬 원소 배열의 포인터를 반환합니다.
 	 */
-	T* GetPtr() { return &data[0]; }
+	const float* GetPtr() const { return &data[0]; }
+
+
+	/**
+	 * @brief 2x2 행렬 원소 배열의 포인터를 얻습니다.
+	 *
+	 * @return 2x2 행렬 원소 배열의 포인터를 반환합니다.
+	 */
+	float* GetPtr() { return &data[0]; }
 
 
 	/**
@@ -340,7 +405,13 @@ struct TMat2x2
 	 * 
 	 * @return 모든 원소가 0인 2x2 행렬을 반환합니다.
 	 */
-	static inline TMat2x2<T> Zero();
+	static inline Mat2x2 Zero()
+	{
+		return Mat2x2(
+			0.0f, 0.0f,
+			0.0f, 0.0f
+		);
+	}
 
 
 	/**
@@ -348,7 +419,13 @@ struct TMat2x2
 	 *
 	 * @return 2x2 행렬의 단위 행렬를 반환합니다.
 	 */
-	static inline TMat2x2<T> Identity();
+	static inline Mat2x2 Identity()
+	{
+		return Mat2x2(
+			1.0f, 0.0f,
+			0.0f, 1.0f
+		);
+	}
 
 
 	/**
@@ -358,7 +435,13 @@ struct TMat2x2
 	 * 
 	 * @return 원소가 전치된 2x2 행렬을 반환합니다.
 	 */
-	static inline TMat2x2<T> Transpose(const TMat2x2<T>& m);
+	static inline Mat2x2 Transpose(const Mat2x2& m)
+	{
+		return Mat2x2(
+			m.e00, m.e10,
+			m.e01, m.e11
+		);
+	}
 
 
 	/**
@@ -368,7 +451,10 @@ struct TMat2x2
 	 * 
 	 * @return 2x2 행렬의 행렬식 값을 반환합니다.
 	 */
-	static inline T Determinant(const TMat2x2<T>& m);
+	static inline float Determinant(const Mat2x2& m)
+	{
+		return m.e00 * m.e11 - m.e01 * m.e10;
+	}
 
 
 	/**
@@ -378,7 +464,17 @@ struct TMat2x2
 	 * 
 	 * @return 2x2 행렬의 역행렬을 반환합니다.
 	 */
-	static inline TMat2x2<T> Inverse(const TMat2x2<T>& m);
+	static inline Mat2x2 Inverse(const Mat2x2& m)
+	{
+		float oneOverDeterminant = 1.0f / Determinant(m);
+
+		return Mat2x2(
+			+m.e11 * oneOverDeterminant,
+			-m.e01 * oneOverDeterminant,
+			-m.e10 * oneOverDeterminant,
+			+m.e00 * oneOverDeterminant
+		);
+	}
 
 	
 	/**
@@ -388,24 +484,9 @@ struct TMat2x2
 	{
 		struct
 		{
-			T e00; T e01;
-			T e10; T e11;
+			float e00; float e01;
+			float e10; float e11;
 		};
-		T data[4];
+		float data[4];
 	};
 };
-
-
-/**
- * @brief int32_t 타입의 2x2 행렬입니다.
- */
-using Mat2x2i = TMat2x2<int32_t>;
-
-
-/**
- * @brief float 타입의 2x2 행렬입니다.
- */
-using Mat2x2f = TMat2x2<float>;
-
-
-#include "Mat2x2.inl"
