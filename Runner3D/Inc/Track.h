@@ -56,15 +56,65 @@ public:
 
 
 	/**
+	 * @brief 트랙의 복사 생성자입니다.
+	 * 
+	 * @param instance 내부 프로퍼티 복사를 수행할 인스턴스입니다.
+	 */
+	Track(Track&& instance) noexcept
+		: frames_(instance.frames_)
+		, interpolation_(instance.interpolation_) {}
+
+
+	/**
+	 * @brief 트랙의 복사 생성자입니다.
+	 *
+	 * @param instance 내부 프로퍼티 복사를 수행할 인스턴스입니다.
+	 */
+	Track(const Track& instance) noexcept
+		: frames_(instance.frames_)
+		, interpolation_(instance.interpolation_) {}
+
+
+	/**
 	 * @brief 트랙의 가상 소멸자입니다.
 	 */
 	virtual ~Track();
 
 
 	/**
-	 * @brief 트랙의 복사 생성자와 대입 연산자를 명시적으로 삭제합니다.
+	 * @brief 트랙의 대입 연산자입니다.
+	 * 
+	 * @param instance 대입 연산을 수행할 인스턴스입니다.
+	 * 
+	 * @return 대입 연산을 수행한 객체의 참조자를 반환합니다.
 	 */
-	DISALLOW_COPY_AND_ASSIGN(Track);
+	Track& operator=(Track&& instance) noexcept
+	{
+		if (this == &instance) return *this;
+		
+		frames_ = instance.frames_;
+		interpolation_ = instance.interpolation_;
+		
+		return *this;
+	}
+
+
+	/**
+	 * @brief 트랙의 대입 연산자입니다.
+	 *
+	 * @param instance 대입 연산을 수행할 인스턴스입니다.
+	 *
+	 * @return 대입 연산을 수행한 객체의 참조자를 반환합니다.
+	 */
+	Track& operator=(const Track& instance) noexcept
+	{
+		if (this == &instance) return *this;
+
+		frames_ = instance.frames_;
+		interpolation_ = instance.interpolation_;
+
+		return *this;
+	}
 
 
 	/**
