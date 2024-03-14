@@ -2,23 +2,24 @@
 
 #include <cstdint>
 
+#include "MathModule.h"
+
 
 /**
- * @brief 템플릿 기반의 3x3 행렬입니다.
+ * @brief 3x3 행렬입니다.
  */
-template <typename T>
-struct TMat3x3
+struct Mat3x3
 {
 	/**
 	 * @brief 3x3 행렬의 기본 생성자입니다.
 	 *
 	 * @note 모든 원소의 값을 0으로 초기화합니다.
 	 */
-	TMat3x3() noexcept
+	Mat3x3() noexcept
 	{
-		e00 = static_cast<T>(0); e01 = static_cast<T>(0); e02 = static_cast<T>(0);
-		e10 = static_cast<T>(0); e11 = static_cast<T>(0); e12 = static_cast<T>(0);
-		e20 = static_cast<T>(0); e21 = static_cast<T>(0); e22 = static_cast<T>(0);
+		e00 = 0.0f; e01 = 0.0f; e02 = 0.0f;
+		e10 = 0.0f; e11 = 0.0f; e12 = 0.0f;
+		e20 = 0.0f; e21 = 0.0f; e22 = 0.0f;
 	}
 
 
@@ -35,10 +36,10 @@ struct TMat3x3
 	 * @param ee21 행렬의 (2, 1) 성분입니다.
 	 * @param ee22 행렬의 (2, 2) 성분입니다.
 	 */
-	TMat3x3(
-		T&& ee00, T&& ee01, T&& ee02,
-		T&& ee10, T&& ee11, T&& ee12,
-		T&& ee20, T&& ee21, T&& ee22
+	Mat3x3(
+		float&& ee00, float&& ee01, float&& ee02,
+		float&& ee10, float&& ee11, float&& ee12,
+		float&& ee20, float&& ee21, float&& ee22
 	) noexcept
 	{
 		e00 = ee00; e01 = ee01; e02 = ee02;
@@ -60,10 +61,10 @@ struct TMat3x3
 	 * @param ee21 행렬의 (2, 1) 성분입니다.
 	 * @param ee22 행렬의 (2, 2) 성분입니다.
 	 */
-	TMat3x3(
-		const T& ee00, const T& ee01, const T& ee02,
-		const T& ee10, const T& ee11, const T& ee12,
-		const T& ee20, const T& ee21, const T& ee22
+	Mat3x3(
+		const float& ee00, const float& ee01, const float& ee02,
+		const float& ee10, const float& ee11, const float& ee12,
+		const float& ee20, const float& ee21, const float& ee22
 	) noexcept
 	{
 		e00 = ee00; e01 = ee01; e02 = ee02;
@@ -77,7 +78,7 @@ struct TMat3x3
 	 *
 	 * @param e 모든 원소를 초기화 할 값입니다.
 	 */
-	TMat3x3(T&& e) noexcept
+	Mat3x3(float&& e) noexcept
 	{
 		e00 = e; e01 = e; e02 = e;
 		e10 = e; e11 = e; e12 = e;
@@ -90,7 +91,7 @@ struct TMat3x3
 	 *
 	 * @param e 모든 원소를 초기화 할 값입니다.
 	 */
-	TMat3x3(const T& e) noexcept
+	Mat3x3(const float& e) noexcept
 	{
 		e00 = e; e01 = e; e02 = e;
 		e10 = e; e11 = e; e12 = e;
@@ -103,7 +104,7 @@ struct TMat3x3
 	 *
 	 * @param m 원소를 복사할 행렬의 인스턴스입니다.
 	 */
-	TMat3x3(TMat3x3<T>&& m) noexcept
+	Mat3x3(Mat3x3&& m) noexcept
 	{
 		e00 = m.e00; e01 = m.e01; e02 = m.e02;
 		e10 = m.e10; e11 = m.e11; e12 = m.e12;
@@ -116,7 +117,7 @@ struct TMat3x3
 	 *
 	 * @param m 원소를 복사할 행렬의 인스턴스입니다.
 	 */
-	TMat3x3(const TMat3x3<T>& m) noexcept
+	Mat3x3(const Mat3x3& m) noexcept
 	{
 		e00 = m.e00; e01 = m.e01; e02 = m.e02;
 		e10 = m.e10; e11 = m.e11; e12 = m.e12;
@@ -131,7 +132,7 @@ struct TMat3x3
 	 *
 	 * @return 대입한 행렬의 참조자를 반환합니다.
 	 */
-	TMat3x3<T>& operator=(TMat3x3<T>&& m) noexcept
+	Mat3x3& operator=(Mat3x3&& m) noexcept
 	{
 		if (this == &m) return *this;
 
@@ -150,7 +151,7 @@ struct TMat3x3
 	 *
 	 * @return 대입한 행렬의 참조자를 반환합니다.
 	 */
-	TMat3x3<T>& operator=(const TMat3x3<T>& m) noexcept
+	Mat3x3& operator=(const Mat3x3& m) noexcept
 	{
 		if (this == &m) return *this;
 
@@ -167,13 +168,13 @@ struct TMat3x3
 	 *
 	 * @return 모든 원소에 -부호를 취한 새로운 행렬을 반환합니다.
 	 */
-	TMat3x3<T> operator-() const
+	Mat3x3 operator-() const
 	{
-		return TMat3x3<T>(
+		return Mat3x3(
 			-e00, -e01, -e02,
 			-e10, -e11, -e12,
 			-e20, -e21, -e22
-			);
+		);
 	}
 
 
@@ -184,13 +185,13 @@ struct TMat3x3
 	 *
 	 * @return 두 행렬의 대응하는 원소를 더한 결과를 반환합니다.
 	 */
-	TMat3x3<T> operator+(TMat3x3<T>&& m) const
+	Mat3x3 operator+(Mat3x3&& m) const
 	{
-		return TMat3x3<T>(
+		return Mat3x3(
 			e00 + m.e00, e01 + m.e01, e02 + m.e02,
 			e10 + m.e10, e11 + m.e11, e12 + m.e12,
 			e20 + m.e20, e21 + m.e21, e22 + m.e22
-			);
+		);
 	}
 
 
@@ -201,13 +202,13 @@ struct TMat3x3
 	 *
 	 * @return 두 행렬의 대응하는 원소를 더한 결과를 반환합니다.
 	 */
-	TMat3x3<T> operator+(const TMat3x3<T>& m) const
+	Mat3x3 operator+(const Mat3x3& m) const
 	{
-		return TMat3x3<T>(
+		return Mat3x3(
 			e00 + m.e00, e01 + m.e01, e02 + m.e02,
 			e10 + m.e10, e11 + m.e11, e12 + m.e12,
 			e20 + m.e20, e21 + m.e21, e22 + m.e22
-			);
+		);
 	}
 
 
@@ -218,13 +219,13 @@ struct TMat3x3
 	 *
 	 * @return 두 행렬의 대응하는 원소를 뺀 결과를 반환합니다.
 	 */
-	TMat3x3<T> operator-(TMat3x3<T>&& m) const
+	Mat3x3 operator-(Mat3x3&& m) const
 	{
-		return TMat3x3<T>(
+		return Mat3x3(
 			e00 - m.e00, e01 - m.e01, e02 - m.e02,
 			e10 - m.e10, e11 - m.e11, e12 - m.e12,
 			e20 - m.e20, e21 - m.e21, e22 - m.e22
-			);
+		);
 	}
 
 
@@ -235,13 +236,13 @@ struct TMat3x3
 	 *
 	 * @return 두 행렬의 대응하는 원소를 뺀 결과를 반환합니다.
 	 */
-	TMat3x3<T> operator-(const TMat3x3<T>& m) const
+	Mat3x3 operator-(const Mat3x3& m) const
 	{
-		return TMat3x3<T>(
+		return Mat3x3(
 			e00 - m.e00, e01 - m.e01, e02 - m.e02,
 			e10 - m.e10, e11 - m.e11, e12 - m.e12,
 			e20 - m.e20, e21 - m.e21, e22 - m.e22
-			);
+		);
 	}
 
 
@@ -252,9 +253,9 @@ struct TMat3x3
 	 *
 	 * @return 두 행렬을 곱한 결과를 반환합니다.
 	 */
-	TMat3x3<T> operator*(TMat3x3<T>&& m) const
+	Mat3x3 operator*(Mat3x3&& m) const
 	{
-		return TMat3x3(
+		return Mat3x3(
 			e00 * m.e00 + e01 * m.e10 + e02 * m.e20,
 			e00 * m.e01 + e01 * m.e11 + e02 * m.e21,
 			e00 * m.e02 + e01 * m.e12 + e02 * m.e22,
@@ -275,9 +276,9 @@ struct TMat3x3
 	 *
 	 * @return 두 행렬을 곱한 결과를 반환합니다.
 	 */
-	TMat3x3<T> operator*(const TMat3x3<T>& m) const
+	Mat3x3 operator*(const Mat3x3& m) const
 	{
-		return TMat3x3(
+		return Mat3x3(
 			e00 * m.e00 + e01 * m.e10 + e02 * m.e20,
 			e00 * m.e01 + e01 * m.e11 + e02 * m.e21,
 			e00 * m.e02 + e01 * m.e12 + e02 * m.e22,
@@ -298,7 +299,7 @@ struct TMat3x3
 	 *
 	 * @return 연산을 수행한 행렬의 참조자를 반환합니다.
 	 */
-	TMat3x3<T>& operator+=(TMat3x3<T>&& m) noexcept
+	Mat3x3& operator+=(Mat3x3&& m) noexcept
 	{
 		e00 += m.e00; e01 += m.e01; e02 += m.e02;
 		e10 += m.e10; e11 += m.e11; e12 += m.e12;
@@ -315,7 +316,7 @@ struct TMat3x3
 	 *
 	 * @return 연산을 수행한 행렬의 참조자를 반환합니다.
 	 */
-	TMat3x3<T>& operator+=(const TMat3x3<T>& m) noexcept
+	Mat3x3& operator+=(const Mat3x3& m) noexcept
 	{
 		e00 += m.e00; e01 += m.e01; e02 += m.e02;
 		e10 += m.e10; e11 += m.e11; e12 += m.e12;
@@ -332,7 +333,7 @@ struct TMat3x3
 	 *
 	 * @return 연산을 수행한 행렬의 참조자를 반환합니다.
 	 */
-	TMat3x3<T>& operator-=(TMat3x3<T>&& m) noexcept
+	Mat3x3& operator-=(Mat3x3&& m) noexcept
 	{
 		e00 -= m.e00; e01 -= m.e01; e02 -= m.e02;
 		e10 -= m.e10; e11 -= m.e11; e12 -= m.e12;
@@ -349,7 +350,7 @@ struct TMat3x3
 	 *
 	 * @return 연산을 수행한 행렬의 참조자를 반환합니다.
 	 */
-	TMat3x3<T>& operator-=(const TMat3x3<T>& m) noexcept
+	Mat3x3& operator-=(const Mat3x3& m) noexcept
 	{
 		e00 -= m.e00; e01 -= m.e01; e02 -= m.e02;
 		e10 -= m.e10; e11 -= m.e11; e12 -= m.e12;
@@ -360,11 +361,87 @@ struct TMat3x3
 
 
 	/**
-	 * @brief 3x3 행렬 원소 배열의 포인터를 얻습니다.
+	 * @brief 두 3x3행렬이 동일한지 검사합니다.
 	 *
-	 * @return 3x3 행렬 원소 배열의 포인터를 반환합니다.
+	 * @param m 검사를 수행할 피연산자입니다.
+	 *
+	 * @return 두 행렬이 동일하다면 true, 그렇지 않으면 false를 반환합니다.
 	 */
-	const T* GetPtr() const { return &data[0]; }
+	bool operator==(Mat3x3&& m) const
+	{
+		return MathModule::Abs(e00 - m.e00) <= MathModule::Epsilon
+			&& MathModule::Abs(e01 - m.e01) <= MathModule::Epsilon
+			&& MathModule::Abs(e02 - m.e02) <= MathModule::Epsilon
+			&& MathModule::Abs(e10 - m.e10) <= MathModule::Epsilon
+			&& MathModule::Abs(e11 - m.e11) <= MathModule::Epsilon
+			&& MathModule::Abs(e12 - m.e12) <= MathModule::Epsilon
+			&& MathModule::Abs(e20 - m.e20) <= MathModule::Epsilon
+			&& MathModule::Abs(e21 - m.e21) <= MathModule::Epsilon
+			&& MathModule::Abs(e22 - m.e22) <= MathModule::Epsilon;
+	}
+
+
+	/**
+	 * @brief 두 3x3행렬이 동일한지 검사합니다.
+	 *
+	 * @param m 검사를 수행할 피연산자입니다.
+	 *
+	 * @return 두 행렬이 동일하다면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	bool operator==(const Mat3x3& m) const
+	{
+		return MathModule::Abs(e00 - m.e00) <= MathModule::Epsilon
+			&& MathModule::Abs(e01 - m.e01) <= MathModule::Epsilon
+			&& MathModule::Abs(e02 - m.e02) <= MathModule::Epsilon
+			&& MathModule::Abs(e10 - m.e10) <= MathModule::Epsilon
+			&& MathModule::Abs(e11 - m.e11) <= MathModule::Epsilon
+			&& MathModule::Abs(e12 - m.e12) <= MathModule::Epsilon
+			&& MathModule::Abs(e20 - m.e20) <= MathModule::Epsilon
+			&& MathModule::Abs(e21 - m.e21) <= MathModule::Epsilon
+			&& MathModule::Abs(e22 - m.e22) <= MathModule::Epsilon;
+	}
+
+
+	/**
+	 * @brief 두 3x3행렬이 동일하지 않은지 검사합니다.
+	 *
+	 * @param m 검사를 수행할 피연산자입니다.
+	 *
+	 * @return 두 행렬이 동일하지 않다면 true, 그렇다면 false를 반환합니다.
+	 */
+	bool operator!=(Mat3x3&& m) const
+	{
+		return MathModule::Abs(e00 - m.e00) > MathModule::Epsilon
+			|| MathModule::Abs(e01 - m.e01) > MathModule::Epsilon
+			|| MathModule::Abs(e02 - m.e02) > MathModule::Epsilon
+			|| MathModule::Abs(e10 - m.e10) > MathModule::Epsilon
+			|| MathModule::Abs(e11 - m.e11) > MathModule::Epsilon
+			|| MathModule::Abs(e12 - m.e12) > MathModule::Epsilon
+			|| MathModule::Abs(e20 - m.e20) > MathModule::Epsilon
+			|| MathModule::Abs(e21 - m.e21) > MathModule::Epsilon
+			|| MathModule::Abs(e22 - m.e22) > MathModule::Epsilon;
+	}
+
+
+	/**
+	 * @brief 두 3x3행렬이 동일하지 않은지 검사합니다.
+	 *
+	 * @param m 검사를 수행할 피연산자입니다.
+	 *
+	 * @return 두 행렬이 동일하지 않다면 true, 그렇다면 false를 반환합니다.
+	 */
+	bool operator!=(const Mat3x3& m) const
+	{
+		return MathModule::Abs(e00 - m.e00) > MathModule::Epsilon
+			|| MathModule::Abs(e01 - m.e01) > MathModule::Epsilon
+			|| MathModule::Abs(e02 - m.e02) > MathModule::Epsilon
+			|| MathModule::Abs(e10 - m.e10) > MathModule::Epsilon
+			|| MathModule::Abs(e11 - m.e11) > MathModule::Epsilon
+			|| MathModule::Abs(e12 - m.e12) > MathModule::Epsilon
+			|| MathModule::Abs(e20 - m.e20) > MathModule::Epsilon
+			|| MathModule::Abs(e21 - m.e21) > MathModule::Epsilon
+			|| MathModule::Abs(e22 - m.e22) > MathModule::Epsilon;
+	}
 
 
 	/**
@@ -372,7 +449,15 @@ struct TMat3x3
 	 *
 	 * @return 3x3 행렬 원소 배열의 포인터를 반환합니다.
 	 */
-	T* GetPtr() { return &data[0]; }
+	const float* GetPtr() const { return &data[0]; }
+
+
+	/**
+	 * @brief 3x3 행렬 원소 배열의 포인터를 얻습니다.
+	 *
+	 * @return 3x3 행렬 원소 배열의 포인터를 반환합니다.
+	 */
+	float* GetPtr() { return &data[0]; }
 
 
 	/**
@@ -380,7 +465,14 @@ struct TMat3x3
 	 *
 	 * @return 모든 원소가 0인 3x3 행렬을 반환합니다.
 	 */
-	static inline TMat3x3<T> Zero();
+	static inline Mat3x3 Zero()
+	{
+		return Mat3x3(
+			0.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 0.0f
+		);
+	}
 
 
 	/**
@@ -388,7 +480,14 @@ struct TMat3x3
 	 *
 	 * @return 3x3 행렬의 단위 행렬를 반환합니다.
 	 */
-	static inline TMat3x3<T> Identity();
+	static inline Mat3x3 Identity()
+	{
+		return Mat3x3(
+			1.0f, 0.0f, 0.0f,
+			0.0f, 1.0f, 0.0f,
+			0.0f, 0.0f, 1.0f
+		);
+	}
 
 
 	/**
@@ -398,7 +497,14 @@ struct TMat3x3
 	 *
 	 * @return 원소가 전치된 3x3 행렬을 반환합니다.
 	 */
-	static inline TMat3x3<T> Transpose(const TMat3x3<T>& m);
+	static inline Mat3x3 Transpose(const Mat3x3& m)
+	{
+		return Mat3x3(
+			m.e00, m.e10, m.e20,
+			m.e01, m.e11, m.e21,
+			m.e02, m.e12, m.e22
+		);
+	}
 
 
 	/**
@@ -408,7 +514,10 @@ struct TMat3x3
 	 *
 	 * @return 3x3 행렬의 행렬식 값을 반환합니다.
 	 */
-	static inline T Determinant(const TMat3x3<T>& m);
+	static inline float Determinant(const Mat3x3& m)
+	{
+		return m.e00 * (m.e11 * m.e22 - m.e21 * m.e12) - m.e10 * (m.e01 * m.e22 - m.e21 * m.e02) + m.e20 * (m.e01 * m.e12 - m.e11 * m.e02);
+	}
 
 
 	/**
@@ -418,7 +527,22 @@ struct TMat3x3
 	 *
 	 * @return 3x3 행렬의 역행렬을 반환합니다.
 	 */
-	static inline TMat3x3<T> Inverse(const TMat3x3<T>& m);
+	static inline Mat3x3 Inverse(const Mat3x3& m)
+	{
+		float oneOverDeterminant = 1.0f / Determinant(m);
+
+		return Mat3x3(
+			+(m.e11 * m.e22 - m.e21 * m.e12) * oneOverDeterminant,
+			-(m.e10 * m.e22 - m.e20 * m.e12) * oneOverDeterminant,
+			+(m.e10 * m.e21 - m.e20 * m.e11) * oneOverDeterminant,
+			-(m.e01 * m.e22 - m.e21 * m.e02) * oneOverDeterminant,
+			+(m.e00 * m.e22 - m.e20 * m.e02) * oneOverDeterminant,
+			-(m.e00 * m.e21 - m.e20 * m.e01) * oneOverDeterminant,
+			+(m.e01 * m.e12 - m.e11 * m.e02) * oneOverDeterminant,
+			-(m.e00 * m.e12 - m.e10 * m.e02) * oneOverDeterminant,
+			+(m.e00 * m.e11 - m.e10 * m.e01) * oneOverDeterminant
+		);
+	}
 
 
 	/**
@@ -428,25 +552,10 @@ struct TMat3x3
 	{
 		struct
 		{
-			T e00; T e01; T e02;
-			T e10; T e11; T e12;
-			T e20; T e21; T e22;
+			float e00; float e01; float e02;
+			float e10; float e11; float e12;
+			float e20; float e21; float e22;
 		};
-		T data[9];
+		float data[9];
 	};
 };
-
-
-/**
- * @brief int32_t 타입의 3x3 행렬입니다.
- */
-using Mat3x3i = TMat3x3<int32_t>;
-
-
-/**
- * @brief float 타입의 3x3 행렬입니다.
- */
-using Mat3x3f = TMat3x3<float>;
-
-
-#include "Mat3x3.inl"
