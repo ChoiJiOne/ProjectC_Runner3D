@@ -262,24 +262,50 @@ struct Vec2i
 
 
 	/**
-	 * @brief 두 2차원 벡터의 원소가 동일한지 확인합니다.
-	 * 
+	 * @brief 두 2차원 벡터의 대응하는 원소가 동일한지 확인합니다.
+	 *
 	 * @param v 연산을 수행할 피연산자입니다.
-	 * 
-	 * @return 두 벡터의 원소가 일치한다면 true, 그렇지 않으면 false를 반환합니다.
+	 *
+	 * @return 두 2차원 벡터의 대응하는 원소가 일치한다면 true, 그렇지 않으면 false를 반환합니다.
 	 */
-	bool operator==(const Vec2i& v) noexcept
+	bool operator==(Vec2i&& v) noexcept
 	{
 		return (x == v.x) && (y == v.y);
 	}
 
 
 	/**
-	 * @brief 두 2차원 벡터의 원소가 동일하지 않은지 확인합니다.
+	 * @brief 두 2차원 벡터의 대응하는 원소가 동일한지 확인합니다.
 	 *
 	 * @param v 연산을 수행할 피연산자입니다.
 	 *
-	 * @return 두 벡터의 원소가 일치하지 않는다면 true, 그렇다면 false를 반환합니다.
+	 * @return 두 2차원 벡터의 대응하는 원소가 일치한다면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	bool operator==(const Vec2i& v) noexcept
+	{
+		return (x == v.x) && (y == v.y);
+	}
+
+	
+	/**
+	 * @brief 두 2차원 벡터의 대응하는 원소가 동일하지 않은지 확인합니다.
+	 *
+	 * @param v 연산을 수행할 피연산자입니다.
+	 *
+	 * @return 두 2차원 벡터의 대응하는 원소가 일치하지 않는다면 true, 그렇다면 false를 반환합니다.
+	 */
+	bool operator!=(Vec2i&& v) noexcept
+	{
+		return (x != v.x) || (y != v.y);
+	}
+
+
+	/**
+	 * @brief 두 2차원 벡터의 대응하는 원소가 동일하지 않은지 확인합니다.
+	 *
+	 * @param v 연산을 수행할 피연산자입니다.
+	 *
+	 * @return 두 2차원 벡터의 대응하는 원소가 일치하지 않는다면 true, 그렇다면 false를 반환합니다.
 	 */
 	bool operator!=(const Vec2i& v) noexcept
 	{
@@ -355,7 +381,7 @@ struct Vec2i
 	 */
 	static inline float Length(const Vec2i& v)
 	{
-		int32_t lengthSq = LengthSq(v);
+		float lengthSq = static_cast<float>(LengthSq(v));
 		return MathModule::Sqrt(lengthSq);
 	}
 
@@ -671,10 +697,24 @@ struct Vec2f
 	 *
 	 * @return 두 2차원 벡터의 대응하는 원소가 일치한다면 true, 그렇지 않으면 false를 반환합니다.
 	 */
+	bool operator==(Vec2f&& v) noexcept
+	{
+		return MathModule::Abs(x - v.x) <= MathModule::Epsilon 
+			&& MathModule::Abs(y - v.y) <= MathModule::Epsilon;
+	}
+
+
+	/**
+	 * @brief 두 2차원 벡터의 대응하는 원소가 동일한지 확인합니다.
+	 *
+	 * @param v 연산을 수행할 피연산자입니다.
+	 *
+	 * @return 두 2차원 벡터의 대응하는 원소가 일치한다면 true, 그렇지 않으면 false를 반환합니다.
+	 */
 	bool operator==(const Vec2f& v) noexcept
 	{
-		return MathModule::Abs(x - v.x) < MathModule::Epsilon 
-			&& MathModule::Abs(y - v.y) < MathModule::Epsilon;
+		return MathModule::Abs(x - v.x) <= MathModule::Epsilon
+			&& MathModule::Abs(y - v.y) <= MathModule::Epsilon;
 	}
 
 
@@ -685,10 +725,24 @@ struct Vec2f
 	 * 
 	 * @return 두 2차원 벡터의 대응하는 원소가 일치하지 않는다면 true, 그렇다면 false를 반환합니다.
 	 */
+	bool operator!=(Vec2f&& v) noexcept
+	{
+		return MathModule::Abs(x - v.x) > MathModule::Epsilon
+			|| MathModule::Abs(y - v.y) > MathModule::Epsilon;
+	}
+
+
+	/**
+	 * @brief 두 2차원 벡터의 대응하는 원소가 동일하지 않은지 확인합니다.
+	 *
+	 * @param v 연산을 수행할 피연산자입니다.
+	 *
+	 * @return 두 2차원 벡터의 대응하는 원소가 일치하지 않는다면 true, 그렇다면 false를 반환합니다.
+	 */
 	bool operator!=(const Vec2f& v) noexcept
 	{
-		return MathModule::Abs(x - v.x) >= MathModule::Epsilon
-			|| MathModule::Abs(y - v.y) >= MathModule::Epsilon;
+		return MathModule::Abs(x - v.x) > MathModule::Epsilon
+			|| MathModule::Abs(y - v.y) > MathModule::Epsilon;
 	}
 
 
