@@ -15,7 +15,7 @@ void Clip::SetTrackID(uint32_t index, uint32_t id)
 
 float Clip::Sample(Pose& outPose, float time)
 {
-	if (GetDuration() == 0.0f) 
+	if (GetDuration() == 0.0f)
 	{
 		return 0.0f;
 	}
@@ -40,7 +40,7 @@ TransformTrack& Clip::operator[](uint32_t index)
 {
 	uint32_t trackSize = GetTrackSize();
 
-	for (uint32_t i = 0; i < trackSize; ++i) 
+	for (uint32_t i = 0; i < trackSize; ++i)
 	{
 		if (tracks_[i].GetBoneID() == index)
 		{
@@ -64,12 +64,12 @@ void Clip::RecomputeDuration()
 	uint32_t trackSize = GetTrackSize();
 	for (uint32_t index = 0; index < trackSize; ++index)
 	{
-		if (tracks_[index].IsValid()) 
+		if (tracks_[index].IsValid())
 		{
 			float trackStartTime = tracks_[index].GetStartTime();
 			float trackEndTime = tracks_[index].GetEndTime();
 
-			if (trackStartTime < startTime_ || !startSet) 
+			if (trackStartTime < startTime_ || !startSet)
 			{
 				startTime_ = trackStartTime;
 				startSet = true;
@@ -85,10 +85,10 @@ void Clip::RecomputeDuration()
 
 float Clip::AdjustTimeToFitRange(float time)
 {
-	if (bIsLooping_) 
+	if (bIsLooping_)
 	{
 		float duration = endTime_ - startTime_;
-		if (duration <= 0.0f) 
+		if (duration <= 0.0f)
 		{
 			return 0.0f;
 		}
@@ -102,7 +102,7 @@ float Clip::AdjustTimeToFitRange(float time)
 		time += startTime_;
 	}
 	else {
-		if (time < startTime_) 
+		if (time < startTime_)
 		{
 			time = startTime_;
 		}
