@@ -221,7 +221,7 @@ public:
 	 * @param name 유니폼 변수의 이름입니다.
 	 * @param value 유니폼 변수의 설정 값입니다.
 	 */
-	void SetUniform(const std::string& name, const Mat2x2f& value);
+	void SetUniform(const std::string& name, const Mat2x2& value);
 
 
 	/**
@@ -230,7 +230,7 @@ public:
 	 * @param name 유니폼 변수의 이름입니다.
 	 * @param value 유니폼 변수의 설정 값입니다.
 	 */
-	void SetUniform(const std::string& name, const Mat3x3f& value);
+	void SetUniform(const std::string& name, const Mat3x3& value);
 
 
 	/**
@@ -239,7 +239,7 @@ public:
 	 * @param name 유니폼 변수의 이름입니다.
 	 * @param value 유니폼 변수의 설정 값입니다.
 	 */
-	void SetUniform(const std::string& name, const Mat4x4f& value);
+	void SetUniform(const std::string& name, const Mat4x4& value);
 	
 
 protected:

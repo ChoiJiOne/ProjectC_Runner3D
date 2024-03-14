@@ -54,7 +54,7 @@ public:
 	 *
 	 * @note 2D 점들의 개수는 MAX_VERTEX_SIZE(10000)의 크기를 넘을 수 없습니다.
 	 */
-	void DrawPoints2D(const Mat4x4f& ortho, const std::vector<Vec2f>& positions, const Vec4f& color, float pointSize = 1.0f);
+	void DrawPoints2D(const Mat4x4& ortho, const std::vector<Vec2f>& positions, const Vec4f& color, float pointSize = 1.0f);
 
 
 	/**
@@ -66,7 +66,7 @@ public:
 	 *
 	 * @note 2D 점들의 개수는 MAX_VERTEX_SIZE(10000)의 크기를 넘을 수 없습니다.
 	 */
-	void DrawConnectPoints2D(const Mat4x4f& ortho, const std::vector<Vec2f>& positions, const Vec4f& color);
+	void DrawConnectPoints2D(const Mat4x4& ortho, const std::vector<Vec2f>& positions, const Vec4f& color);
 
 
 	/**
@@ -77,7 +77,7 @@ public:
 	 * @param toPosition 선의 끝점입니다.
 	 * @param color 선의 색상입니다.
 	 */
-	void DrawLine2D(const Mat4x4f& ortho, const Vec2f& fromPosition, const Vec2f& toPosition, const Vec4f& color);
+	void DrawLine2D(const Mat4x4& ortho, const Vec2f& fromPosition, const Vec2f& toPosition, const Vec4f& color);
 
 
 	/**
@@ -90,7 +90,7 @@ public:
 	 * @param toColor 선의 끝점 색상입니다.
 	 */
 	void DrawLine2D(
-		const Mat4x4f& ortho,
+		const Mat4x4& ortho,
 		const Vec2f& fromPosition, const Vec4f& fromColor,
 		const Vec2f& toPosition, const Vec4f& toColor
 	);
@@ -105,7 +105,7 @@ public:
 	 * @param toPosition 삼각형 끝 점입니다.
 	 * @param color 삼각형의 색상입니다.
 	 */
-	void DrawTriangle2D(const Mat4x4f& ortho, const Vec2f& fromPosition, const Vec2f& byPosition, const Vec2f& toPosition, const Vec4f& color);
+	void DrawTriangle2D(const Mat4x4& ortho, const Vec2f& fromPosition, const Vec2f& byPosition, const Vec2f& toPosition, const Vec4f& color);
 
 
 	/**
@@ -120,7 +120,7 @@ public:
 	 * @param toColor 삼각형 끝 점의 색상입니다.
 	 */
 	void DrawTriangle2D(
-		const Mat4x4f& ortho,
+		const Mat4x4& ortho,
 		const Vec2f& fromPosition, const Vec4f& fromColor,
 		const Vec2f& byPosition, const Vec4f& byColor,
 		const Vec2f& toPosition, const Vec4f& toColor
@@ -136,7 +136,7 @@ public:
 	 * @param toPosition 삼각형 끝 점입니다.
 	 * @param color 삼각형의 색상입니다.
 	 */
-	void DrawWireframeTriangle2D(const Mat4x4f& ortho, const Vec2f& fromPosition, const Vec2f& byPosition, const Vec2f& toPosition, const Vec4f& color);
+	void DrawWireframeTriangle2D(const Mat4x4& ortho, const Vec2f& fromPosition, const Vec2f& byPosition, const Vec2f& toPosition, const Vec4f& color);
 
 
 	/**
@@ -151,7 +151,7 @@ public:
 	 * @param toColor 삼각형 끝 점의 색상입니다.
 	 */
 	void DrawWireframeTriangle2D(
-		const Mat4x4f& ortho, 
+		const Mat4x4& ortho, 
 		const Vec2f& fromPosition, const Vec4f& fromColor,
 		const Vec2f& byPosition, const Vec4f& byColor,
 		const Vec2f& toPosition, const Vec4f& toColor
@@ -168,7 +168,7 @@ public:
 	 * @param rotate 직사각형의 라디안 회전 각도입니다.
 	 * @param color 직사각형의 색상입니다.
 	 */
-	void DrawRectangle2D(const Mat4x4f& ortho, const Vec2f& center, float width, float height, float rotate, const Vec4f& color);
+	void DrawRectangle2D(const Mat4x4& ortho, const Vec2f& center, float width, float height, float rotate, const Vec4f& color);
 
 
 	/**
@@ -181,7 +181,7 @@ public:
 	 * @param rotate 직사각형의 라디안 회전 각도입니다.
 	 * @param color 직사각형의 색상입니다.
 	 */
-	void DrawWireframeRectangle2D(const Mat4x4f& ortho, const Vec2f& center, float width, float height, float rotate, const Vec4f& color);
+	void DrawWireframeRectangle2D(const Mat4x4& ortho, const Vec2f& center, float width, float height, float rotate, const Vec4f& color);
 
 
 	/**
@@ -195,7 +195,7 @@ public:
 	 * @param rotate 직사각형의 라디안 회전 각도입니다.
 	 * @param color 직사각형의 색상입니다.
 	 */
-	void DrawRoundRectangle2D(const Mat4x4f& ortho, const Vec2f& center, float width, float height, float side, float rotate, const Vec4f& color);
+	void DrawRoundRectangle2D(const Mat4x4& ortho, const Vec2f& center, float width, float height, float side, float rotate, const Vec4f& color);
 
 
 	/**
@@ -209,7 +209,7 @@ public:
 	 * @param rotate 직사각형의 라디안 회전 각도입니다.
 	 * @param color 직사각형의 색상입니다.
 	 */
-	void DrawWireframeRoundRectangle2D(const Mat4x4f& ortho, const Vec2f& center, float width, float height, float side, float rotate, const Vec4f& color);
+	void DrawWireframeRoundRectangle2D(const Mat4x4& ortho, const Vec2f& center, float width, float height, float side, float rotate, const Vec4f& color);
 
 
 	/**
@@ -221,7 +221,7 @@ public:
 	 * @param color 원의 색상입니다.
 	 * @param sliceCount 원의 둘레 절단 횟수입니다. 기본 값은 300입니다.
 	 */
-	void DrawCircle2D(const Mat4x4f& ortho, const Vec2f& center, float radius, const Vec4f& color, int32_t sliceCount = 300);
+	void DrawCircle2D(const Mat4x4& ortho, const Vec2f& center, float radius, const Vec4f& color, int32_t sliceCount = 300);
 
 
 	/**
@@ -233,7 +233,7 @@ public:
 	 * @param color 원의 색상입니다.
 	 * @param sliceCount 원 둘레의 절단 횟수입니다. 기본 값은 300입니다.
 	 */
-	void DrawWireframeCircle2D(const Mat4x4f& ortho, const Vec2f& center, float radius, const Vec4f& color, int32_t sliceCount = 300);
+	void DrawWireframeCircle2D(const Mat4x4& ortho, const Vec2f& center, float radius, const Vec4f& color, int32_t sliceCount = 300);
 
 
 	/**
@@ -246,7 +246,7 @@ public:
 	 * @param color 타원의 색상입니다.
 	 * @param sliceCount 타원 둘레의 절단 횟수입니다. 기본 값은 300입니다.
 	 */
-	void DrawEllipse2D(const Mat4x4f& ortho, const Vec2f& center, float xAxis, float yAxis, const Vec4f& color, int32_t sliceCount = 300);
+	void DrawEllipse2D(const Mat4x4& ortho, const Vec2f& center, float xAxis, float yAxis, const Vec4f& color, int32_t sliceCount = 300);
 
 
 	/**
@@ -259,7 +259,7 @@ public:
 	 * @param color 타원의 색상입니다.
 	 * @param sliceCount 타원 둘레의 절단 횟수입니다. 기본 값은 300입니다.
 	 */
-	void DrawWireframeEllipse2D(const Mat4x4f& ortho, const Vec2f& center, float xAxis, float yAxis, const Vec4f& color, int32_t sliceCount = 300);
+	void DrawWireframeEllipse2D(const Mat4x4& ortho, const Vec2f& center, float xAxis, float yAxis, const Vec4f& color, int32_t sliceCount = 300);
 
 
 private:
@@ -285,7 +285,7 @@ private:
 	 * @param drawType 그리기 타입입니다.
 	 * @param vertexCount 정점 수입니다.
 	 */
-	void DrawGeometry2D(const Mat4x4f& transform, const Mat4x4f& ortho, const EDrawType& drawType, uint32_t vertexCount);
+	void DrawGeometry2D(const Mat4x4& transform, const Mat4x4& ortho, const EDrawType& drawType, uint32_t vertexCount);
 
 
 private:

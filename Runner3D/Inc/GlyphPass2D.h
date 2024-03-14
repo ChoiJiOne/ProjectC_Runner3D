@@ -66,7 +66,7 @@ public:
 	 * @param alignment 텍스트의 좌표 기준입니다.
 	 * @param color 텍스트의 RGBA 색상입니다.
 	 */
-	void DrawText2D(const Mat4x4f& ortho, const TTFont* font, const std::wstring& text, const Vec2f& position, const EAlignment& alignment, const Vec4f& color);
+	void DrawText2D(const Mat4x4& ortho, const TTFont* font, const std::wstring& text, const Vec2f& position, const EAlignment& alignment, const Vec4f& color);
 
 
 	/**
@@ -79,7 +79,7 @@ public:
 	 * @param alignment 텍스트의 좌표 기준입니다.
 	 * @param colors 각 글자의 색상 목록입니다.
 	 */
-	void DrawText2D(const Mat4x4f& ortho, const TTFont* font, const std::wstring& text, const Vec2f& position, const EAlignment& alignment, const std::vector<Vec4f>& colors);
+	void DrawText2D(const Mat4x4& ortho, const TTFont* font, const std::wstring& text, const Vec2f& position, const EAlignment& alignment, const std::vector<Vec4f>& colors);
 
 	
 private:

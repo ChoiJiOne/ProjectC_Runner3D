@@ -43,7 +43,7 @@ void GlyphPass2D::Release()
 	Shader::Release();
 }
 
-void GlyphPass2D::DrawText2D(const Mat4x4f& ortho, const TTFont* font, const std::wstring& text, const Vec2f& position, const EAlignment& alignment, const Vec4f& color)
+void GlyphPass2D::DrawText2D(const Mat4x4& ortho, const TTFont* font, const std::wstring& text, const Vec2f& position, const EAlignment& alignment, const Vec4f& color)
 {
 	CHECK(text.length() <= MAX_STRING_LEN);
 	CHECK(font != nullptr);
@@ -89,7 +89,7 @@ void GlyphPass2D::DrawText2D(const Mat4x4f& ortho, const TTFont* font, const std
 	Shader::Unbind();
 }
 
-void GlyphPass2D::DrawText2D(const Mat4x4f& ortho, const TTFont* font, const std::wstring& text, const Vec2f& position, const EAlignment& alignment, const std::vector<Vec4f>& colors)
+void GlyphPass2D::DrawText2D(const Mat4x4& ortho, const TTFont* font, const std::wstring& text, const Vec2f& position, const EAlignment& alignment, const std::vector<Vec4f>& colors)
 {
 	CHECK(text.length() <= MAX_STRING_LEN);
 	CHECK(font != nullptr);

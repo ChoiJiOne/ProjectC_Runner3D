@@ -55,7 +55,7 @@ public:
 	 * @param rotate 텍스처의 라디안 회전 각도입니다.
 	 * @param transparent 텍스처의 투명도입니다. 기본 값은 1.0f(불투명)입니다.
 	 */
-	void DrawSprite2D(const Mat4x4f& ortho, const Texture2D* texture, const Vec2f& center, float width, float height, float rotate, float transparent = 1.0f);
+	void DrawSprite2D(const Mat4x4& ortho, const Texture2D* texture, const Vec2f& center, float width, float height, float rotate, float transparent = 1.0f);
 
 
 	/**
@@ -118,7 +118,7 @@ public:
 	 * @param rate 분할 비율입니다. 값의 범위는 0.0f ~ 1.0f 입니다.
 	 * @param transparent 텍스처의 투명도입니다. 기본 값은 1.0f(불투명)입니다.
 	 */
-	void DrawHorizonScrollSprite2D(const Mat4x4f& ortho, const Texture2D* texture, const Vec2f& center, float width, float height, float rotate, float rate, float transparent = 1.0f);
+	void DrawHorizonScrollSprite2D(const Mat4x4& ortho, const Texture2D* texture, const Vec2f& center, float width, float height, float rotate, float rate, float transparent = 1.0f);
 
 
 	/**
@@ -170,7 +170,7 @@ public:
 	 * @param rate 분할 비율입니다. 값의 범위는 0.0f ~ 1.0f 입니다.
 	 * @param transparent 텍스처의 투명도입니다. 기본 값은 1.0f(불투명)입니다.
 	 */
-	void DrawVerticalScrollSprite2D(const Mat4x4f& ortho, const Texture2D* texture, const Vec2f& center, float width, float height, float rotate, float rate, float transparent = 1.0f);
+	void DrawVerticalScrollSprite2D(const Mat4x4& ortho, const Texture2D* texture, const Vec2f& center, float width, float height, float rotate, float rate, float transparent = 1.0f);
 
 
 	/**
@@ -187,7 +187,7 @@ public:
 	 *
 	 * @see https://github.com/gdquest-demos/godot-shaders/blob/master/godot/Shaders/outline2D_outer.shader
 	 */
-	void DrawOutlineSprite2D(const Mat4x4f& ortho, const Texture2D* texture, const Vec2f& center, float width, float height, float rotate, const Vec4f& outline, float transparent = 1.0f);
+	void DrawOutlineSprite2D(const Mat4x4& ortho, const Texture2D* texture, const Vec2f& center, float width, float height, float rotate, const Vec4f& outline, float transparent = 1.0f);
 
 
 private:
@@ -213,7 +213,7 @@ private:
 	 * @param transparent 텍스처의 투명도입니다.
 	 * @param outline 텍스처의 외곽선 색상입니다. 기본 값은 흰색입니다.
 	 */
-	void DrawSprite2D(const Mat4x4f& transform, const Mat4x4f& ortho, const EDrawType& drawType, uint32_t vertexCount, const Texture2D* texture, bool bIsActiveOutline, float transparent, const Vec4f& outline = Vec4f(1.0f, 1.0f, 1.0f, 1.0f));
+	void DrawSprite2D(const Mat4x4& transform, const Mat4x4& ortho, const EDrawType& drawType, uint32_t vertexCount, const Texture2D* texture, bool bIsActiveOutline, float transparent, const Vec4f& outline = Vec4f(1.0f, 1.0f, 1.0f, 1.0f));
 
 
 private:

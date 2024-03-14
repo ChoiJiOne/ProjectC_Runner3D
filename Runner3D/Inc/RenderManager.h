@@ -528,7 +528,7 @@ private:
 	/**
 	 * @brief 스크린 투영 행렬입니다.
 	 */
-	Mat4x4f screenOrtho_;
+	Mat4x4 screenOrtho_;
 
 
 	/**

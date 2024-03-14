@@ -217,19 +217,19 @@ void Shader::SetUniform(const std::string& name, int32_t x, int32_t y, int32_t z
 	GL_FAILED(glUniform4i(location, x, y, z, w));
 }
 
-void Shader::SetUniform(const std::string& name, const Mat2x2f& value)
+void Shader::SetUniform(const std::string& name, const Mat2x2& value)
 {
 	int32_t location = GetUniformLocation(name);
 	GL_FAILED(glUniformMatrix2fv(location, 1, GL_FALSE, value.GetPtr()));
 }
 
-void Shader::SetUniform(const std::string& name, const Mat3x3f& value)
+void Shader::SetUniform(const std::string& name, const Mat3x3& value)
 {
 	int32_t location = GetUniformLocation(name);
 	GL_FAILED(glUniformMatrix3fv(location, 1, GL_FALSE, value.GetPtr()));
 }
 
-void Shader::SetUniform(const std::string& name, const Mat4x4f& value)
+void Shader::SetUniform(const std::string& name, const Mat4x4& value)
 {
 	int32_t location = GetUniformLocation(name);
 	GL_FAILED(glUniformMatrix4fv(location, 1, GL_FALSE, value.GetPtr()));

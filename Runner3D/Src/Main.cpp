@@ -26,6 +26,8 @@ GameTimer timer;
 
 int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR pCmdLine, _In_ int32_t nCmdShow)
 {
+	//Mat2x2f m;
+
 	CHECK(CrashModule::RegisterExceptionFilter());
 	
 	SDLManager::Get().Startup();
@@ -78,9 +80,9 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 		{
 			texture->Active(0);
 
-			shader->SetUniform("world", Mat4x4f::Scale(0.5f, 0.5f, 0.5f));
-			shader->SetUniform("view", Mat4x4f::LookAt(Vec3f(3.0f, 3.0f, 3.0f), Vec3f(0.0f, 0.0f, 0.0f), Vec3f(0.0f, 1.0f, 0.0f)));
-			shader->SetUniform("projection", Mat4x4f::Perspective(MathModule::ToRadian(45.0f), 1.25f, 0.1f, 100.0f));
+			shader->SetUniform("world", Mat4x4::Scale(0.5f, 0.5f, 0.5f));
+			shader->SetUniform("view", Mat4x4::LookAt(Vec3f(3.0f, 3.0f, 3.0f), Vec3f(0.0f, 0.0f, 0.0f), Vec3f(0.0f, 1.0f, 0.0f)));
+			shader->SetUniform("projection", Mat4x4::Perspective(MathModule::ToRadian(45.0f), 1.25f, 0.1f, 100.0f));
 
 			mesh->Bind();
 			glDrawElements(GL_TRIANGLES, mesh->GetIndexCount(), GL_UNSIGNED_INT, 0);

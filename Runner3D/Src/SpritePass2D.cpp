@@ -40,7 +40,7 @@ void SpritePass2D::Release()
 	Shader::Release();
 }
 
-void SpritePass2D::DrawSprite2D(const Mat4x4f& ortho, const Texture2D* texture, const Vec2f& center, float width, float height, float rotate, float transparent)
+void SpritePass2D::DrawSprite2D(const Mat4x4& ortho, const Texture2D* texture, const Vec2f& center, float width, float height, float rotate, float transparent)
 {
 	uint32_t vertexCount = 0;
 
@@ -49,9 +49,9 @@ void SpritePass2D::DrawSprite2D(const Mat4x4f& ortho, const Texture2D* texture, 
 	vertices_[vertexCount++] = VertexPositionUv2D(Vec2f(center.x + width / 2.0f + 0.5f, center.y - height / 2.0f + 0.5f), Vec2f(1.0f, 1.0f));
 	vertices_[vertexCount++] = VertexPositionUv2D(Vec2f(center.x - width / 2.0f + 0.5f, center.y - height / 2.0f + 0.5f), Vec2f(0.0f, 1.0f));
 
-	Mat4x4f transform = Mat4x4f::Translation(Vec3f(-center.x, -center.y, 0.0f))
-		* Mat4x4f::RotateZ(rotate)
-		* Mat4x4f::Translation(Vec3f(+center.x, +center.y, 0.0f));
+	Mat4x4 transform = Mat4x4::Translation(Vec3f(-center.x, -center.y, 0.0f))
+		* Mat4x4::RotateZ(rotate)
+		* Mat4x4::Translation(Vec3f(+center.x, +center.y, 0.0f));
 
 	DrawSprite2D(transform, ortho, EDrawType::TriangleFan, vertexCount, texture, false, transparent);
 }
@@ -65,7 +65,7 @@ void SpritePass2D::DrawSprite2D(const Texture2D* texture, float transparent)
 	vertices_[vertexCount++] = VertexPositionUv2D(Vec2f(+1.0f, +1.0f), Vec2f(1.0f, 1.0f));
 	vertices_[vertexCount++] = VertexPositionUv2D(Vec2f(-1.0f, +1.0f), Vec2f(0.0f, 1.0f));
 
-	DrawSprite2D(Mat4x4f::Identity(), Mat4x4f::Identity(), EDrawType::TriangleFan, vertexCount, texture, false, transparent);
+	DrawSprite2D(Mat4x4::Identity(), Mat4x4::Identity(), EDrawType::TriangleFan, vertexCount, texture, false, transparent);
 }
 
 void SpritePass2D::DrawHorizonScrollSprite2D(const Texture2D* texture, float rate, float transparent)
@@ -90,10 +90,10 @@ void SpritePass2D::DrawHorizonScrollSprite2D(const Texture2D* texture, float rat
 	vertices_[vertexCount++] = VertexPositionUv2D(Vec2f(+1.0f, +1.0f), Vec2f(rate, 1.0f));
 	vertices_[vertexCount++] = VertexPositionUv2D(Vec2f(   +x, +1.0f), Vec2f(0.0f, 1.0f));
 
-	DrawSprite2D(Mat4x4f::Identity(), Mat4x4f::Identity(), EDrawType::Triangles, vertexCount, texture, false, transparent);
+	DrawSprite2D(Mat4x4::Identity(), Mat4x4::Identity(), EDrawType::Triangles, vertexCount, texture, false, transparent);
 }
 
-void SpritePass2D::DrawHorizonScrollSprite2D(const Mat4x4f& ortho, const Texture2D* texture, const Vec2f& center, float width, float height, float rotate, float rate, float transparent)
+void SpritePass2D::DrawHorizonScrollSprite2D(const Mat4x4& ortho, const Texture2D* texture, const Vec2f& center, float width, float height, float rotate, float rate, float transparent)
 {
 	rate = MathModule::Clamp<float>(rate, 0.0f, 1.0f);
 
@@ -121,9 +121,9 @@ void SpritePass2D::DrawHorizonScrollSprite2D(const Mat4x4f& ortho, const Texture
 	vertices_[vertexCount++] = VertexPositionUv2D(Vec2f(x1 + 0.5f, y0 + 0.5f), Vec2f(rate, 1.0f));
 	vertices_[vertexCount++] = VertexPositionUv2D(Vec2f(+x + 0.5f, y0 + 0.5f), Vec2f(0.0f, 1.0f));
 
-	Mat4x4f transform = Mat4x4f::Translation(Vec3f(-center.x, -center.y, 0.0f))
-		* Mat4x4f::RotateZ(rotate)
-		* Mat4x4f::Translation(Vec3f(+center.x, +center.y, 0.0f));
+	Mat4x4 transform = Mat4x4::Translation(Vec3f(-center.x, -center.y, 0.0f))
+		* Mat4x4::RotateZ(rotate)
+		* Mat4x4::Translation(Vec3f(+center.x, +center.y, 0.0f));
 
 	DrawSprite2D(transform, ortho, EDrawType::Triangles, vertexCount, texture, false, transparent);
 }
@@ -150,10 +150,10 @@ void SpritePass2D::DrawVerticalScrollSprite2D(const Texture2D* texture, float ra
 	vertices_[vertexCount++] = VertexPositionUv2D(Vec2f(+1.0f, +1.0f), Vec2f(1.0f, rate));
 	vertices_[vertexCount++] = VertexPositionUv2D(Vec2f(-1.0f, +1.0f), Vec2f(0.0f, rate));
 
-	DrawSprite2D(Mat4x4f::Identity(), Mat4x4f::Identity(), EDrawType::Triangles, vertexCount, texture, false, transparent);
+	DrawSprite2D(Mat4x4::Identity(), Mat4x4::Identity(), EDrawType::Triangles, vertexCount, texture, false, transparent);
 }
 
-void SpritePass2D::DrawVerticalScrollSprite2D(const Mat4x4f& ortho, const Texture2D* texture, const Vec2f& center, float width, float height, float rotate, float rate, float transparent)
+void SpritePass2D::DrawVerticalScrollSprite2D(const Mat4x4& ortho, const Texture2D* texture, const Vec2f& center, float width, float height, float rotate, float rate, float transparent)
 {
 	rate = MathModule::Clamp<float>(rate, 0.0f, 1.0f);
 
@@ -181,14 +181,14 @@ void SpritePass2D::DrawVerticalScrollSprite2D(const Mat4x4f& ortho, const Textur
 	vertices_[vertexCount++] = VertexPositionUv2D(Vec2f(x1, y0), Vec2f(1.0f, rate));
 	vertices_[vertexCount++] = VertexPositionUv2D(Vec2f(x0, y0), Vec2f(0.0f, rate));
 
-	Mat4x4f transform = Mat4x4f::Translation(Vec3f(-center.x, -center.y, 0.0f))
-		* Mat4x4f::RotateZ(rotate)
-		* Mat4x4f::Translation(Vec3f(+center.x, +center.y, 0.0f));
+	Mat4x4 transform = Mat4x4::Translation(Vec3f(-center.x, -center.y, 0.0f))
+		* Mat4x4::RotateZ(rotate)
+		* Mat4x4::Translation(Vec3f(+center.x, +center.y, 0.0f));
 
 	DrawSprite2D(transform, ortho, EDrawType::Triangles, vertexCount, texture, false, transparent);
 }
 
-void SpritePass2D::DrawOutlineSprite2D(const Mat4x4f& ortho, const Texture2D* texture, const Vec2f& center, float width, float height, float rotate, const Vec4f& outline, float transparent)
+void SpritePass2D::DrawOutlineSprite2D(const Mat4x4& ortho, const Texture2D* texture, const Vec2f& center, float width, float height, float rotate, const Vec4f& outline, float transparent)
 {
 	uint32_t vertexCount = 0;
 	vertices_[vertexCount++] = VertexPositionUv2D(Vec2f(center.x - width / 2.0f + 0.5f, center.y + height / 2.0f + 0.5f), Vec2f(0.0f, 0.0f));
@@ -196,14 +196,14 @@ void SpritePass2D::DrawOutlineSprite2D(const Mat4x4f& ortho, const Texture2D* te
 	vertices_[vertexCount++] = VertexPositionUv2D(Vec2f(center.x + width / 2.0f + 0.5f, center.y - height / 2.0f + 0.5f), Vec2f(1.0f, 1.0f));
 	vertices_[vertexCount++] = VertexPositionUv2D(Vec2f(center.x - width / 2.0f + 0.5f, center.y - height / 2.0f + 0.5f), Vec2f(0.0f, 1.0f));
 
-	Mat4x4f transform = Mat4x4f::Translation(Vec3f(-center.x, -center.y, 0.0f))
-		* Mat4x4f::RotateZ(rotate)
-		* Mat4x4f::Translation(Vec3f(+center.x, +center.y, 0.0f));
+	Mat4x4 transform = Mat4x4::Translation(Vec3f(-center.x, -center.y, 0.0f))
+		* Mat4x4::RotateZ(rotate)
+		* Mat4x4::Translation(Vec3f(+center.x, +center.y, 0.0f));
 
 	DrawSprite2D(transform, ortho, EDrawType::TriangleFan, vertexCount, texture, true, transparent, outline);
 }
 
-void SpritePass2D::DrawSprite2D(const Mat4x4f& transform, const Mat4x4f& ortho, const EDrawType& drawType, uint32_t vertexCount, const Texture2D* texture, bool bIsActiveOutline, float transparent, const Vec4f& outline)
+void SpritePass2D::DrawSprite2D(const Mat4x4& transform, const Mat4x4& ortho, const EDrawType& drawType, uint32_t vertexCount, const Texture2D* texture, bool bIsActiveOutline, float transparent, const Vec4f& outline)
 {
 	CHECK(drawType != EDrawType::None);
 
