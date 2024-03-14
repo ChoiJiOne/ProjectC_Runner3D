@@ -2,6 +2,7 @@
 
 #include "Assertion.h"
 #include "GLTFLoader.h"
+#include "TransformTrack.h"
 
 cgltf_data* GLTFLoader::LoadFromFile(const std::string& path)
 {
@@ -206,6 +207,26 @@ std::vector<GLTFLoader::SkinnedMeshData> GLTFLoader::LoadSkinnedMeshData(cgltf_d
 	return meshes;
 }
 
+Pose GLTFLoader::LoadRestPose(cgltf_data* data)
+{
+	cgltf_node* begin = data->nodes;
+	cgltf_node* end = data->nodes + data->nodes_count;
+
+	Pose result(static_cast<uint32_t>(data->nodes_count));
+	uint32_t currentIndex = 0;
+
+	for (cgltf_node* node = begin; node != end; ++node, ++currentIndex)
+	{
+		Transform transform = GetLocalTransform(node);
+		result.SetLocalTransform(currentIndex, transform);
+
+		int32_t parent = GetNodeIndex(node->parent, data->nodes, data->nodes_count);
+		result.SetParent(currentIndex, parent);
+	}
+
+	return result;
+}
+
 void GLTFLoader::Free(cgltf_data* data)
 {
 	if (data)
@@ -235,4 +256,38 @@ int32_t GLTFLoader::GetNodeIndex(cgltf_node* target, cgltf_node* nodes, uint32_t
 	}
 
 	return -1;
+}
+
+Transform GLTFLoader::GetLocalTransform(cgltf_node* node)
+{
+	Transform result;
+
+	if (node->has_matrix)
+	{
+		Mat4x4 m(
+			node->matrix[0],  node->matrix[1],  node->matrix[2],  node->matrix[3],
+			node->matrix[4],  node->matrix[5],  node->matrix[6],  node->matrix[7],
+			node->matrix[8],  node->matrix[9],  node->matrix[10], node->matrix[11],
+			node->matrix[12], node->matrix[13], node->matrix[14], node->matrix[15]
+		);
+
+		result = Transform::ToTransform(m);
+	}
+
+	if (node->has_translation)
+	{
+		result.position = Vec3f(node->translation[0], node->translation[1], node->translation[2]);
+	}
+
+	if (node->has_rotation)
+	{
+		result.rotate = Quat(node->rotation[0], node->rotation[1], node->rotation[2], node->rotation[3]);
+	}
+
+	if (node->has_scale)
+	{
+		result.scale = Vec3f(node->scale[0], node->scale[1], node->scale[2]);
+	}
+
+	return result;
 }

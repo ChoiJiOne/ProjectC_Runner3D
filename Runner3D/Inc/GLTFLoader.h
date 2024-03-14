@@ -5,6 +5,9 @@
 
 #include <cgltf.h>
 
+#include "Transform.h"
+
+#include "Pose.h"
 #include "Vertex3D.h"
 
 
@@ -76,6 +79,16 @@ public:
 
 
 	/**
+	 * @brief GLTF 데이터로부터 리셋 포즈 데이터를 로딩합니다.
+	 * 
+	 * @param data 리셋 포즈 데이터를 로딩할 GLTF 데이터입니다.
+	 * 
+	 * @return 리셋 포즈 데이터를 반환합니다.
+	 */
+	static Pose LoadRestPose(cgltf_data* data);
+
+
+	/**
 	 * @brief GLTF 데이터 할당을 해제합니다.
 	 * 
 	 * @param data 할당을 해제할 GLTF 데이터입니다.
@@ -92,4 +105,14 @@ private:
 	 * @param numNodes 전체 노드의 수입니다.
 	 */
 	static int32_t GetNodeIndex(cgltf_node* target, cgltf_node* nodes, uint32_t numNodes);
+
+
+	/**
+	 * @brief 노드의 로컬 트랜스폼을 얻습니다.
+	 * 
+	 * @param node 트랜스폼 값을 얻을 노드입니다.
+	 * 
+	 * @return 노드의 로컬 트랜스폼을 반환합니다.
+	 */
+	static Transform GetLocalTransform(cgltf_node* node);
 };
