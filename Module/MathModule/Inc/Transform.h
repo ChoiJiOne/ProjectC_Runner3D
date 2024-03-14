@@ -302,6 +302,3 @@ struct Transform
 	 */
 	Vec3f scale;
 };
-
-
-#include "Transform.inl"
