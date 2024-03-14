@@ -2,23 +2,20 @@
 
 #include <cstdint>
 
+#include "MathModule.h"
+
 
 /**
- * @brief 템플릿 기반의 2차원 벡터입니다.
+ * @brief 원소의 데이터 타입이 정수인 2차원 벡터입니다.
  */
-template <typename T>
-struct TVec2
+struct Vec2i
 {
 	/**
 	 * @brief 2차원 벡터의 기본 생성자입니다.
 	 *
 	 * @note 모든 원소의 값을 0으로 초기화합니다.
 	 */
-	TVec2() noexcept
-	{
-		x = static_cast<T>(0);
-		y = static_cast<T>(0);
-	}
+	Vec2i() noexcept : x(0), y(0) {}
 
 
 	/**
@@ -27,12 +24,8 @@ struct TVec2
 	 * @param xx 벡터의 x 성분입니다.
 	 * @param yy 벡터의 y 성분입니다.
 	 */
-	TVec2(T&& xx, T&& yy) noexcept
-	{
-		x = xx;
-		y = yy;
-	}
-
+	Vec2i(int32_t&& xx, int32_t&& yy) noexcept : x(xx), y(yy) {}
+	
 
 	/**
 	 * @brief 2차원 벡터의 생성자입니다.
@@ -40,11 +33,7 @@ struct TVec2
 	 * @param xx 벡터의 x 성분입니다.
 	 * @param yy 벡터의 y 성분입니다.
 	 */
-	TVec2(const T& xx, const T& yy) noexcept
-	{
-		x = xx;
-		y = yy;
-	}
+	Vec2i(const int32_t& xx, const int32_t& yy) noexcept : x(xx), y(yy) {}
 
 
 	/**
@@ -52,11 +41,7 @@ struct TVec2
 	 *
 	 * @param e 모든 원소를 초기화 할 값입니다.
 	 */
-	TVec2(T&& e) noexcept
-	{
-		x = e;
-		y = e;
-	}
+	Vec2i(int32_t&& e) noexcept : x(e), y(e) {}
 
 
 	/**
@@ -64,11 +49,7 @@ struct TVec2
 	 *
 	 * @param e 모든 원소를 초기화 할 값입니다.
 	 */
-	TVec2(const T& e) noexcept
-	{
-		x = e;
-		y = e;
-	}
+	Vec2i(const int32_t& e) noexcept : x(e), y(e) {}
 
 
 	/**
@@ -76,11 +57,7 @@ struct TVec2
 	 *
 	 * @param v 원소를 복사할 벡터 구조체의 인스턴스입니다.
 	 */
-	TVec2(TVec2<T>&& v) noexcept
-	{
-		x = v.x;
-		y = v.y;
-	}
+	Vec2i(Vec2i&& v) noexcept : x(v.x), y(v.y) {}
 
 
 	/**
@@ -88,12 +65,8 @@ struct TVec2
 	 *
 	 * @param v 원소를 복사할 벡터의 인스턴스입니다.
 	 */
-	TVec2(const TVec2<T>& v) noexcept
-	{
-		x = v.x;
-		y = v.y;
-	}
-
+	Vec2i(const Vec2i& v) noexcept : x(v.x), y(v.y) {}
+	
 
 	/**
 	 * @brief 2차원 벡터의 대입 연산자 입니다.
@@ -102,7 +75,7 @@ struct TVec2
 	 *
 	 * @return 대입한 벡터의 참조자를 반환합니다.
 	 */
-	TVec2<T>& operator=(TVec2<T>&& v) noexcept
+	Vec2i& operator=(Vec2i&& v) noexcept
 	{
 		if (this == &v) return *this;
 
@@ -120,7 +93,7 @@ struct TVec2
 	 *
 	 * @return 대입한 벡터의 참조자를 반환합니다.
 	 */
-	TVec2<T>& operator=(const TVec2<T>& v) noexcept
+	Vec2i& operator=(const Vec2i& v) noexcept
 	{
 		if (this == &v) return *this;
 
@@ -136,9 +109,9 @@ struct TVec2
 	 *
 	 * @return 2차원 벡터의 원소에 -부호를 취한 새로운 벡터를 반환합니다.
 	 */
-	TVec2<T> operator-() const
+	Vec2i operator-() const
 	{
-		return TVec2<T>(-x, -y);
+		return Vec2i(-x, -y);
 	}
 
 
@@ -149,9 +122,9 @@ struct TVec2
 	 *
 	 * @return 두 벡터에 대응하는 원소를 더한 결과를 반환합니다.
 	 */
-	TVec2<T> operator+(TVec2<T>&& v) const
+	Vec2i operator+(Vec2i&& v) const
 	{
-		return TVec2<T>(x + v.x, y + v.y);
+		return Vec2i(x + v.x, y + v.y);
 	}
 
 
@@ -162,9 +135,9 @@ struct TVec2
 	 *
 	 * @return 두 벡터에 대응하는 원소를 더한 결과를 반환합니다.
 	 */
-	TVec2<T> operator+(const TVec2<T>& v) const
+	Vec2i operator+(const Vec2i& v) const
 	{
-		return TVec2<T>(x + v.x, y + v.y);
+		return Vec2i(x + v.x, y + v.y);
 	}
 
 
@@ -175,9 +148,9 @@ struct TVec2
 	 *
 	 * @return 두 벡터에 대응하는 원소를 뺀 결과를 반환합니다.
 	 */
-	TVec2<T> operator-(TVec2<T>&& v) const
+	Vec2i operator-(Vec2i&& v) const
 	{
-		return TVec2<T>(x - v.x, y - v.y);
+		return Vec2i(x - v.x, y - v.y);
 	}
 
 
@@ -188,9 +161,9 @@ struct TVec2
 	 *
 	 * @return 두 벡터에 대응하는 원소를 뺀 결과를 반환합니다.
 	 */
-	TVec2<T> operator-(const TVec2<T>& v) const
+	Vec2i operator-(const Vec2i& v) const
 	{
-		return TVec2<T>(x - v.x, y - v.y);
+		return Vec2i(x - v.x, y - v.y);
 	}
 
 
@@ -203,9 +176,9 @@ struct TVec2
 	 *
 	 * @return 두 벡터에 대응하는 원소를 곱한 결과를 반환합니다.
 	 */
-	TVec2<T> operator*(TVec2<T>&& v) const
+	Vec2i operator*(Vec2i&& v) const
 	{
-		return TVec2<T>(x * v.x, y * v.y);
+		return Vec2i(x * v.x, y * v.y);
 	}
 
 
@@ -218,9 +191,9 @@ struct TVec2
 	 *
 	 * @return 두 벡터에 대응하는 원소를 곱한 결과를 반환합니다.
 	 */
-	TVec2<T> operator*(const TVec2<T>& v) const
+	Vec2i operator*(const Vec2i& v) const
 	{
-		return TVec2<T>(x * v.x, y * v.y);
+		return Vec2i(x * v.x, y * v.y);
 	}
 
 
@@ -231,7 +204,7 @@ struct TVec2
 	 *
 	 * @return 연산을 수행한 벡터의 참조자를 반환합니다.
 	 */
-	TVec2<T>& operator+=(TVec2<T>&& v) noexcept
+	Vec2i& operator+=(Vec2i&& v) noexcept
 	{
 		x += v.x;
 		y += v.y;
@@ -247,7 +220,7 @@ struct TVec2
 	 *
 	 * @return 연산을 수행한 벡터의 참조자를 반환합니다.
 	 */
-	TVec2<T>& operator+=(const TVec2<T>& v) noexcept
+	Vec2i& operator+=(const Vec2i& v) noexcept
 	{
 		x += v.x;
 		y += v.y;
@@ -263,7 +236,7 @@ struct TVec2
 	 *
 	 * @return 연산을 수행한 벡터의 참조자를 반환합니다.
 	 */
-	TVec2<T>& operator-=(TVec2<T>&& v) noexcept
+	Vec2i& operator-=(Vec2i&& v) noexcept
 	{
 		x -= v.x;
 		y -= v.y;
@@ -279,7 +252,7 @@ struct TVec2
 	 *
 	 * @return 연산을 수행한 벡터의 참조자를 반환합니다.
 	 */
-	TVec2<T>& operator-=(const TVec2<T>& v) noexcept
+	Vec2i& operator-=(const Vec2i& v) noexcept
 	{
 		x -= v.x;
 		y -= v.y;
@@ -289,11 +262,29 @@ struct TVec2
 
 
 	/**
-	 * @brief 2차원 벡터 원소 배열의 포인터를 얻습니다.
-	 *
-	 * @return 2차원 벡터 원소 배열의 포인터를 반환합니다.
+	 * @brief 두 2차원 벡터의 원소가 동일한지 확인합니다.
+	 * 
+	 * @param v 연산을 수행할 피연산자입니다.
+	 * 
+	 * @return 두 벡터의 원소가 일치한다면 true, 그렇지 않으면 false를 반환합니다.
 	 */
-	const T* GetPtr() const { return &data[0]; }
+	bool operator==(const Vec2i& v) noexcept
+	{
+		return (x == v.x) && (y == v.y);
+	}
+
+
+	/**
+	 * @brief 두 2차원 벡터의 원소가 동일하지 않은지 확인합니다.
+	 *
+	 * @param v 연산을 수행할 피연산자입니다.
+	 *
+	 * @return 두 벡터의 원소가 일치하지 않는다면 true, 그렇다면 false를 반환합니다.
+	 */
+	bool operator!=(const Vec2i& v) noexcept
+	{
+		return (x != v.x) || (y != v.y);
+	}
 
 
 	/**
@@ -301,7 +292,15 @@ struct TVec2
 	 *
 	 * @return 2차원 벡터 원소 배열의 포인터를 반환합니다.
 	 */
-	T* GetPtr() { return &data[0]; }
+	const int32_t* GetPtr() const { return &data[0]; }
+
+
+	/**
+	 * @brief 2차원 벡터 원소 배열의 포인터를 얻습니다.
+	 *
+	 * @return 2차원 벡터 원소 배열의 포인터를 반환합니다.
+	 */
+	int32_t* GetPtr() { return &data[0]; }
 
 
 	/**
@@ -312,7 +311,10 @@ struct TVec2
 	 *
 	 * @return 내적 연산 결과를 반환합니다.
 	 */
-	static inline T Dot(const TVec2<T>& lhs, const TVec2<T>& rhs);
+	static inline int32_t Dot(const Vec2i& lhs, const Vec2i& rhs)
+	{
+		return lhs.x * rhs.x + lhs.y * rhs.y;
+	}
 
 
 	/**
@@ -325,7 +327,10 @@ struct TVec2
 	 *
 	 * @note 일반적인 3차원 외적 연산과 다릅니다.
 	 */
-	static inline T Cross(const TVec2<T>& lhs, const TVec2<T>& rhs);
+	static inline int32_t Cross(const Vec2i& lhs, const Vec2i& rhs)
+	{
+		return lhs.x * rhs.y - lhs.y * rhs.x;
+	}
 
 
 	/**
@@ -335,7 +340,10 @@ struct TVec2
 	 *
 	 * @return 계산된 크기 제곱 값을 반환합니다.
 	 */
-	static inline T LengthSq(const TVec2<T>& v);
+	static inline int32_t LengthSq(const Vec2i& v)
+	{
+		return v.x * v.x + v.y * v.y;
+	}
 
 
 	/**
@@ -345,28 +353,29 @@ struct TVec2
 	 *
 	 * @return 계산된 크기 값을 반환합니다.
 	 */
-	static inline float Length(const TVec2<T>& v);
-
-
-	/**
-	 * @brief 2차원 벡터를 정규화합니다.
-	 *
-	 * @param v 정규화 할 벡터입니다.
-	 *
-	 * @return 정규화된 벡터를 반환합니다.
-	 */
-	static inline TVec2<T> Normalize(const TVec2<T>& v);
+	static inline float Length(const Vec2i& v)
+	{
+		int32_t lengthSq = LengthSq(v);
+		return MathModule::Sqrt(lengthSq);
+	}
 
 
 	/**
 	 * @brief 두 2차원 벡터 사이의 각을 계산합니다.
-	 * 
+	 *
 	 * @param lhs 벡터 사이의 각을 계산할 왼쪽 피연산자 벡터입니다.
 	 * @param rhs 벡터 사이의 각을 계산할 오른쪽 피연산자 벡터입니다.
-	 * 
+	 *
 	 * @return 두 2차원 벡터 사이의 라디안 각도를 반환합니다.
 	 */
-	static inline float Radian(const TVec2<T>& lhs, const TVec2<T>& rhs);
+	static inline float Radian(const Vec2i& lhs, const Vec2i& rhs)
+	{
+		float lengthL = Length(lhs);
+		float lengthR = Length(rhs);
+		float dot = Dot(lhs, rhs);
+
+		return MathModule::ACos(dot / (lengthL * lengthR));
+	}
 
 
 	/**
@@ -377,7 +386,430 @@ struct TVec2
 	 *
 	 * @return 두 2차원 벡터 사이의 육십분법 각도를 반환합니다.
 	 */
-	static inline float Degree(const TVec2<T>& lhs, const TVec2<T>& rhs);
+	static inline float Degree(const Vec2i& lhs, const Vec2i& rhs)
+	{
+		float radian = Radian(lhs, rhs);
+		return MathModule::ToDegree(radian);
+	}
+
+
+	/**
+	 * @brief 2차원 벡터의 다양한 원소 형식입니다.
+	 */
+	union
+	{
+		struct
+		{
+			int32_t x;
+			int32_t y;
+		};
+		int32_t data[2];
+	};
+};
+
+
+/**
+ * @brief 원소의 데이터 타입이 부동 소수점인 2차원 벡터입니다.
+ */
+struct Vec2f
+{
+	/**
+	 * @brief 2차원 벡터의 기본 생성자입니다.
+	 *
+	 * @note 모든 원소의 값을 0으로 초기화합니다.
+	 */
+	Vec2f() noexcept : x(0.0f), y(0.0f) {}
+
+
+	/**
+	 * @brief 2차원 벡터의 생성자입니다.
+	 *
+	 * @param xx 벡터의 x 성분입니다.
+	 * @param yy 벡터의 y 성분입니다.
+	 */
+	Vec2f(float&& xx, float&& yy) noexcept : x(xx), y(yy) {}
+
+
+	/**
+	 * @brief 2차원 벡터의 생성자입니다.
+	 *
+	 * @param xx 벡터의 x 성분입니다.
+	 * @param yy 벡터의 y 성분입니다.
+	 */
+	Vec2f(const float& xx, const float& yy) noexcept : x(xx), y(yy) {}
+
+
+	/**
+	 * @brief 2차원 벡터의 원소를 하나의 값으로 초기화합니다.
+	 *
+	 * @param e 모든 원소를 초기화 할 값입니다.
+	 */
+	Vec2f(float&& e) noexcept : x(e), y(e) {}
+
+
+	/**
+	 * @brief 2차원 벡터의 원소를 하나의 값으로 초기화합니다.
+	 *
+	 * @param e 모든 원소를 초기화 할 값입니다.
+	 */
+	Vec2f(const float& e) noexcept : x(e), y(e) {}
+
+
+	/**
+	 * @brief 2차원 벡터의 복사 생성자입니다.
+	 *
+	 * @param v 원소를 복사할 벡터 구조체의 인스턴스입니다.
+	 */
+	Vec2f(Vec2f&& v) noexcept : x(v.x), y(v.y) {}
+
+
+	/**
+	 * @brief 2차원 벡터의 복사 생성자입니다.
+	 *
+	 * @param v 원소를 복사할 벡터의 인스턴스입니다.
+	 */
+	Vec2f(const Vec2f& v) noexcept : x(v.x), y(v.y) {}
+
+
+	/**
+	 * @brief 2차원 벡터의 대입 연산자 입니다.
+	 *
+	 * @param v 원소를 복사할 벡터 구조체의 인스턴스입니다.
+	 *
+	 * @return 대입한 벡터의 참조자를 반환합니다.
+	 */
+	Vec2f& operator=(Vec2f&& v) noexcept
+	{
+		if (this == &v) return *this;
+
+		x = v.x;
+		y = v.y;
+
+		return *this;
+	}
+
+
+	/**
+	 * @brief 2차원 벡터의 대입 연산자 입니다.
+	 *
+	 * @param v 원소를 복사할 벡터 구조체의 인스턴스입니다.
+	 *
+	 * @return 대입한 벡터의 참조자를 반환합니다.
+	 */
+	Vec2f& operator=(const Vec2f& v) noexcept
+	{
+		if (this == &v) return *this;
+
+		x = v.x;
+		y = v.y;
+
+		return *this;
+	}
+
+
+	/**
+	 * @brief 2차원 벡터의 원소에 -부호를 취합니다.
+	 *
+	 * @return 2차원 벡터의 원소에 -부호를 취한 새로운 벡터를 반환합니다.
+	 */
+	Vec2f operator-() const
+	{
+		return Vec2f(-x, -y);
+	}
+
+
+	/**
+	 * @brief 두 2차원 벡터에 대응하는 원소를 더합니다.
+	 *
+	 * @param v 벡터의 덧셈을 수행할 피연산자입니다.
+	 *
+	 * @return 두 벡터에 대응하는 원소를 더한 결과를 반환합니다.
+	 */
+	Vec2f operator+(Vec2f&& v) const
+	{
+		return Vec2f(x + v.x, y + v.y);
+	}
+
+
+	/**
+	 * @brief 두 2차원 벡터에 대응하는 원소를 더합니다.
+	 *
+	 * @param v 벡터의 덧셈을 수행할 피연산자입니다.
+	 *
+	 * @return 두 벡터에 대응하는 원소를 더한 결과를 반환합니다.
+	 */
+	Vec2f operator+(const Vec2f& v) const
+	{
+		return Vec2f(x + v.x, y + v.y);
+	}
+
+
+	/**
+	 * @brief 두 2차원 벡터에 대응하는 원소를 뺍니다.
+	 *
+	 * @param v 벡터의 뺄셈을 수행할 피연산자입니다.
+	 *
+	 * @return 두 벡터에 대응하는 원소를 뺀 결과를 반환합니다.
+	 */
+	Vec2f operator-(Vec2f&& v) const
+	{
+		return Vec2f(x - v.x, y - v.y);
+	}
+
+
+	/**
+	 * @brief 두 2차원 벡터에 대응하는 원소를 뺍니다.
+	 *
+	 * @param v 벡터의 뺄셈을 수행할 피연산자입니다.
+	 *
+	 * @return 두 벡터에 대응하는 원소를 뺀 결과를 반환합니다.
+	 */
+	Vec2f operator-(const Vec2f& v) const
+	{
+		return Vec2f(x - v.x, y - v.y);
+	}
+
+
+	/**
+	 * @brief 두 2차원 벡터에 대응하는 원소를 각각 곱합니다.
+	 *
+	 * @note 이 연산은 벡터의 내적 연산(Dot Product)와는 다릅니다.
+	 *
+	 * @param v 벡터의 곱셈을 수행할 피연산자입니다.
+	 *
+	 * @return 두 벡터에 대응하는 원소를 곱한 결과를 반환합니다.
+	 */
+	Vec2f operator*(Vec2f&& v) const
+	{
+		return Vec2f(x * v.x, y * v.y);
+	}
+
+
+	/**
+	 * @brief 두 2차원 벡터에 대응하는 원소를 각각 곱합니다.
+	 *
+	 * @note 이 연산은 벡터의 내적 연산(Dot Product)와는 다릅니다.
+	 *
+	 * @param v 벡터의 곱셈을 수행할 피연산자입니다.
+	 *
+	 * @return 두 벡터에 대응하는 원소를 곱한 결과를 반환합니다.
+	 */
+	Vec2f operator*(const Vec2f& v) const
+	{
+		return Vec2f(x * v.x, y * v.y);
+	}
+
+
+	/**
+	 * @brief 두 2차원 벡터에 대응하는 원소를 더합니다.
+	 *
+	 * @param v 연산을 수행할 피연산자입니다.
+	 *
+	 * @return 연산을 수행한 벡터의 참조자를 반환합니다.
+	 */
+	Vec2f& operator+=(Vec2f&& v) noexcept
+	{
+		x += v.x;
+		y += v.y;
+
+		return *this;
+	}
+
+
+	/**
+	 * @brief 두 2차원 벡터에 대응하는 원소를 더합니다.
+	 *
+	 * @param v 연산을 수행할 피연산자입니다.
+	 *
+	 * @return 연산을 수행한 벡터의 참조자를 반환합니다.
+	 */
+	Vec2f& operator+=(const Vec2f& v) noexcept
+	{
+		x += v.x;
+		y += v.y;
+
+		return *this;
+	}
+
+
+	/**
+	 * @brief 두 2차원 벡터에 대응하는 원소를 뺍니다.
+	 *
+	 * @param v 연산을 수행할 피연산자입니다.
+	 *
+	 * @return 연산을 수행한 벡터의 참조자를 반환합니다.
+	 */
+	Vec2f& operator-=(Vec2f&& v) noexcept
+	{
+		x -= v.x;
+		y -= v.y;
+
+		return *this;
+	}
+
+
+	/**
+	 * @brief 두 2차원 벡터에 대응하는 원소를 뺍니다.
+	 *
+	 * @param v 연산을 수행할 피연산자입니다.
+	 *
+	 * @return 연산을 수행한 벡터의 참조자를 반환합니다.
+	 */
+	Vec2f& operator-=(const Vec2f& v) noexcept
+	{
+		x -= v.x;
+		y -= v.y;
+
+		return *this;
+	}
+
+
+	/**
+	 * @brief 두 2차원 벡터의 대응하는 원소가 동일한지 확인합니다.
+	 * 
+	 * @param v 연산을 수행할 피연산자입니다.
+	 *
+	 * @return 두 2차원 벡터의 대응하는 원소가 일치한다면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	bool operator==(const Vec2f& v) noexcept
+	{
+		return MathModule::Abs(x - v.x) < MathModule::Epsilon 
+			&& MathModule::Abs(y - v.y) < MathModule::Epsilon;
+	}
+
+
+	/**
+	 * @brief 두 2차원 벡터의 대응하는 원소가 동일하지 않은지 확인합니다.
+	 * 
+	 * @param v 연산을 수행할 피연산자입니다.
+	 * 
+	 * @return 두 2차원 벡터의 대응하는 원소가 일치하지 않는다면 true, 그렇다면 false를 반환합니다.
+	 */
+	bool operator!=(const Vec2f& v) noexcept
+	{
+		return MathModule::Abs(x - v.x) >= MathModule::Epsilon
+			|| MathModule::Abs(y - v.y) >= MathModule::Epsilon;
+	}
+
+
+	/**
+	 * @brief 2차원 벡터 원소 배열의 포인터를 얻습니다.
+	 *
+	 * @return 2차원 벡터 원소 배열의 포인터를 반환합니다.
+	 */
+	const float* GetPtr() const { return &data[0]; }
+
+
+	/**
+	 * @brief 2차원 벡터 원소 배열의 포인터를 얻습니다.
+	 *
+	 * @return 2차원 벡터 원소 배열의 포인터를 반환합니다.
+	 */
+	float* GetPtr() { return &data[0]; }
+
+
+	/**
+	 * @brief 2차원 백터의 내적 연산을 수행합니다.
+	 *
+	 * @param lhs 백터의 내적 연산을 수행할 좌측 피연산자입니다.
+	 * @param rhs 백터의 내적 연산을 수행할 우측 피연산자입니다.
+	 *
+	 * @return 내적 연산 결과를 반환합니다.
+	 */
+	static inline float Dot(const Vec2f& lhs, const Vec2f& rhs)
+	{
+		return lhs.x * rhs.x + lhs.y * rhs.y;
+	}
+
+
+	/**
+	 * @brief 2차원 백터의 외적 연산을 수행합니다.
+	 *
+	 * @param lhs 백터의 외적 연산을 수행할 좌측 피연산자입니다.
+	 * @param rhs 백터의 외적 연산을 수행할 우측 피연산자입니다.
+	 *
+	 * @return 외적 연산 결과를 반환합니다.
+	 *
+	 * @note 일반적인 3차원 외적 연산과 다릅니다.
+	 */
+	static inline float Cross(const Vec2f& lhs, const Vec2f& rhs)
+	{
+		return lhs.x * rhs.y - lhs.y * rhs.x;
+	}
+
+
+	/**
+	 * @brief 2차원 백터의 크기 제곱 값을 계산합니다.
+	 *
+	 * @param v 크기 제곱을 계산할 벡터입니다.
+	 *
+	 * @return 계산된 크기 제곱 값을 반환합니다.
+	 */
+	static inline float LengthSq(const Vec2f& v)
+	{
+		return v.x * v.x + v.y * v.y;
+	}
+
+
+	/**
+	 * @brief 2차원 벡터의 크기를 얻습니다.
+	 *
+	 * @param v 크기를 계산할 벡터입니다.
+	 *
+	 * @return 계산된 크기 값을 반환합니다.
+	 */
+	static inline float Length(const Vec2f& v)
+	{
+		float lengthSq = LengthSq(v);
+		return MathModule::Sqrt(lengthSq);
+	}
+
+
+	/**
+	 * @brief 2차원 벡터를 정규화합니다.
+	 *
+	 * @param v 정규화 할 벡터입니다.
+	 *
+	 * @return 정규화된 벡터를 반환합니다.
+	 */
+	static inline Vec2f Normalize(const Vec2f& v)
+	{
+		float invLength = 1.0f / Length(v);
+		return Vec2f(v.x * invLength, v.y * invLength);
+	}
+
+
+	/**
+	 * @brief 두 2차원 벡터 사이의 각을 계산합니다.
+	 * 
+	 * @param lhs 벡터 사이의 각을 계산할 왼쪽 피연산자 벡터입니다.
+	 * @param rhs 벡터 사이의 각을 계산할 오른쪽 피연산자 벡터입니다.
+	 * 
+	 * @return 두 2차원 벡터 사이의 라디안 각도를 반환합니다.
+	 */
+	static inline float Radian(const Vec2f& lhs, const Vec2f& rhs)
+	{
+		float lengthL = Length(lhs);
+		float lengthR = Length(rhs);
+		float dot = Dot(lhs, rhs);
+
+		return MathModule::ACos(dot / (lengthL * lengthR));
+	}
+
+
+	/**
+	 * @brief 두 2차원 벡터 사이의 각을 계산합니다.
+	 *
+	 * @param lhs 벡터 사이의 각을 계산할 왼쪽 피연산자 벡터입니다.
+	 * @param rhs 벡터 사이의 각을 계산할 오른쪽 피연산자 벡터입니다.
+	 *
+	 * @return 두 2차원 벡터 사이의 육십분법 각도를 반환합니다.
+	 */
+	static inline float Degree(const Vec2f& lhs, const Vec2f& rhs)
+	{
+		float radian = Radian(lhs, rhs);
+		return MathModule::ToDegree(radian);
+	}
 
 
 	/**
@@ -388,7 +820,14 @@ struct TVec2
 	 * 
 	 * @return base에 투영된 target 벡터를 반환합니다.
 	 */
-	static inline TVec2<T> Project(const TVec2<T>& target, const TVec2<T>& base);
+	static inline Vec2f Project(const Vec2f& target, const Vec2f& base)
+	{
+		float dot = Dot(target, base);
+		float lengthSq = LengthSq(base);
+		float scale = dot / lengthSq;
+
+		return Vec2f(base.x * scale, base.y * scale);
+	}
 
 
 	/**
@@ -399,7 +838,11 @@ struct TVec2
 	 * 
 	 * @return 투영된 벡터의 수직인 벡터를 반환합니다.
 	 */
-	static inline TVec2<T> Reject(const TVec2<T>& target, const TVec2<T>& base);
+	static inline Vec2f Reject(const Vec2f& target, const Vec2f& base)
+	{
+		Vec2f project = Project(target, base);
+		return target - project;
+	}
 
 
 	/**
@@ -411,7 +854,10 @@ struct TVec2
 	 * 
 	 * @return 보간된 벡터를 반환합니다.
 	 */
-	static inline TVec2<T> Lerp(const TVec2<T>& s, const TVec2<T>& e, const float& t);
+	static inline Vec2f Lerp(const Vec2f& s, const Vec2f& e, const float& t)
+	{
+		return s * (1.0f - t) + e * t;
+	}
 
 
 	/**
@@ -423,7 +869,19 @@ struct TVec2
 	 *
 	 * @return 보간된 벡터를 반환합니다.
 	 */
-	static inline TVec2<T> Slerp(const TVec2<T>& s, const TVec2<T>& e, const float& t);
+	static inline Vec2f Slerp(const Vec2f& s, const Vec2f& e, const float& t)
+	{
+		Vec2f start = Normalize(s);
+		Vec2f end = Normalize(e);
+
+		float theta = Radian(start, end);
+		float sinTheta = MathModule::Sin(theta);
+
+		float a = MathModule::Sin((1.0f - t) * theta) / sinTheta;
+		float b = MathModule::Sin(t * theta) / sinTheta;
+
+		return s * a + e * b;
+	}
 
 
 	/**
@@ -433,24 +891,9 @@ struct TVec2
 	{
 		struct
 		{
-			T x;
-			T y;
+			float x;
+			float y;
 		};
-		T data[2];
+		float data[2];
 	};
 };
-
-
-/**
- * @brief int32_t 타입의 2차원 벡터입니다.
- */
-using Vec2i = TVec2<int32_t>;
-
-
-/**
- * @brief float 타입의 2차원 벡터입니다.
- */
-using Vec2f = TVec2<float>;
-
-
-#include "Vec2.inl"
