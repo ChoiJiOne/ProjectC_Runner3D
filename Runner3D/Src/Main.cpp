@@ -50,39 +50,19 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 	RUID geometryPass3D = ResourceManager::Get().Create<GeometryPass3D>();
 	GeometryPass3D* geometryPass = ResourceManager::Get().GetResource<GeometryPass3D>(geometryPass3D);
 
-	cgltf_data* data = GLTFLoader::LoadFromFile("Resource/Model/Zombie.gltf");
+	cgltf_data* data = GLTFLoader::LoadFromFile("Resource/Model/Running.gltf");
 	Pose resetPose = GLTFLoader::LoadRestPose(data);
 	std::vector<Clip> clips = GLTFLoader::LoadAnimationClip(data);
 	GLTFLoader::Free(data);
 	
-	float playbackTime = 0.0f;
-
 	timer.Reset();
 	while (!bIsDone)
 	{
 		InputManager::Get().Tick();
 		timer.Tick();
 
-		playbackTime = clips[0].Sample(resetPose, playbackTime + timer.GetDeltaSeconds());
-
-		std::vector<Vec3f> positions(resetPose.GetJointSize());
-		for (uint32_t index = 0; index < resetPose.GetJointSize(); ++index)
-		{
-			if (resetPose.GetParent(index) < 0)
-			{
-				continue;
-			}
-
-			positions.push_back(resetPose.GetGlobalTransform(index).position);
-			positions.push_back(resetPose.GetGlobalTransform(resetPose.GetParent(index)).position);
-		}
-
 		RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
-		
-		for (const auto& position : positions)
-		{
-			geometryPass->DrawSphere3D(Mat4x4::Translation(position), view, projection, 0.01f, Vec4f(1.0f, 0.0f, 0.0f, 1.0f));
-		}
+
 		geometryPass->DrawGrid3D(view, projection, -3.0f, 3.0f, 1.0f, -3.0f, +3.0f, 1.0f, Vec4f(1.0f, 1.0f, 1.0f, 1.0f));
 
 		RenderManager::Get().EndFrame();
