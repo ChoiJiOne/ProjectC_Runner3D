@@ -101,7 +101,8 @@ float Clip::AdjustTimeToFitRange(float time)
 
 		time += startTime_;
 	}
-	else {
+	else 
+	{
 		if (time < startTime_)
 		{
 			time = startTime_;
