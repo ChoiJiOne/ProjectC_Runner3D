@@ -22,7 +22,7 @@ enum class EInterpolation
 
 
 /**
- * @brief 데이터의 프레임입니다.
+ * @brief 키 프레임 데이터입니다.
  * 
  * @see https://gabormakesgames.com/blog_animation_frames.html
  */
@@ -166,7 +166,7 @@ public:
 
 
 	/**
-	 * @brief 프레임 샘플링을 수행합니다.
+	 * @brief 트랙 샘플링을 수행합니다.
 	 * 
 	 * @param time 샘플링할 시간 값입니다.
 	 * @param bIsLooping 반복 여부입니다.
@@ -177,7 +177,7 @@ public:
 
 
 	/**
-	 * @brief 트랙의 프레임 값을 얻습니다.
+	 * @brief 프레임에 대한 참조 값을 얻습니다.
 	 * 
 	 * @param index 프레임 목록의 인덱스입니다.
 	 * 
