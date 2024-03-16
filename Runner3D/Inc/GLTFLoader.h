@@ -9,6 +9,7 @@
 
 #include "Clip.h"
 #include "Pose.h"
+#include "Skeleton.h"
 #include "Vertex3D.h"
 
 
@@ -102,11 +103,21 @@ public:
 	/**
 	 * @brief GLTF 데이터로부터 조인트 이름 목록을 얻습니다.
 	 * 
-	 * @param 조인트 이름 목록을 로딩할 GLTF 데이터입니다.
+	 * @param data 조인트 이름 목록을 로딩할 GLTF 데이터입니다.
 	 * 
 	 * @return 조인트 이름 목록을 반환합니다.
 	 */
 	static std::vector<std::string> LoadJointNames(cgltf_data* data);
+
+
+	/**
+	 * @brief GLTF 데이터로부터 스켈레톤 데이터를 얻습니다.
+	 * 
+	 * @param data 스켈레톤 데이터를 로딩할 GLTF 데이터입니다.
+	 * 
+	 * @return 스켈레톤을 반환합니다.
+	 */
+	static Skeleton LoadSkeleton(cgltf_data* data);
 
 
 	/**

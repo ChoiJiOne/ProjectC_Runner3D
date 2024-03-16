@@ -361,6 +361,11 @@ std::vector<std::string> GLTFLoader::LoadJointNames(cgltf_data* data)
 	return jointNames;
 }
 
+Skeleton GLTFLoader::LoadSkeleton(cgltf_data* data)
+{
+	return Skeleton(LoadRestPose(data), LoadBindPose(data), LoadJointNames(data));
+}
+
 std::vector<Clip> GLTFLoader::LoadAnimationClip(cgltf_data* data)
 {
 	std::vector<Clip> clips(static_cast<uint32_t>(data->animations_count));
