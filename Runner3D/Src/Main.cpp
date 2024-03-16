@@ -20,6 +20,7 @@
 #include "ResourceManager.h"
 #include "Shader.h"
 #include "StaticMesh.h"
+#include "SkinnedMesh.h"
 #include "SDLManager.h"
 #include "Texture2D.h"
 
@@ -47,14 +48,30 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 
 	InputManager::Get().AddWindowEventAction(EWindowEvent::CLOSE, [&]() {bIsDone = true; }, true);
 
-	RUID geometryPass3D = ResourceManager::Get().Create<GeometryPass3D>();
-	GeometryPass3D* geometryPass = ResourceManager::Get().GetResource<GeometryPass3D>(geometryPass3D);
+	GeometryPass3D* geometryPass = ResourceManager::Get().GetResource<GeometryPass3D>(ResourceManager::Get().Create<GeometryPass3D>());
+	Shader* shader = ResourceManager::Get().GetResource<Shader>(ResourceManager::Get().Create<Shader>("Shader/Shader.vert", "Shader/Shader.frag"));
 
-	cgltf_data* data = GLTFLoader::LoadFromFile("Resource/Model/Running.gltf");
-	Pose resetPose = GLTFLoader::LoadRestPose(data);
-	std::vector<Clip> clips = GLTFLoader::LoadAnimationClip(data);
+	cgltf_data* data = GLTFLoader::LoadFromFile("Resource/Model/Zombie.gltf");
+	std::vector<GLTFLoader::SkinnedMeshData> skinnedMeshes = GLTFLoader::LoadSkinnedMeshData(data);
+	std::vector<VertexPositionNormalUvSkin3D> vertices;
+	std::vector<uint32_t> indices = skinnedMeshes[0].indices;
+
+	for (uint32_t index = 0; index < skinnedMeshes[0].positions.size(); ++index)
+	{
+		Vec3f position  = skinnedMeshes[0].positions[index];
+		Vec3f normal    = skinnedMeshes[0].normals[index];
+		Vec2f texcoords = skinnedMeshes[0].texCoords[index];
+		Vec4f weight    = skinnedMeshes[0].weights[index];
+		Vec4i joint     = skinnedMeshes[0].joints[index];
+
+		vertices.push_back(VertexPositionNormalUvSkin3D(position, normal, texcoords, weight, joint));
+	}
+
 	GLTFLoader::Free(data);
-	
+
+	Texture2D* texture = ResourceManager::Get().GetResource<Texture2D>(ResourceManager::Get().Create<Texture2D>("Resource/Texture/Zombie.png"));
+	SkinnedMesh* skinnedMesh = ResourceManager::Get().GetResource<SkinnedMesh>(ResourceManager::Get().Create<SkinnedMesh>(vertices, indices));
+
 	timer.Reset();
 	while (!bIsDone)
 	{
@@ -62,6 +79,20 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 		timer.Tick();
 
 		RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
+
+		shader->Bind();
+		{
+			texture->Active(0);
+
+			shader->SetUniform("world", Mat4x4::Scale(0.5f, 0.5f, 0.5f));
+			shader->SetUniform("view", view);
+			shader->SetUniform("projection", projection);
+
+			skinnedMesh->Bind();
+			glDrawElements(GL_TRIANGLES, skinnedMesh->GetIndexCount(), GL_UNSIGNED_INT, 0);
+			skinnedMesh->Unbind();
+		}
+		shader->Unbind();
 
 		geometryPass->DrawGrid3D(view, projection, -3.0f, 3.0f, 1.0f, -3.0f, +3.0f, 1.0f, Vec4f(1.0f, 1.0f, 1.0f, 1.0f));
 
