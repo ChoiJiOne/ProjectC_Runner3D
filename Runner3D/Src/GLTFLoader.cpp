@@ -227,19 +227,19 @@ std::vector<GLTFLoader::SkinnedMeshData> GLTFLoader::LoadSkinnedMeshData(cgltf_d
 
 					case cgltf_attribute_type_joints:
 					{
-						Vec4i joint(
+						Vec4i joints(
 							static_cast<int32_t>(buffer[index + 0] + 0.5f),
 							static_cast<int32_t>(buffer[index + 1] + 0.5f),
 							static_cast<int32_t>(buffer[index + 2] + 0.5f),
 							static_cast<int32_t>(buffer[index + 3] + 0.5f)
 						);
 
-						joint.x = MathModule::Max<int32_t>(0, GetNodeIndex(node->skin->joints[joint.x], data->nodes, data->nodes_count));
-						joint.y = MathModule::Max<int32_t>(0, GetNodeIndex(node->skin->joints[joint.y], data->nodes, data->nodes_count));
-						joint.z = MathModule::Max<int32_t>(0, GetNodeIndex(node->skin->joints[joint.z], data->nodes, data->nodes_count));
-						joint.w = MathModule::Max<int32_t>(0, GetNodeIndex(node->skin->joints[joint.w], data->nodes, data->nodes_count));
+						joints.x = MathModule::Max<int32_t>(0, GetNodeIndex(node->skin->joints[joints.x], data->nodes, data->nodes_count));
+						joints.y = MathModule::Max<int32_t>(0, GetNodeIndex(node->skin->joints[joints.y], data->nodes, data->nodes_count));
+						joints.z = MathModule::Max<int32_t>(0, GetNodeIndex(node->skin->joints[joints.z], data->nodes, data->nodes_count));
+						joints.w = MathModule::Max<int32_t>(0, GetNodeIndex(node->skin->joints[joints.w], data->nodes, data->nodes_count));
 
-						mesh.joints.push_back(joint);
+						mesh.joints.push_back(joints);
 					}
 					break;
 

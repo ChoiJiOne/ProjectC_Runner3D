@@ -41,8 +41,8 @@ public:
 		std::vector<Vec3f> positions;
 		std::vector<Vec3f> normals;
 		std::vector<Vec2f> texCoords;
-		std::vector<Vec4i> joints;
 		std::vector<Vec4f> weights;
+		std::vector<Vec4i> joints;
 		std::vector<uint32_t> indices;
 	};
 
