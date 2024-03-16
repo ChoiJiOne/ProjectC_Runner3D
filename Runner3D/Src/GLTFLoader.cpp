@@ -289,6 +289,78 @@ Pose GLTFLoader::LoadRestPose(cgltf_data* data)
 	return result;
 }
 
+Pose GLTFLoader::LoadBindPose(cgltf_data* data)
+{
+	Pose restPose = LoadRestPose(data);
+
+	std::vector<Transform> worldBindPose(restPose.GetJointSize());
+	for (uint32_t index = 0; index < worldBindPose.size(); ++index)
+	{
+		worldBindPose[index] = restPose.GetGlobalTransform(index);
+	}
+
+	cgltf_skin* begin = data->skins;
+	cgltf_skin* end = data->skins + data->skins_count;
+
+	for (cgltf_skin* skin = begin; skin != end; ++skin)
+	{
+		std::vector<float> invBindAccessor;
+		GetScalarValues(invBindAccessor, 16, skin->inverse_bind_matrices);
+
+		uint32_t numJoints = static_cast<uint32_t>(skin->joints_count);
+		for (int32_t index = 0; index < numJoints; ++index)
+		{
+			float* matrix = &invBindAccessor[index * 16];
+			Mat4x4 invBindMatrix(
+				matrix[0],  matrix[1],  matrix[2],  matrix[3],
+				matrix[4],  matrix[5],  matrix[6],  matrix[7],
+				matrix[8],  matrix[9],  matrix[10], matrix[11],
+				matrix[12], matrix[13], matrix[14], matrix[15]
+			);
+			Mat4x4 bindMatrix = Mat4x4::Inverse(invBindMatrix);
+			Transform bindTransform = Transform::ToTransform(bindMatrix);
+
+			cgltf_node* jointNode = skin->joints[index];
+			int32_t jointIndex = GetNodeIndex(jointNode, data->nodes, restPose.GetJointSize());
+			worldBindPose[jointIndex] = bindTransform;
+		}
+	}
+
+	Pose bindPose = restPose;
+	for (uint32_t index = 0; index < worldBindPose.size(); ++index)
+	{
+		Transform currentTransform = worldBindPose[index];
+		int32_t parent = bindPose.GetParent(index);
+		
+		if (parent >= 0)
+		{
+			Transform parentTransform = worldBindPose[parent];
+			currentTransform = Transform::Combine(Transform::Inverse(parentTransform), currentTransform);
+		}
+
+		bindPose.SetLocalTransform(index, currentTransform);
+	}
+
+	return bindPose;
+}
+
+std::vector<std::string> GLTFLoader::LoadJointNames(cgltf_data* data)
+{
+	std::vector<std::string> jointNames(data->nodes_count);
+
+	for (uint32_t index = 0; index < jointNames.size(); ++index)
+	{
+		cgltf_node* node = &(data->nodes[index]);
+
+		if (node->name != nullptr)
+		{
+			jointNames[index] = node->name;
+		}
+	}
+
+	return jointNames;
+}
+
 std::vector<Clip> GLTFLoader::LoadAnimationClip(cgltf_data* data)
 {
 	std::vector<Clip> clips(static_cast<uint32_t>(data->animations_count));
