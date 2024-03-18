@@ -279,6 +279,42 @@ struct Mat4x4
 
 
 	/**
+	 * @brief 4x4 행렬에 부동소수점을 곱합니다.
+	 *
+	 * @param scalar 4x4 행렬에 부동수소점 수를 곱할 스칼라 값입니다.
+	 *
+	 * @return 4x4 행렬에 부동소수점을 곱합 결과를 반환합니다.
+	 */
+	Mat4x4 operator*(float&& scalar) const
+	{
+		return Mat4x4(
+			scalar * e00, scalar * e01, scalar * e02, scalar * e03,
+			scalar * e10, scalar * e11, scalar * e12, scalar * e13,
+			scalar * e20, scalar * e21, scalar * e22, scalar * e23,
+			scalar * e30, scalar * e31, scalar * e32, scalar * e33
+		);
+	}
+
+
+	/**
+	 * @brief 4x4 행렬에 부동소수점을 곱합니다.
+	 * 
+	 * @param scalar 4x4 행렬에 부동수소점 수를 곱할 스칼라 값입니다.
+	 * 
+	 * @return 4x4 행렬에 부동소수점을 곱합 결과를 반환합니다.
+	 */
+	Mat4x4 operator*(const float& scalar) const
+	{
+		return Mat4x4(
+			scalar * e00, scalar * e01, scalar * e02, scalar * e03,
+			scalar * e10, scalar * e11, scalar * e12, scalar * e13,
+			scalar * e20, scalar * e21, scalar * e22, scalar * e23,
+			scalar * e30, scalar * e31, scalar * e32, scalar * e33
+		);
+	}
+
+
+	/**
 	 * @brief 두 4x4 행렬을 곱합니다.
 	 *
 	 * @param m 행렬의 곱셈을 수행할 피연산자입니다.

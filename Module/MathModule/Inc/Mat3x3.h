@@ -247,6 +247,40 @@ struct Mat3x3
 
 
 	/**
+	 * @brief 3x3 행렬에 부동소수점을 곱합니다.
+	 *
+	 * @param scalar 3x3 행렬에 부동수소점 수를 곱할 스칼라 값입니다.
+	 *
+	 * @return 3x3 행렬에 부동소수점을 곱합 결과를 반환합니다.
+	 */
+	Mat3x3 operator*(float&& scalar) const
+	{
+		return Mat3x3(
+			scalar * e00, scalar * e01, scalar * e02,
+			scalar * e10, scalar * e11, scalar * e12,
+			scalar * e20, scalar * e21, scalar * e22
+		);
+	}
+
+
+	/**
+	 * @brief 3x3 행렬에 부동소수점을 곱합니다.
+	 *
+	 * @param scalar 3x3 행렬에 부동수소점 수를 곱할 스칼라 값입니다.
+	 *
+	 * @return 3x3 행렬에 부동소수점을 곱합 결과를 반환합니다.
+	 */
+	Mat3x3 operator*(const float& scalar) const
+	{
+		return Mat3x3(
+			scalar * e00, scalar * e01, scalar * e02,
+			scalar * e10, scalar * e11, scalar * e12,
+			scalar * e20, scalar * e21, scalar * e22
+		);
+	}
+
+
+	/**
 	 * @brief 두 3x3 행렬을 곱합니다.
 	 *
 	 * @param m 행렬의 곱셈을 수행할 피연산자입니다.

@@ -221,6 +221,38 @@ struct Mat2x2
 
 
 	/**
+	 * @brief 2x2 행렬에 부동소수점을 곱합니다.
+	 *
+	 * @param scalar 2x2 행렬에 부동수소점 수를 곱할 스칼라 값입니다.
+	 *
+	 * @return 2x2 행렬에 부동소수점을 곱합 결과를 반환합니다.
+	 */
+	Mat2x2 operator*(float&& scalar) const
+	{
+		return Mat2x2(
+			scalar * e00, scalar * e01,
+			scalar * e10, scalar * e11
+		);
+	}
+
+
+	/**
+	 * @brief 2x2 행렬에 부동소수점을 곱합니다.
+	 *
+	 * @param scalar 2x2 행렬에 부동수소점 수를 곱할 스칼라 값입니다.
+	 *
+	 * @return 2x2 행렬에 부동소수점을 곱합 결과를 반환합니다.
+	 */
+	Mat2x2 operator*(const float& scalar) const
+	{
+		return Mat2x2(
+			scalar * e00, scalar * e01,
+			scalar * e10, scalar * e11
+		);
+	}
+
+
+	/**
 	 * @brief 두 2x2 행렬을 곱합니다.
 	 *
 	 * @param m 행렬의 곱셈을 수행할 피연산자입니다.
