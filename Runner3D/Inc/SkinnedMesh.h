@@ -81,6 +81,14 @@ public:
 
 
 	/**
+	 * @brief 스키닝된 정점 목록을 얻습니다.
+	 * 
+	 * @return 스키닝된 정점 목록 상수 참조자를 반환합니다.
+	 */
+	const std::vector<VertexPositionNormalUvSkin3D>& GetSkinnedVertices() const { return skinnedVertices_; }
+
+
+	/**
 	 * @brief CPU 스키닝을 수행합니다.
 	 * 
 	 * @param skeleton 정점 스키닝을 수행할 때 참조할 뼈대입니다.
