@@ -5,9 +5,10 @@
 #include "Skeleton.h"
 #include "SkinnedMesh.h"
 
-SkinnedMesh::SkinnedMesh(const std::vector<VertexPositionNormalUvSkin3D>& vertices, const std::vector<uint32_t>& indices)
+SkinnedMesh::SkinnedMesh(const std::vector<VertexPositionNormalUvSkin3D>& vertices, const std::vector<uint32_t>& indices, bool bIsUploadedToGPU)
 	: vertices_(vertices)
 	, indices_(indices)
+	, bIsUploadedToGPU_(bIsUploadedToGPU)
 {
 	skinnedVertices_ = vertices_;
 
@@ -23,7 +24,7 @@ SkinnedMesh::SkinnedMesh(const std::vector<VertexPositionNormalUvSkin3D>& vertic
 
 	GL_FAILED(glBindVertexArray(vertexArrayObject_));
 	GL_FAILED(glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject_));
-	GL_FAILED(glBufferData(GL_ARRAY_BUFFER, vertexBufferSize, vertexBufferPtr, GL_DYNAMIC_DRAW));
+	GL_FAILED(glBufferData(GL_ARRAY_BUFFER, vertexBufferSize, vertexBufferPtr, bIsUploadedToGPU_ ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW));
 	GL_FAILED(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferObject_));
 	GL_FAILED(glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBufferSize, indexBufferPtr, GL_STATIC_DRAW));
 
@@ -108,9 +109,19 @@ void SkinnedMesh::Skin(Skeleton* skeleton, Pose* pose)
 		);
 	}
 
+	if (bIsUploadedToGPU_)
+	{
+		UploadSkinnedVertexList();
+	}
+}
+
+void SkinnedMesh::UploadSkinnedVertexList()
+{
+	CHECK(bIsUploadedToGPU_);
+
 	const void* vertexPtr = reinterpret_cast<const void*>(skinnedVertices_.data());
 	uint32_t bufferByteSize = static_cast<uint32_t>(VertexPositionNormalUvSkin3D::GetStride() * skinnedVertices_.size());
-	
+
 	GL_FAILED(glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject_));
 	void* bufferPtr = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
 	CHECK(bufferPtr != nullptr);

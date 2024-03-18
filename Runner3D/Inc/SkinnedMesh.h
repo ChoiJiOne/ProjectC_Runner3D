@@ -20,8 +20,9 @@ public:
 	 *
 	 * @param vertices 메시의 정점 목록입니다.
 	 * @param indices 메시의 인덱스 목록입니다.
+	 * @param bIsUploadedToGPU 스키닝된 CPU 상의 정점 목록을 GPU로 전송할 지 여부입니다.
 	 */
-	explicit SkinnedMesh(const std::vector<VertexPositionNormalUvSkin3D>& vertices, const std::vector<uint32_t>& indices);
+	explicit SkinnedMesh(const std::vector<VertexPositionNormalUvSkin3D>& vertices, const std::vector<uint32_t>& indices, bool bIsUploadedToGPU = false);
 
 
 	/**
@@ -99,6 +100,13 @@ public:
 
 private:
 	/**
+	 * @brief 스키닝된 CPU 정점 목록을 GPU로 전송합니다.
+	 */
+	void UploadSkinnedVertexList();
+
+
+private:
+	/**
 	 * @brief 원본 정점 목록입니다.
 	 */
 	std::vector<VertexPositionNormalUvSkin3D> vertices_;
@@ -142,4 +150,10 @@ private:
 	 * @brief 포즈 행렬 목록입니다.
 	 */
 	std::vector<Mat4x4> posePalette_;
+
+
+	/**
+	 * @brief 스키닝된 CPU 상의 정점 데이터를 GPU로 보낼지 확인합니다.
+	 */
+	bool bIsUploadedToGPU_ = false;
 };
