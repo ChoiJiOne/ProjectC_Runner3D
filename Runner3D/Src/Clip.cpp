@@ -21,9 +21,8 @@ float Clip::Sample(Pose& outPose, float time)
 	}
 
 	time = AdjustTimeToFitRange(time);
-	uint32_t trackSize = GetTrackSize();
 
-	for (uint32_t index = 0; index < trackSize; ++index)
+	for (uint32_t index = 0; index < tracks_.size(); ++index)
 	{
 		uint32_t joint = tracks_[index].GetBoneID();
 
