@@ -9,6 +9,8 @@ SkinnedMesh::SkinnedMesh(const std::vector<VertexPositionNormalUvSkin3D>& vertic
 	: vertices_(vertices)
 	, indices_(indices)
 {
+	skinnedVertices_ = vertices_;
+
 	const void* vertexBufferPtr = reinterpret_cast<const void*>(vertices_.data());
 	uint32_t vertexBufferSize = static_cast<uint32_t>(vertices_.size()) * VertexPositionNormalUvSkin3D::GetStride();
 
@@ -84,14 +86,38 @@ void SkinnedMesh::Skin(Skeleton* skeleton, Pose* pose)
 		Vec4f& weight = vertices_[index].weight;
 		Vec4i& joints = vertices_[index].joints;
 		
-		Mat4x4 m0 = (posePalette_[joints.x] * invPosePalette[joints.x]) * weight.x;
-		Mat4x4 m1 = (posePalette_[joints.y] * invPosePalette[joints.y]) * weight.y;
-		Mat4x4 m2 = (posePalette_[joints.z] * invPosePalette[joints.z]) * weight.z;
-		Mat4x4 m3 = (posePalette_[joints.w] * invPosePalette[joints.w]) * weight.w;
+		Mat4x4 m0 = (invPosePalette[joints.x] * posePalette_[joints.x]) * weight.x;
+		Mat4x4 m1 = (invPosePalette[joints.y] * posePalette_[joints.y]) * weight.y;
+		Mat4x4 m2 = (invPosePalette[joints.z] * posePalette_[joints.z]) * weight.z;
+		Mat4x4 m3 = (invPosePalette[joints.w] * posePalette_[joints.w]) * weight.w;
 
 		Mat4x4 skin = m0 + m1 + m2 + m3;
 
-		//mSkinnedPosition[i] = transformPoint(skin, mPosition[i]);
-		//mSkinnedNormal[i] = transformVector(skin, mNormal[i]);
+		skinnedVertices_[index].position = Vec3f
+		(
+			vertices_[index].position.x * skin.e00 + vertices_[index].position.y * skin.e10 + vertices_[index].position.z * skin.e20 + skin.e30,
+			vertices_[index].position.x * skin.e01 + vertices_[index].position.y * skin.e11 + vertices_[index].position.z * skin.e21 + skin.e31,
+			vertices_[index].position.x * skin.e02 + vertices_[index].position.y * skin.e12 + vertices_[index].position.z * skin.e22 + skin.e32
+		);
+
+		skinnedVertices_[index].normal = Vec3f
+		(
+			vertices_[index].normal.x * skin.e00 + vertices_[index].normal.y * skin.e10 + vertices_[index].normal.z * skin.e20,
+			vertices_[index].normal.x * skin.e01 + vertices_[index].normal.y * skin.e11 + vertices_[index].normal.z * skin.e21,
+			vertices_[index].normal.x * skin.e02 + vertices_[index].normal.y * skin.e12 + vertices_[index].normal.z * skin.e22
+		);
 	}
+
+	const void* vertexPtr = reinterpret_cast<const void*>(skinnedVertices_.data());
+	uint32_t bufferByteSize = static_cast<uint32_t>(VertexPositionNormalUvSkin3D::GetStride() * skinnedVertices_.size());
+	
+	GL_FAILED(glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject_));
+	void* bufferPtr = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+	CHECK(bufferPtr != nullptr);
+
+	std::memcpy(bufferPtr, vertexPtr, bufferByteSize);
+	GLboolean bSuccssed = glUnmapBuffer(GL_ARRAY_BUFFER);
+	CHECK(bSuccssed);
+
+	GL_FAILED(glBindBuffer(GL_ARRAY_BUFFER, 0));
 }

@@ -91,9 +91,15 @@ public:
 
 private:
 	/**
-	 * @brief 정점 목록입니다.
+	 * @brief 원본 정점 목록입니다.
 	 */
 	std::vector<VertexPositionNormalUvSkin3D> vertices_;
+
+
+	/**
+	 * @brief 스키닝된 정점 목록입니다.
+	 */
+	std::vector<VertexPositionNormalUvSkin3D> skinnedVertices_;
 
 
 	/**
