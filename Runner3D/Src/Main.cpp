@@ -51,7 +51,7 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 	GeometryPass3D* geometryPass = ResourceManager::Get().GetResource<GeometryPass3D>(ResourceManager::Get().Create<GeometryPass3D>());
 	Shader* shader = ResourceManager::Get().GetResource<Shader>(ResourceManager::Get().Create<Shader>("Shader/Shader.vert", "Shader/Shader.frag"));
 
-	cgltf_data* data = GLTFLoader::LoadFromFile("Resource/Model/Zombie.gltf");
+	cgltf_data* data = GLTFLoader::LoadFromFile("Resource/Model/Idle.gltf");
 	std::vector<GLTFLoader::SkinnedMeshData> skinnedMeshes = GLTFLoader::LoadSkinnedMeshData(data);
 	std::vector<VertexPositionNormalUvSkin3D> vertices;
 	std::vector<uint32_t> indices = skinnedMeshes[0].indices;
@@ -102,20 +102,6 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 			skinnedMesh->Unbind();
 		}
 		shader->Unbind();
-
-		Pose& pose = skeleton.GetRestPose();
-		for (uint32_t index = 0; index < pose.GetJointSize(); ++index)
-		{
-			if (pose.GetParent(index) < 0)
-			{
-				continue;
-			}
-
-			Vec3f from = pose.GetGlobalTransform(index).position;
-			Vec3f to = pose.GetGlobalTransform(pose.GetParent(index)).position;
-
-			geometryPass->DrawLine3D(view, projection, from, to, Vec4f(1.0f, 0.0f, 0.0f, 1.0f));
-		}
 
 		RenderManager::Get().EndFrame();
 	}
