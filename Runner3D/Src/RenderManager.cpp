@@ -12,6 +12,8 @@
 #include "RenderManager.h"
 #include "ResourceManager.h"
 #include "SDLManager.h"
+#include "SkinnedMesh.h"
+#include "StaticMesh.h"
 #include "SpritePass2D.h"
 #include "Texture2D.h"
 #include "TTFont.h"
@@ -316,6 +318,24 @@ void RenderManager::RenderText2D(const RUID& fontID, const std::wstring& text, c
 	GlyphPass2D::EAlignment alignment = bIsCenter ? GlyphPass2D::EAlignment::Center : GlyphPass2D::EAlignment::Left;
 
 	pass->DrawText2D(screenOrtho_, font, text, position, alignment, colors);
+}
+
+void RenderManager::RenderStaticMesh(const RUID& meshID)
+{
+	StaticMesh* mesh = ResourceManager::Get().GetResource<StaticMesh>(meshID);
+
+	mesh->Bind();
+	GL_FAILED(glDrawElements(GL_TRIANGLES, mesh->GetIndexCount(), GL_UNSIGNED_INT, 0));
+	mesh->Unbind();
+}
+
+void RenderManager::RenderSkinnedMesh(const RUID& meshID)
+{
+	SkinnedMesh* mesh = ResourceManager::Get().GetResource<SkinnedMesh>(meshID);
+
+	mesh->Bind();
+	GL_FAILED(glDrawElements(GL_TRIANGLES, mesh->GetIndexCount(), GL_UNSIGNED_INT, 0));
+	mesh->Unbind();
 }
 
 void RenderManager::GetRenderTargetWindowSize(int32_t& outWidth, int32_t& outHeight)

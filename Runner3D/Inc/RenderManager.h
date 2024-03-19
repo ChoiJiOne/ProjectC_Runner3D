@@ -497,6 +497,26 @@ public:
 
 
 	/**
+	 * @brief 정적 메시를 바인딩된 프레임 버퍼에 그립니다.
+	 * 
+	 * @note 셰이더가 바인딩 되어 있어야 합니다.
+	 * 
+	 * @param meshID 정적 메시 리소스 아이디입니다.
+	 */
+	void RenderStaticMesh(const RUID& meshID);
+
+
+	/**
+	 * @brief 스키닝 메시를 바인딩된 프레임 버퍼에 그립니다.
+	 * 
+	 * @note 셰이더가 바인딩 되어 있어야 합니다.
+	 * 
+	 * @param meshID 스키닝 메시 리소스 아이디입니다.
+	 */
+	void RenderSkinnedMesh(const RUID& meshID);
+
+
+	/**
 	 * @brief 렌더 타겟 윈도우의 가로 세로 크기를 얻습니다.
 	 *
 	 * @param outWidth 렌더 타겟 윈도우의 가로 크기입니다.
