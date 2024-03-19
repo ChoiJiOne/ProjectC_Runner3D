@@ -182,19 +182,19 @@ void GeometryPass3D::DrawGrid3D(const Mat4x4& view, const Mat4x4& projection, fl
 	int32_t vertexCount = 0;
 	for (float x = minXPosition; x <= maxXPosition; x += strideX)
 	{
-		ASSERT((0 <= vertexCount && vertexCount < MAX_VERTEX_SIZE), "overflow axis grid vertex count : %d", vertexCount);
+		CHECK(0 <= vertexCount && vertexCount < MAX_VERTEX_SIZE);
 		vertices_[vertexCount++] = VertexPositionColor3D(Vec3f(x, 0.0f, minZPosition), color);
 
-		ASSERT((0 <= vertexCount && vertexCount < MAX_VERTEX_SIZE), "overflow axis grid vertex count : %d", vertexCount);
+		CHECK(0 <= vertexCount && vertexCount < MAX_VERTEX_SIZE);
 		vertices_[vertexCount++] = VertexPositionColor3D(Vec3f(x, 0.0f, maxZPosition), color);
 	}
 
 	for (float z = minZPosition; z <= maxZPosition; z += strideZ)
 	{
-		ASSERT((0 <= vertexCount && vertexCount < MAX_VERTEX_SIZE), "overflow axis grid vertex count : %d", vertexCount);
+		CHECK(0 <= vertexCount && vertexCount < MAX_VERTEX_SIZE);
 		vertices_[vertexCount++] = VertexPositionColor3D(Vec3f(minXPosition, 0.0f, z), color);
 
-		ASSERT((0 <= vertexCount && vertexCount < MAX_VERTEX_SIZE), "overflow axis grid vertex count : %d", vertexCount);
+		CHECK(0 <= vertexCount && vertexCount < MAX_VERTEX_SIZE);
 		vertices_[vertexCount++] = VertexPositionColor3D(Vec3f(maxXPosition, 0.0f, z), color);
 	}
 
@@ -203,7 +203,7 @@ void GeometryPass3D::DrawGrid3D(const Mat4x4& view, const Mat4x4& projection, fl
 
 void GeometryPass3D::DrawGeometry3D(const Mat4x4& world, const Mat4x4& view, const Mat4x4& projection, const EDrawType& drawType, uint32_t vertexCount)
 {
-	ASSERT(drawType != EDrawType::None, "invalid draw type...");
+	CHECK(drawType != EDrawType::None);
 
 	const void* bufferPtr = reinterpret_cast<const void*>(vertices_.data());
 	uint32_t bufferByteSize = static_cast<uint32_t>(VertexPositionColor3D::GetStride() * vertices_.size());
