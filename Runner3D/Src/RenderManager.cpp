@@ -7,6 +7,7 @@
 
 #include "Assertion.h"
 #include "GeometryPass2D.h"
+#include "GeometryPass3D.h"
 #include "GlyphPass2D.h"
 #include "IResource.h"
 #include "RenderManager.h"
@@ -43,6 +44,7 @@ void RenderManager::Startup()
 	shaderCache_.insert({ "GeometryPass2D", ResourceManager::Get().Create<GeometryPass2D>() });
 	shaderCache_.insert({ "SpritePass2D",   ResourceManager::Get().Create<SpritePass2D>()   });
 	shaderCache_.insert({ "GlyphPass2D",    ResourceManager::Get().Create<GlyphPass2D>()    });
+	shaderCache_.insert({ "GeometryPass3D", ResourceManager::Get().Create<GeometryPass3D>() });
 
 	bIsStartup_ = true;
 }
@@ -318,6 +320,48 @@ void RenderManager::RenderText2D(const RUID& fontID, const std::wstring& text, c
 	GlyphPass2D::EAlignment alignment = bIsCenter ? GlyphPass2D::EAlignment::Center : GlyphPass2D::EAlignment::Left;
 
 	pass->DrawText2D(screenOrtho_, font, text, position, alignment, colors);
+}
+
+void RenderManager::RenderPoints3D(const Mat4x4& view, const Mat4x4& projection, const std::vector<Vec3f>& positions, const Vec4f& color)
+{
+	GeometryPass3D* pass = ResourceManager::Get().GetResource<GeometryPass3D>(shaderCache_.at("GeometryPass3D"));
+	pass->DrawPoints3D(view, projection, positions, color);
+}
+
+void RenderManager::RenderConnectPoints3D(const Mat4x4& view, const Mat4x4& projection, const std::vector<Vec3f>& positions, const Vec4f& color)
+{
+	GeometryPass3D* pass = ResourceManager::Get().GetResource<GeometryPass3D>(shaderCache_.at("GeometryPass3D"));
+	pass->DrawConnectPoints3D(view, projection, positions, color);
+}
+
+void RenderManager::RenderLine3D(const Mat4x4& view, const Mat4x4& projection, const Vec3f& fromPosition, const Vec3f& toPosition, const Vec4f& color)
+{
+	GeometryPass3D* pass = ResourceManager::Get().GetResource<GeometryPass3D>(shaderCache_.at("GeometryPass3D"));
+	pass->DrawLine3D(view, projection, fromPosition, toPosition, color);
+}
+
+void RenderManager::RenderLine3D(const Mat4x4& view, const Mat4x4& projection, const Vec3f& fromPosition, const Vec4f& fromColor, const Vec3f& toPosition, const Vec4f& toColor)
+{
+	GeometryPass3D* pass = ResourceManager::Get().GetResource<GeometryPass3D>(shaderCache_.at("GeometryPass3D"));
+	pass->DrawLine3D(view, projection, fromPosition, fromColor, toPosition, toColor);
+}
+
+void RenderManager::RenderCube3D(const Mat4x4& world, const Mat4x4& view, const Mat4x4& projection, const Vec3f& extents, const Vec4f& color)
+{
+	GeometryPass3D* pass = ResourceManager::Get().GetResource<GeometryPass3D>(shaderCache_.at("GeometryPass3D"));
+	pass->DrawCube3D(world, view, projection, extents, color);
+}
+
+void RenderManager::RenderSphere3D(const Mat4x4& world, const Mat4x4& view, const Mat4x4& projection, float radius, const Vec4f& color, int32_t sliceCount)
+{
+	GeometryPass3D* pass = ResourceManager::Get().GetResource<GeometryPass3D>(shaderCache_.at("GeometryPass3D"));
+	pass->DrawSphere3D(world, view, projection, radius, color, sliceCount);
+}
+
+void RenderManager::RenderGrid3D(const Mat4x4& view, const Mat4x4& projection, float minX, float maxX, float strideX, float minZ, float maxZ, float strideZ, const Vec4f& color)
+{
+	GeometryPass3D* pass = ResourceManager::Get().GetResource<GeometryPass3D>(shaderCache_.at("GeometryPass3D"));
+	pass->DrawGrid3D(view, projection, minX, maxX, strideX, minZ, maxZ, strideZ, color);
 }
 
 void RenderManager::RenderStaticMesh(const RUID& meshID)

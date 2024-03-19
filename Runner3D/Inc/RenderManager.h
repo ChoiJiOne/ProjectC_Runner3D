@@ -497,6 +497,98 @@ public:
 
 
 	/**
+	 * @brief 3D 점들을 바인딩된 프레임 버퍼에 그립니다.
+	 *
+	 * @param view 시야 행렬입니다.
+	 * @param projection 투영 행렬입니다.
+	 * @param positions 화면 상의 3D 점들입니다.
+	 * @param color 점들의 색상입니다.
+	 *
+	 * @note 3D 점들의 개수는 MAX_VERTEX_SIZE(10000)의 크기를 넘을 수 없습니다.
+	 */
+	void RenderPoints3D(const Mat4x4& view, const Mat4x4& projection, const std::vector<Vec3f>& positions, const Vec4f& color);
+
+
+	/**
+	 * @brief 점들을 연결한 3D 선을 프레임 버퍼에 그립니다.
+	 *
+	 * @param view 시야 행렬입니다.
+	 * @param projection 투영 행렬입니다.
+	 * @param positions 화면 상의 3D 점들입니다.
+	 * @param color 점들의 색상입니다.
+	 *
+	 * @note 3D 점들의 개수는 MAX_VERTEX_SIZE(10000)의 크기를 넘을 수 없습니다.
+	 */
+	void RenderConnectPoints3D(const Mat4x4& view, const Mat4x4& projection, const std::vector<Vec3f>& positions, const Vec4f& color);
+
+
+	/**
+	 * @brief 3D 선을 바인딩된 프레임 버퍼에 그립니다.
+	 *
+	 * @param view 시야 행렬입니다.
+	 * @param projection 투영 행렬입니다.
+	 * @param fromPosition 선의 시작점입니다.
+	 * @param toPosition 선의 끝점입니다.
+	 * @param color 선의 색상입니다.
+	 */
+	void RenderLine3D(const Mat4x4& view, const Mat4x4& projection, const Vec3f& fromPosition, const Vec3f& toPosition, const Vec4f& color);
+
+
+	/**
+	 * @brief 3D 선을 바인딩된 프레임 버퍼에 그립니다.
+	 *
+	 * @param view 시야 행렬입니다.
+	 * @param projection 투영 행렬입니다.
+	 * @param fromPosition 선의 시작점입니다.
+	 * @param fromColor 선의 시작점 색상입니다.
+	 * @param toPosition 선의 끝점입니다.
+	 * @param toColor 선의 끝점 색상입니다.
+	 */
+	void RenderLine3D(const Mat4x4& view, const Mat4x4& projection, const Vec3f& fromPosition, const Vec4f& fromColor, const Vec3f& toPosition, const Vec4f& toColor);
+
+
+	/**
+	 * @brief 3D 큐브를 바인딩된 프레임 버퍼에 그립니다.
+	 *
+	 * @param view 시야 행렬입니다.
+	 * @param world 월드 행렬입니다.
+	 * @param projection 투영 행렬입니다.
+	 * @param extents 큐브의 X/Y/Z 축 방향으로의 크기입니다.
+	 * @param color 큐브의 색상입니다.
+	 */
+	void RenderCube3D(const Mat4x4& world, const Mat4x4& view, const Mat4x4& projection, const Vec3f& extents, const Vec4f& color);
+
+
+	/**
+	 * @brief 3D 와이어 프레임 구(Sphere)를 바인딩된 프레임 버퍼에 그립니다.
+	 *
+	 * @param view 시야 행렬입니다.
+	 * @param projection 투영 행렬입니다.
+	 * @param center 구의 중심 좌표입니다.
+	 * @param radius 구의 반지름 길이입니다.
+	 * @param color 구의 색상입니다.
+	 * @param sliceCount 각 평면에 평행하는 원의 둘레 절단 횟수입니다. 기본 값은 300입니다.
+	 */
+	void RenderSphere3D(const Mat4x4& world, const Mat4x4& view, const Mat4x4& projection, float radius, const Vec4f& color, int32_t sliceCount = 300);
+
+
+	/**
+	 * @brief XZ 평면의 격자를 바인딩된 프레임 버퍼에 그립니다.
+	 *
+	 * @param view 시야 행렬입니다.
+	 * @param projection 투영 행렬입니다.
+	 * @param minX X좌표의 최소값입니다.
+	 * @param maxX X좌표의 최댓값입니다.
+	 * @param strideX X축 방향으로의 간격입니다.
+	 * @param minZ Z좌표의 최소값입니다.
+	 * @param maxZ Z좌표의 최댓값입니다.
+	 * @param strideZ Z축 방향으로의 간격입니다.
+	 * @param color 격자의 색상입니다.
+	 */
+	void RenderGrid3D(const Mat4x4& view, const Mat4x4& projection, float minX, float maxX, float strideX, float minZ, float maxZ, float strideZ, const Vec4f& color);
+
+
+	/**
 	 * @brief 정적 메시를 바인딩된 프레임 버퍼에 그립니다.
 	 * 
 	 * @note 셰이더가 바인딩 되어 있어야 합니다.
