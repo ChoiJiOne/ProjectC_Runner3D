@@ -43,23 +43,23 @@ void TrackFromChannel(Track<T, N>& inOutTrack, const cgltf_animation_channel* ch
 
 	for (uint32_t i = 0; i < numFrames; ++i) 
 	{
-		int baseIndex = i * numberOfValuesPerFrame;
+		int32_t baseIndex = i * numberOfValuesPerFrame;
 		Frame<N>& frame = inOutTrack[i];
-		int offset = 0;
+		int32_t offset = 0;
 
 		frame.time = timelineFloats[i];
 
-		for (int component = 0; component < N; ++component) 
+		for (int32_t component = 0; component < N; ++component)
 		{
 			frame.in[component] = isSamplerCubic ? valueFloats[baseIndex + offset++] : 0.0f;
 		}
 
-		for (int component = 0; component < N; ++component) 
+		for (int32_t component = 0; component < N; ++component)
 		{
 			frame.value[component] = valueFloats[baseIndex + offset++];
 		}
 
-		for (int component = 0; component < N; ++component) 
+		for (int32_t component = 0; component < N; ++component)
 		{
 			frame.out[component] = isSamplerCubic ? valueFloats[baseIndex + offset++] : 0.0f;
 		}
