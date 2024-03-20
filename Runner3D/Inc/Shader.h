@@ -2,6 +2,7 @@
 
 #include <map>
 #include <string>
+#include <vector>
 
 #include "Mat2x2.h"
 #include "Mat3x3.h"
@@ -240,6 +241,15 @@ public:
 	 * @param value 유니폼 변수의 설정 값입니다.
 	 */
 	void SetUniform(const std::string& name, const Mat4x4& value);
+
+
+	/**
+	 * @brief 셰이더 내의 4x4 타입 배열의 행렬 유니폼 변수를 설정합니다.
+	 * 
+	 * @param name 유니폼 변수의 이름입니다.
+	 * @param value 유니폼 변수의 설정 값입니다.
+	 */
+	void SetUniform(const std::string& name, const std::vector<Mat4x4>& value);
 	
 
 protected:

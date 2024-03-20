@@ -235,6 +235,13 @@ void Shader::SetUniform(const std::string& name, const Mat4x4& value)
 	GL_FAILED(glUniformMatrix4fv(location, 1, GL_FALSE, value.GetPtr()));
 }
 
+void Shader::SetUniform(const std::string& name, const std::vector<Mat4x4>& value)
+{
+	int32_t location = GetUniformLocation(name);
+	const float* valuePtr = reinterpret_cast<const float*>(value.data());
+	GL_FAILED(glUniformMatrix4fv(location, static_cast<uint32_t>(value.size()), GL_FALSE, valuePtr));
+}
+
 int32_t Shader::GetUniformLocation(const std::string& name)
 {
 	std::map<std::string, uint32_t>::iterator uniformLocation = uniformLocationCache_.find(name);
