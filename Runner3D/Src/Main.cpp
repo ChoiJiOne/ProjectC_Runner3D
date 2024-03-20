@@ -64,7 +64,7 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 	}
 
 	Texture2D* texture = ResourceManager::Get().GetResource<Texture2D>(ResourceManager::Get().Create<Texture2D>("Resource/Texture/Zombie.png"));
-	RUID meshID = ResourceManager::Get().Create<SkinnedMesh>(vertices, indices, true);
+	RUID meshID = ResourceManager::Get().Create<SkinnedMesh>(vertices, indices, false);
 	SkinnedMesh* skinnedMesh = ResourceManager::Get().GetResource<SkinnedMesh>(meshID);
 	Skeleton skeleton = GLTFLoader::LoadSkeleton(data);
 	std::vector<Clip> clips = GLTFLoader::LoadAnimationClip(data);
@@ -89,12 +89,15 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 		{
 			texture->Active(0);
 
-			shader->SetUniform("world", Mat4x4::Scale(1.0f, 1.0f, 1.0f));
+			shader->SetUniform("world", Mat4x4::Identity());
 			shader->SetUniform("view", view);
 			shader->SetUniform("projection", projection);
+			shader->SetUniform("pose", skinnedMesh->GetPosePalette());
+			shader->SetUniform("invBindPose", skeleton.GetInvBindPose());
 
 			RenderManager::Get().RenderSkinnedMesh(meshID);
 		}
+		shader->Unbind();
 
 		const std::vector<VertexPositionNormalUvSkin3D>& vertices = skinnedMesh->GetSkinnedVertices();
 		Vec3f minPos = Vec3f(+FLT_MAX, +FLT_MAX, +FLT_MAX);
@@ -115,9 +118,6 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 		Vec3f extents = maxPos - minPos;
 
 		RenderManager::Get().RenderCube3D(Mat4x4::Translation(center), view, projection, extents, Vec4f(1.0f, 0.0f, 0.0f, 1.0f));
-
-		shader->Unbind();
-
 		RenderManager::Get().EndFrame();
 	}
 	
