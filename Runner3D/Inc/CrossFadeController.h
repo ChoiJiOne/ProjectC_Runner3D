@@ -75,19 +75,27 @@ public:
 
 
 	/**
-	 * @brief 크로스 페이드 컨트롤의 현재 포즈 참조자를 얻습니다.
+	 * @brief 크로스 페이드 컨트롤러의 현재 포즈 참조자를 얻습니다.
 	 * 
-	 * @return 크로스 페이드 컨트롤의 현재 포즈 참조자를 반환합니다.
+	 * @return 크로스 페이드 컨트롤러의 현재 포즈 참조자를 반환합니다.
 	 */
 	Pose& GetCurrentPose() { return pose_; }
 
 
 	/**
-	 * @brief 크로스 페이드 컨트롤의 현재 클립을 얻습니다.
+	 * @brief 크로스 페이드 컨트롤러의 현재 클립을 얻습니다.
 	 * 
-	 * @return 크로스 페이드 컨트롤의 현재 클립을 반환합니다.
+	 * @return 크로스 페이드 컨트롤러의 현재 클립을 반환합니다.
 	 */
 	Clip* GetCurrentClip() { return clip_; }
+
+
+	/**
+	 * @brief 크로스 페이드 컨트롤러의 뼈대를 얻습니다.
+	 * 
+	 * @return 크로스 페이드 컨트롤러의 뼈대를 반환합니다.
+	 */
+	Skeleton& GetSkeleton() { return skeleton_; }
 
 
 private:
