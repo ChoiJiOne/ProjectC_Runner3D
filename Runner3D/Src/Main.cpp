@@ -63,7 +63,7 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 		vertices.push_back(VertexPositionNormalUvSkin3D(position, normal, texcoords, weight, joint));
 	}
 
-	Texture2D* texture = ResourceManager::Get().GetResource<Texture2D>(ResourceManager::Get().Create<Texture2D>("Resource/Texture/Zombie.png"));
+	Texture2D* texture = ResourceManager::Get().GetResource<Texture2D>(ResourceManager::Get().Create<Texture2D>("Resource/Texture/Female.png"));
 	RUID meshID = ResourceManager::Get().Create<SkinnedMesh>(vertices, indices, false);
 	SkinnedMesh* skinnedMesh = ResourceManager::Get().GetResource<SkinnedMesh>(meshID);
 	Skeleton skeleton = GLTFLoader::LoadSkeleton(data);
