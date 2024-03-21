@@ -47,7 +47,7 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 
 	Shader* shader = ResourceManager::Get().GetResource<Shader>(ResourceManager::Get().Create<Shader>("Shader/Shader.vert", "Shader/Shader.frag"));
 
-	cgltf_data* data = GLTFLoader::LoadFromFile("Resource/Model/Idle.gltf");
+	cgltf_data* data = GLTFLoader::LoadFromFile("Resource/Model/Character.gltf");
 	std::vector<GLTFLoader::SkinnedMeshData> skinnedMeshes = GLTFLoader::LoadSkinnedMeshData(data);
 	std::vector<VertexPositionNormalUvSkin3D> vertices;
 	std::vector<uint32_t> indices = skinnedMeshes[0].indices;
