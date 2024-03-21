@@ -189,6 +189,30 @@ public:
 	void SetParent(uint32_t index, int32_t parent);
 
 
+	/**
+	 * @brief 포즈 내에 한 조인트가 다른 조인트의 자손인지 확인합니다.
+	 * 
+	 * @param pose 대상이 되는 포즈입니다.
+	 * @param parent 루트 조인트입니다.
+	 * @param search 검색할 조인트입니다.
+	 * 
+	 * @return 검색 조인트가 루트 조인트의 자손이라면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	static bool IsInHierarchy(Pose& pose, uint32_t parent, uint32_t search);
+
+
+	/**
+	 * @brief 두 포즈를 블랜딩합니다.
+	 * 
+	 * @param output 블랜딩된 결과를 저장할 포즈입니다.
+	 * @param start 블랜딩할 두 포즈의 시작 포즈입니다.
+	 * @param end 블랜딩할 두 포즈의 끝 포즈입니다.
+	 * @param t 블랜딩할 0.0에서 1.0 사이의 값입니다.
+	 * @param blendRoot 블랜딩할 루트 인덱스입니다.
+	 */
+	static void Blend(Pose& output, Pose& start, Pose& end, float t, int32_t blendRoot);
+
+
 private:
 	/**
 	 * @brief Pose의 변환 목록입니다.
