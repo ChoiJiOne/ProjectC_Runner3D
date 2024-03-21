@@ -11,6 +11,7 @@
 
 #include "Assertion.h"
 #include "Clip.h"
+#include "CrossFadeController.h"
 #include "GameTimer.h"
 #include "GeometryGenerator.h"
 #include "GeometryPass3D.h"
@@ -71,7 +72,12 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 
 	GLTFLoader::Free(data);
 
-	float playbackTime = 0.0f;
+	int32_t currentClip = 0;
+
+	CrossFadeContoller crossFadeContoller(skeleton);
+	crossFadeContoller.Play(&clips[currentClip]);
+	crossFadeContoller.Update(0.0f);
+	float fadeTime = clips[currentClip].GetDuration();
 
 	timer.Reset();
 	while (!bIsDone)
@@ -79,8 +85,24 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 		InputManager::Get().Tick();
 		timer.Tick();
 
-		playbackTime = clips[0].Sample(skeleton.GetRestPose(), playbackTime + timer.GetDeltaSeconds());
-		skinnedMesh->Skin(&skeleton, &skeleton.GetRestPose());
+		crossFadeContoller.Update(timer.GetDeltaSeconds());
+
+		fadeTime -= timer.GetDeltaSeconds();
+		if (fadeTime < 0.0f)
+		{
+			uint32_t clip = currentClip;
+			while (clip == currentClip)
+			{
+				clip = MathModule::GenerateRandomInt(0, static_cast<int32_t>(clips.size() - 1));
+			}
+
+			currentClip = clip;
+			fadeTime = clips[currentClip].GetDuration();
+			crossFadeContoller.FadeTo(&clips[currentClip], 1.0f);
+		}
+
+		Skeleton& skeleton0 = crossFadeContoller.GetSkeleton();
+		skinnedMesh->Skin(&skeleton0, &crossFadeContoller.GetCurrentPose());
 
 		RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
 		RenderManager::Get().RenderGrid3D(view, projection, -5.0f, 5.0f, 1.0f, -5.0f, +5.0f, 1.0f, Vec4f(1.0f, 1.0f, 1.0f, 1.0f));
