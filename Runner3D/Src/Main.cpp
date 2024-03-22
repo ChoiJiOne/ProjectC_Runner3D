@@ -22,6 +22,8 @@
 #include "Shader.h"
 #include "StaticMesh.h"
 #include "SkinnedMesh.h"
+#include "Skybox.h"
+#include "SkyboxPass.h"
 #include "SDLManager.h"
 #include "Texture2D.h"
 
@@ -79,6 +81,17 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 	crossFadeContoller.Update(0.0f);
 	float fadeTime = clips[currentClip].GetDuration();
 
+	RUID skyboxID = ResourceManager::Get().Create<Skybox>(
+		"Resource/Skybox/Space_Right.png",
+		"Resource/Skybox/Space_Left.png",
+		"Resource/Skybox/Space_Top.png",
+		"Resource/Skybox/Space_Bottom.png",
+		"Resource/Skybox/Space_Front.png",
+		"Resource/Skybox/Space_Back.png"
+	);
+	Skybox* skybox = ResourceManager::Get().GetResource<Skybox>(skyboxID);
+	SkyboxPass* skyboxPass = ResourceManager::Get().GetResource<SkyboxPass>(ResourceManager::Get().Create<SkyboxPass>());
+
 	timer.Reset();
 	while (!bIsDone)
 	{
@@ -105,6 +118,11 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 		skinnedMesh->Skin(&skeleton0, &crossFadeContoller.GetCurrentPose());
 
 		RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
+
+		skyboxPass->Bind();
+		skyboxPass->DrawSkybox(view, projection, skybox);
+		skyboxPass->Unbind();
+
 		RenderManager::Get().RenderGrid3D(view, projection, -5.0f, 5.0f, 1.0f, -5.0f, +5.0f, 1.0f, Vec4f(1.0f, 1.0f, 1.0f, 1.0f));
 
 		shader->Bind();
