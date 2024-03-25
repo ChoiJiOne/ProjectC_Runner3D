@@ -56,7 +56,7 @@ public:
 	 * @return 생성된 리소스의 ID를 반환합니다.
 	 */
 	template <typename TResource, typename... Args>
-	RUID Create(Args&&... args)
+	RUID CreateID(Args&&... args)
 	{
 		CHECK(0 <= cacheSize_ && cacheSize_ < MAX_RESOURCE_SIZE);
 
