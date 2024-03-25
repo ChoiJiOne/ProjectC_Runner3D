@@ -83,6 +83,39 @@ public:
 
 
 	/**
+	 * @brief 엔티티를 생성합니다.
+	 *
+	 * @param args 엔티티의 생성자에 전달한 인자들입니다.
+	 *
+	 * @return 생성된 엔티티의 ID를 반환합니다.
+	 */
+	template <typename TEntity, typename... Args>
+	TEntity* CreateEntity(Args&&... args)
+	{
+		CHECK(0 <= cacheSize_ && cacheSize_ < MAX_RESOURCE_SIZE);
+
+		EUID entityID = -1;
+		for (int32_t index = 0; index < cacheSize_; ++index)
+		{
+			if (!cache_[entityID])
+			{
+				entityID = static_cast<EUID>(index);
+			}
+		}
+
+		if (entityID == -1)
+		{
+			entityID = cacheSize_++;
+		}
+
+		cache_[entityID] = std::make_unique<TEntity>(args...);
+		cache_[entityID]->SetID(entityID);
+
+		return reinterpret_cast<TEntity*>(cache_[entityID].get());
+	}
+
+
+	/**
 	 * @brief 엔티티 매니저가 관리하는 엔티티를 얻습니다.
 	 *
 	 * @param entityID 엔티티 ID입니다.
@@ -108,40 +141,6 @@ public:
 	 */
 	void Destroy(const EUID& entityID);
 
-
-	/**
-	 * @brief 엔티티를 업데이트합니다.
-	 * 
-	 * @param entityID 업데이트할 엔티티 ID 입니다.
-	 * @param deltaSeconds 초단위 델타 시간값입니다.
-	 */
-	void UpdateBatch(const EUID& entityID, float deltaSeconds);
-
-
-	/**
-	 * @brief 엔티티를 일괄 업데이트합니다.
-	 * 
-	 * @param entityIDs 일괄 업데이트할 엔티티 ID 목록입니다.
-	 * @param deltaSeconds 초단위 델타 시간값입니다.
-	 */
-	void UpdateBatch(const std::vector<EUID>& entityIDs, float deltaSeconds);
-
-
-	/**
-	 * @brief 엔티티를 렌더링합니다.
-	 *
-	 * @param entityID 렌더링할 엔티티 ID 입니다.
-	 */
-	void RenderBatch(const EUID& entityID);
-
-
-	/**
-	 * @brief 엔티티를 일괄 렌더링합니다.
-	 * 
-	 * @param entityIDs 일괄 렌더링할 엔티티 ID 목록입니다.
-	 */
-	void RenderBatch(const std::vector<EUID>& entityIDs);
-	
 
 private:
 	/**
