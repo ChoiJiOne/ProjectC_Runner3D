@@ -12,6 +12,8 @@
 #include "IManager.h"
 #include "IResource.h"
 
+class Shader;
+
 
 /**
  * @brief 렌더링에 관련된 처리를 수행하는 매니저입니다.
@@ -646,5 +648,5 @@ private:
 	/**
 	 * @brief 렌더 매니저가 렌더링 시 사용할 셰이더입니다.
 	 */
-	std::map<std::string, RUID> shaderCache_;
+	std::map<std::string, Shader*> shaderCache_;
 };
