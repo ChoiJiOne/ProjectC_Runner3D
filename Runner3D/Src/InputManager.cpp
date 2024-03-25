@@ -113,7 +113,19 @@ WINDOW_EVENT_UID InputManager::AddWindowEventAction(const EWindowEvent& windowEv
 {
 	CHECK(0 <= windowEventActionSize_ && windowEventActionSize_ < MAX_EVENT_ACTION_SIZE);
 
-	WINDOW_EVENT_UID windowEventID = windowEventActionSize_++;
+	WINDOW_EVENT_UID windowEventID = -1;
+	for (int32_t index = 0; index < windowEventActionSize_; ++index)
+	{
+		if (windowEventActions_[index].windowEvent == EWindowEvent::NONE)
+		{
+			windowEventID = index;
+		}
+	}
+
+	if (windowEventID == -1)
+	{
+		windowEventID = windowEventActionSize_++;
+	}
 
 	windowEventActions_[windowEventID].windowEvent = windowEvent;
 	windowEventActions_[windowEventID].windowEventAction = eventAction;
