@@ -57,7 +57,7 @@ public:
 	 * @return 생성된 엔티티의 ID를 반환합니다.
 	 */
 	template <typename TEntity, typename... Args>
-	EUID Create(Args&&... args)
+	EUID CreateID(Args&&... args)
 	{
 		CHECK(0 <= cacheSize_ && cacheSize_ < MAX_RESOURCE_SIZE);
 
