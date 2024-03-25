@@ -1,11 +1,3 @@
-#include <cstdint>
-#include <functional>
-#include <windows.h>
-
-#include <SDL.h>
-#include <glad/glad.h>
-#include <cgltf.h>
-
 #include "CrashModule.h"
 #include "Transform.h"
 
@@ -51,8 +43,8 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 	timer.Reset();
 	while (!bIsDone)
 	{
-		InputManager::Get().Tick();
 		timer.Tick();
+		InputManager::Get().Tick();
 
 		RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
 		RenderManager::Get().EndFrame();
