@@ -60,8 +60,20 @@ public:
 	{
 		CHECK(0 <= cacheSize_ && cacheSize_ < MAX_RESOURCE_SIZE);
 
-		RUID resourceID = cacheSize_++;
+		RUID resourceID = -1;
+		for (int32_t index = 0; index < cacheSize_; ++index)
+		{
+			if (!cache_[index])
+			{
+				resourceID = static_cast<RUID>(index);
+			}
+		}
 
+		if (resourceID == -1)
+		{
+			resourceID = cacheSize_++;
+		}
+		
 		cache_[resourceID] = std::make_unique<TResource>(args...);
 		cache_[resourceID]->SetID(resourceID);
 
