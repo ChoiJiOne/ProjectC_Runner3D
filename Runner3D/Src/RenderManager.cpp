@@ -152,174 +152,299 @@ void RenderManager::SetMultisampleMode(bool bIsEnable)
 
 void RenderManager::RenderPoints2D(const std::vector<Vec2f>& positions, const Vec4f& color, float pointSize)
 {
+	GLboolean originEnableDepth;
+	GL_FAILED(glGetBooleanv(GL_DEPTH_TEST, &originEnableDepth));
+
+	SetDepthMode(false);
 	GeometryPass2D* pass = reinterpret_cast<GeometryPass2D*>(shaderCache_.at("GeometryPass2D"));
 	pass->DrawPoints2D(screenOrtho_, positions, color, pointSize);
+	SetDepthMode(originEnableDepth);
 }
 
 void RenderManager::RenderConnectPoints2D(const std::vector<Vec2f>& positions, const Vec4f& color)
 {
+	GLboolean originEnableDepth;
+	GL_FAILED(glGetBooleanv(GL_DEPTH_TEST, &originEnableDepth));
+
+	SetDepthMode(false);
 	GeometryPass2D* pass = reinterpret_cast<GeometryPass2D*>(shaderCache_.at("GeometryPass2D"));
 	pass->DrawConnectPoints2D(screenOrtho_, positions, color);
+	SetDepthMode(originEnableDepth);
 }
 
 void RenderManager::RenderLine2D(const Vec2f& fromPosition, const Vec2f& toPosition, const Vec4f& color)
 {
+	GLboolean originEnableDepth;
+	GL_FAILED(glGetBooleanv(GL_DEPTH_TEST, &originEnableDepth));
+
+	SetDepthMode(false);
 	GeometryPass2D* pass = reinterpret_cast<GeometryPass2D*>(shaderCache_.at("GeometryPass2D"));
 	pass->DrawLine2D(screenOrtho_, fromPosition, toPosition, color);
+	SetDepthMode(originEnableDepth);
 }
 
 void RenderManager::RenderLine2D(const Vec2f& fromPosition, const Vec4f& fromColor, const Vec2f& toPosition, const Vec4f& toColor)
 {
+	GLboolean originEnableDepth;
+	GL_FAILED(glGetBooleanv(GL_DEPTH_TEST, &originEnableDepth));
+
+	SetDepthMode(false);
 	GeometryPass2D* pass = reinterpret_cast<GeometryPass2D*>(shaderCache_.at("GeometryPass2D"));
 	pass->DrawLine2D(screenOrtho_, fromPosition, fromColor, toPosition, toColor);
+	SetDepthMode(originEnableDepth);
 }
 
 void RenderManager::RenderTriangle2D(const Vec2f& fromPosition, const Vec2f& byPosition, const Vec2f& toPosition, const Vec4f& color)
 {
+	GLboolean originEnableDepth;
+	GL_FAILED(glGetBooleanv(GL_DEPTH_TEST, &originEnableDepth));
+
+	SetDepthMode(false);
 	GeometryPass2D* pass = reinterpret_cast<GeometryPass2D*>(shaderCache_.at("GeometryPass2D"));
 	pass->DrawTriangle2D(screenOrtho_, fromPosition, byPosition, toPosition, color);
+	SetDepthMode(originEnableDepth);
 }
 
 void RenderManager::RenderTriangle2D(const Vec2f& fromPosition, const Vec4f& fromColor, const Vec2f& byPosition, const Vec4f& byColor, const Vec2f& toPosition, const Vec4f& toColor)
 {
+	GLboolean originEnableDepth;
+	GL_FAILED(glGetBooleanv(GL_DEPTH_TEST, &originEnableDepth));
+
+	SetDepthMode(false);
 	GeometryPass2D* pass = reinterpret_cast<GeometryPass2D*>(shaderCache_.at("GeometryPass2D"));
 	pass->DrawTriangle2D(screenOrtho_, fromPosition, fromColor, byPosition, byColor, toPosition, toColor);
+	SetDepthMode(originEnableDepth);
 }
 
 void RenderManager::RenderWireframeTriangle2D(const Vec2f& fromPosition, const Vec2f& byPosition, const Vec2f& toPosition, const Vec4f& color)
 {
+	GLboolean originEnableDepth;
+	GL_FAILED(glGetBooleanv(GL_DEPTH_TEST, &originEnableDepth));
+
+	SetDepthMode(false);
 	GeometryPass2D* pass = reinterpret_cast<GeometryPass2D*>(shaderCache_.at("GeometryPass2D"));
 	pass->DrawWireframeTriangle2D(screenOrtho_, fromPosition, byPosition, toPosition, color);
+	SetDepthMode(originEnableDepth);
 }
 
 void RenderManager::RenderWireframeTriangle2D(const Vec2f& fromPosition, const Vec4f& fromColor, const Vec2f& byPosition, const Vec4f& byColor, const Vec2f& toPosition, const Vec4f& toColor)
 {
+	GLboolean originEnableDepth;
+	GL_FAILED(glGetBooleanv(GL_DEPTH_TEST, &originEnableDepth));
+
+	SetDepthMode(false);
 	GeometryPass2D* pass = reinterpret_cast<GeometryPass2D*>(shaderCache_.at("GeometryPass2D"));
 	pass->DrawWireframeTriangle2D(screenOrtho_, fromPosition, fromColor, byPosition, byColor, toPosition, toColor);
+	SetDepthMode(originEnableDepth);
 }
 
 void RenderManager::RenderRectangle2D(const Vec2f& center, float width, float height, float rotate, const Vec4f& color)
 {
+	GLboolean originEnableDepth;
+	GL_FAILED(glGetBooleanv(GL_DEPTH_TEST, &originEnableDepth));
+
+	SetDepthMode(false);
 	GeometryPass2D* pass = reinterpret_cast<GeometryPass2D*>(shaderCache_.at("GeometryPass2D"));
 	pass->DrawRectangle2D(screenOrtho_, center, width, height, rotate, color);
+	SetDepthMode(originEnableDepth);
 }
 
 void RenderManager::RenderWireframeRectangle2D(const Vec2f& center, float width, float height, float rotate, const Vec4f& color)
 {
+	GLboolean originEnableDepth;
+	GL_FAILED(glGetBooleanv(GL_DEPTH_TEST, &originEnableDepth));
+
+	SetDepthMode(false);
 	GeometryPass2D* pass = reinterpret_cast<GeometryPass2D*>(shaderCache_.at("GeometryPass2D"));
 	pass->DrawWireframeRectangle2D(screenOrtho_, center, width, height, rotate, color);
+	SetDepthMode(originEnableDepth);
 }
 
 void RenderManager::RenderRoundRectangle2D(const Vec2f& center, float width, float height, float side, float rotate, const Vec4f& color)
 {
+	GLboolean originEnableDepth;
+	GL_FAILED(glGetBooleanv(GL_DEPTH_TEST, &originEnableDepth));
+
+	SetDepthMode(false);
 	GeometryPass2D* pass = reinterpret_cast<GeometryPass2D*>(shaderCache_.at("GeometryPass2D"));
 	pass->DrawRoundRectangle2D(screenOrtho_, center, width, height, side, rotate, color);
+	SetDepthMode(originEnableDepth);
 }
 
 void RenderManager::RenderWireframeRoundRectangle2D(const Vec2f& center, float width, float height, float side, float rotate, const Vec4f& color)
 {
+	GLboolean originEnableDepth;
+	GL_FAILED(glGetBooleanv(GL_DEPTH_TEST, &originEnableDepth));
+
+	SetDepthMode(false);
 	GeometryPass2D* pass = reinterpret_cast<GeometryPass2D*>(shaderCache_.at("GeometryPass2D"));
 	pass->DrawWireframeRoundRectangle2D(screenOrtho_, center, width, height, side, rotate, color);
+	SetDepthMode(originEnableDepth);
 }
 
 void RenderManager::RenderCircle2D(const Vec2f& center, float radius, const Vec4f& color, int32_t sliceCount)
 {
+	GLboolean originEnableDepth;
+	GL_FAILED(glGetBooleanv(GL_DEPTH_TEST, &originEnableDepth));
+
+	SetDepthMode(false);
 	GeometryPass2D* pass = reinterpret_cast<GeometryPass2D*>(shaderCache_.at("GeometryPass2D"));
 	pass->DrawCircle2D(screenOrtho_, center, radius, color, sliceCount);
+	SetDepthMode(originEnableDepth);
 }
 
 void RenderManager::RenderWireframeCircle2D(const Vec2f& center, float radius, const Vec4f& color, int32_t sliceCount)
 {
+	GLboolean originEnableDepth;
+	GL_FAILED(glGetBooleanv(GL_DEPTH_TEST, &originEnableDepth));
+
+	SetDepthMode(false);
 	GeometryPass2D* pass = reinterpret_cast<GeometryPass2D*>(shaderCache_.at("GeometryPass2D"));
 	pass->DrawWireframeCircle2D(screenOrtho_, center, radius, color, sliceCount);
+	SetDepthMode(originEnableDepth);
 }
 
 void RenderManager::RenderEllipse2D(const Vec2f& center, float xAxis, float yAxis, const Vec4f& color, int32_t sliceCount)
 {
+	GLboolean originEnableDepth;
+	GL_FAILED(glGetBooleanv(GL_DEPTH_TEST, &originEnableDepth));
+
+	SetDepthMode(false);
 	GeometryPass2D* pass = reinterpret_cast<GeometryPass2D*>(shaderCache_.at("GeometryPass2D"));
 	pass->DrawEllipse2D(screenOrtho_, center, xAxis, yAxis, color, sliceCount);
+	SetDepthMode(originEnableDepth);
 }
 
 void RenderManager::RenderWireframeEllipse2D(const Vec2f& center, float xAxis, float yAxis, const Vec4f& color, int32_t sliceCount)
 {
+	GLboolean originEnableDepth;
+	GL_FAILED(glGetBooleanv(GL_DEPTH_TEST, &originEnableDepth));
+
+	SetDepthMode(false);
 	GeometryPass2D* pass = reinterpret_cast<GeometryPass2D*>(shaderCache_.at("GeometryPass2D"));
 	pass->DrawWireframeEllipse2D(screenOrtho_, center, xAxis, yAxis, color, sliceCount);
+	SetDepthMode(originEnableDepth);
 }
 
 void RenderManager::RenderSprite2D(const RUID& textureID, const Vec2f& center, float width, float height, float rotate, float transparent)
 {
+	GLboolean originEnableDepth;
+	GL_FAILED(glGetBooleanv(GL_DEPTH_TEST, &originEnableDepth));
+
+	SetDepthMode(false);
 	SpritePass2D* pass = reinterpret_cast<SpritePass2D*>(shaderCache_.at("SpritePass2D"));
 	Texture2D* texture = ResourceManager::Get().GetResource<Texture2D>(textureID);
 
 	pass->DrawSprite2D(screenOrtho_, texture, center, width, height, rotate, transparent);
+	SetDepthMode(originEnableDepth);
 }
 
 void RenderManager::RenderSprite2D(const RUID& textureID, float transparent)
 {
+	GLboolean originEnableDepth;
+	GL_FAILED(glGetBooleanv(GL_DEPTH_TEST, &originEnableDepth));
+
+	SetDepthMode(false);
 	SpritePass2D* pass = reinterpret_cast<SpritePass2D*>(shaderCache_.at("SpritePass2D"));
 	Texture2D* texture = ResourceManager::Get().GetResource<Texture2D>(textureID);
 
 	pass->DrawSprite2D(texture, transparent);
+	SetDepthMode(originEnableDepth);
 }
 
 void RenderManager::RenderHorizonScrollSprite2D(const RUID& textureID, float rate, float transparent)
 {
+	GLboolean originEnableDepth;
+	GL_FAILED(glGetBooleanv(GL_DEPTH_TEST, &originEnableDepth));
+
+	SetDepthMode(false);
 	SpritePass2D* pass = reinterpret_cast<SpritePass2D*>(shaderCache_.at("SpritePass2D"));
 	Texture2D* texture = ResourceManager::Get().GetResource<Texture2D>(textureID);
 
 	pass->DrawHorizonScrollSprite2D(texture, rate, transparent);
+	SetDepthMode(originEnableDepth);
 }
 
 void RenderManager::RenderHorizonScrollSprite2D(const RUID& textureID, const Vec2f& center, float width, float height, float rotate, float rate, float transparent)
 {
+	GLboolean originEnableDepth;
+	GL_FAILED(glGetBooleanv(GL_DEPTH_TEST, &originEnableDepth));
+
+	SetDepthMode(false);
 	SpritePass2D* pass = reinterpret_cast<SpritePass2D*>(shaderCache_.at("SpritePass2D"));
 	Texture2D* texture = ResourceManager::Get().GetResource<Texture2D>(textureID);
 
 	pass->DrawHorizonScrollSprite2D(screenOrtho_, texture, center, width, height, rotate, rate, transparent);
+	SetDepthMode(originEnableDepth);
 }
 
 void RenderManager::RenderVerticalScrollSprite2D(const RUID& textureID, float rate, float transparent)
 {
+	GLboolean originEnableDepth;
+	GL_FAILED(glGetBooleanv(GL_DEPTH_TEST, &originEnableDepth));
+
+	SetDepthMode(false);
 	SpritePass2D* pass = reinterpret_cast<SpritePass2D*>(shaderCache_.at("SpritePass2D"));
 	Texture2D* texture = ResourceManager::Get().GetResource<Texture2D>(textureID);
 
 	pass->DrawVerticalScrollSprite2D(texture, rate, transparent);
+	SetDepthMode(originEnableDepth);
 }
 
 void RenderManager::RenderVerticalScrollSprite2D(const RUID& textureID, const Vec2f& center, float width, float height, float rotate, float rate, float transparent)
 {
+	GLboolean originEnableDepth;
+	GL_FAILED(glGetBooleanv(GL_DEPTH_TEST, &originEnableDepth));
+
+	SetDepthMode(false);
 	SpritePass2D* pass = reinterpret_cast<SpritePass2D*>(shaderCache_.at("SpritePass2D"));
 	Texture2D* texture = ResourceManager::Get().GetResource<Texture2D>(textureID);
 
 	pass->DrawVerticalScrollSprite2D(screenOrtho_, texture, center, width, height, rotate, rate, transparent);
+	SetDepthMode(originEnableDepth);
 }
 
 void RenderManager::RenderOutlineSprite2D(const RUID& textureID, const Vec2f& center, float width, float height, float rotate, const Vec4f& outline, float transparent)
 {
+	GLboolean originEnableDepth;
+	GL_FAILED(glGetBooleanv(GL_DEPTH_TEST, &originEnableDepth));
+
+	SetDepthMode(false);
 	SpritePass2D* pass = reinterpret_cast<SpritePass2D*>(shaderCache_.at("SpritePass2D"));
 	Texture2D* texture = ResourceManager::Get().GetResource<Texture2D>(textureID);
 
 	pass->DrawOutlineSprite2D(screenOrtho_, texture, center, width, height, rotate, outline, transparent);
+	SetDepthMode(originEnableDepth);
 }
 
 void RenderManager::RenderText2D(const RUID& fontID, const std::wstring& text, const Vec2f& position, const Vec4f& color, bool bIsCenter)
 {
+	GLboolean originEnableDepth;
+	GL_FAILED(glGetBooleanv(GL_DEPTH_TEST, &originEnableDepth));
+
+	SetDepthMode(false);
 	GlyphPass2D* pass = reinterpret_cast<GlyphPass2D*>(shaderCache_.at("GlyphPass2D"));
 	TTFont* font = ResourceManager::Get().GetResource<TTFont>(fontID);
 
 	GlyphPass2D::EAlignment alignment = bIsCenter ? GlyphPass2D::EAlignment::Center : GlyphPass2D::EAlignment::Left;
 
 	pass->DrawText2D(screenOrtho_, font, text, position, alignment, color);
+	SetDepthMode(originEnableDepth);
 }
 
 void RenderManager::RenderText2D(const RUID& fontID, const std::wstring& text, const Vec2f& position, const std::vector<Vec4f>& colors, bool bIsCenter)
 {
+	GLboolean originEnableDepth;
+	GL_FAILED(glGetBooleanv(GL_DEPTH_TEST, &originEnableDepth));
+
+	SetDepthMode(false);
 	GlyphPass2D* pass = reinterpret_cast<GlyphPass2D*>(shaderCache_.at("GlyphPass2D"));
 	TTFont* font = ResourceManager::Get().GetResource<TTFont>(fontID);
 
 	GlyphPass2D::EAlignment alignment = bIsCenter ? GlyphPass2D::EAlignment::Center : GlyphPass2D::EAlignment::Left;
 
 	pass->DrawText2D(screenOrtho_, font, text, position, alignment, colors);
+	SetDepthMode(originEnableDepth);
 }
 
 void RenderManager::RenderPoints3D(const Mat4x4& view, const Mat4x4& projection, const std::vector<Vec3f>& positions, const Vec4f& color)
