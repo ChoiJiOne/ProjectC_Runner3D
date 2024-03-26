@@ -64,9 +64,10 @@ public:
 		EUID entityID = -1;
 		for (int32_t index = 0; index < cacheSize_; ++index)
 		{
-			if (!cache_[entityID])
+			if (!cache_[index])
 			{
 				entityID = static_cast<EUID>(index);
+				break;
 			}
 		}
 
