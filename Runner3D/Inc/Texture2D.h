@@ -16,7 +16,7 @@ public:
 	 * @brief 이미지 파일을 읽고 텍스처 리소스를 생성합니다.
 	 *
 	 * @param path 이미지 파일의 경로입니다.
-	 * @param bIsVerticallyFlip 픽셀 버퍼를 수직으로 뒤집을지 확인합니다. 기본 값은 true입니다.
+	 * @param bIsVerticallyFlip 픽셀 버퍼를 수직으로 뒤집을지 확인합니다. 기본 값은 false입니다.
 	 */
 	explicit Texture2D(const std::string& path, bool bIsVerticallyFlip = false);
 
