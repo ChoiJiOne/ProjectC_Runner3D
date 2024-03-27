@@ -166,6 +166,25 @@ public:
 
 
 	/**
+	 * @brief 시그니처 값에 대응하는 전역 리소스를 얻습니다.
+	 *
+	 * @param signature 전역 리소스의 시그니처 값입니다.
+	 *
+	 * @return 리소스의 포인터를 얻습니다.
+	 */
+	template <typename TResource>
+	TResource* GetGlobalResource(const std::string& signature)
+	{
+		RUID resourceID = GetGlobalResourceID(signature);
+
+		TResource* resource = reinterpret_cast<TResource*>(cache_[resourceID].get());
+		CHECK(resource != nullptr);
+
+		return resource;
+	}
+
+
+	/**
 	 * @brief 전역 리소스의 등록을 해제합니다.
 	 *
 	 * @param signature 등록 해제할 전역 리소스의 시그니처 값입니다.
