@@ -156,13 +156,13 @@ public:
 
 
 	/**
-	 * @brief 시그니처 값에 대응하는 전역 리소스를 얻습니다.
+	 * @brief 시그니처 값에 대응하는 전역 리소스의 ID를 얻습니다.
 	 *
 	 * @param signature 전역 리소스의 시그니처 값입니다.
 	 *
 	 * @return 시그니처 값에 대응하는 전역 리소스의 ID를 반환합니다.
 	 */
-	RUID GetGlobalResource(const std::string& signature);
+	RUID GetGlobalResourceID(const std::string& signature);
 
 
 	/**

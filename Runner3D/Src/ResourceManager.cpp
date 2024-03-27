@@ -47,7 +47,7 @@ void ResourceManager::RegisterGlobalResource(const std::string& signature, const
 	globalResources_.insert({ signature, resourceID });
 }
 
-RUID ResourceManager::GetGlobalResource(const std::string& signature)
+RUID ResourceManager::GetGlobalResourceID(const std::string& signature)
 {
 	CHECK(IsAlreadyExistSignature(signature));
 	return globalResources_.at(signature);
