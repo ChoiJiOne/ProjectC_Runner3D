@@ -64,11 +64,36 @@ public:
 	void Active(uint32_t unit) const;
 
 
+	/**
+	 * @brief 셰도우 맵의 크기를 얻습니다.
+	 * 
+	 * @param outWidth 셰도우 맵의 가로 크기입니다.
+	 * @param outHeight 셰도우 맵의 세로 크기입니다.
+	 */
+	void GetSize(uint32_t& outWidth, uint32_t& outHeight)
+	{
+		outWidth = width_;
+		outHeight = height_;
+	}
+
+
 private:
 	/**
 	 * @brief 셰도우 맵이 바인딩 되었는지 확인합니다.
 	 */
 	bool bIsBind_ = false;
+
+
+	/**
+	 * @brief 셰도우 맵의 가로 크기입니다.
+	 */
+	uint32_t width_ = 0;
+
+
+	/**
+	 * @brief 셰도우 맵의 세로 크기입니다.
+	 */
+	uint32_t height_ = 0;
 
 
 	/**

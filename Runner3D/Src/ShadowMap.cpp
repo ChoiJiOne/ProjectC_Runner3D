@@ -4,8 +4,10 @@
 #include "ShadowMap.h"
 
 ShadowMap::ShadowMap(uint32_t shadowWidth, uint32_t shadowHeight)
+	: width_(shadowWidth)
+	, height_(shadowHeight)
 {
-	CHECK((shadowWidth >= 0 && shadowHeight >= 0));
+	CHECK((width_ >= 0 && height_ >= 0));
 
 	float border[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
@@ -14,7 +16,7 @@ ShadowMap::ShadowMap(uint32_t shadowWidth, uint32_t shadowHeight)
 
 	GL_FAILED(glGenTextures(1, &shadowMapID_));
 	GL_FAILED(glBindTexture(GL_TEXTURE_2D, shadowMapID_));
-	GL_FAILED(glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, shadowWidth, shadowHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr));
+	GL_FAILED(glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width_, height_, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr));
 	GL_FAILED(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
 	GL_FAILED(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
 	GL_FAILED(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER));
