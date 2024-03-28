@@ -48,6 +48,12 @@ local function is_valid_block_size(size)
     return false
 end
 
+local function get_root_directory()
+    current = arg[0]
+    current_path = get_base_path(current, "\\")
+    return current_path
+end
+
 argc = #arg
 
 if argc ~= 2 then
