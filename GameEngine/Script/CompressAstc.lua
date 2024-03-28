@@ -69,4 +69,10 @@ if not is_valid_block_size(block_size) then
     os.exit()
 end
 
+astcenc_path = get_root_directory() .. "..\\Bin\\astcenc.exe"
+mode = "-cl"
 save_path = string.format("%s%s_%s.astc", get_base_path(src, "\\"), get_file_name(src), block_size)
+speed = "-exhaustive"
+
+command = string.format("%s %s %s %s %s %s", astcenc_path, mode, src, save_path, block_size, speed)
+os.execute(command)
