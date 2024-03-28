@@ -1,6 +1,6 @@
 @echo off
 
 SET mode=MinSizeRel
-SET script=Script\BuildSolution.bat
+SET script=GameEngine\Script\BuildSolution.bat
 
 %script% %mode%
