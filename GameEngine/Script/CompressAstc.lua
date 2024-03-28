@@ -28,11 +28,8 @@ if argc ~= 2 then
 end
 
 src = arg[1]
-save_path = get_base_path(src, "\\")
 block_size = arg[2]
-
-print(get_file_name(src))
-print(get_file_extension(src))
+save_path = string.format("%s%s_%s.astc", get_base_path(src, "\\"), get_file_name(src), block_size)
 
 -- https://arm-software.github.io/opengl-es-sdk-for-android/astc_textures.html
 block_sizes = {
