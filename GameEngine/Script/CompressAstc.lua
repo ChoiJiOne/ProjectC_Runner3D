@@ -4,6 +4,11 @@ local function get_base_path(str, sep)
     return str:match("(.*"..sep..")")
 end
 
+-- https://gist.github.com/tingliang0/d9672e0656130eabbd2f
+local function get_file_name_with_extension(file)
+    return file:match( "([^\\]+)$" )
+end
+
 argc = #arg
 
 if argc ~= 2 then
