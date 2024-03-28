@@ -9,6 +9,17 @@ local function get_file_name_with_extension(file)
     return file:match( "([^\\]+)$" )
 end
 
+-- https://gist.github.com/tingliang0/d9672e0656130eabbd2f
+local function get_file_name(file)
+    name_with_extension = get_file_name_with_extension(file)
+    return name_with_extension:match("([^/\\]+)%.%w+$")
+end
+
+local function get_file_extension(file)
+    name_with_extension = get_file_name_with_extension(file)
+    return name_with_extension:match("%.(%w+)$")
+end
+
 argc = #arg
 
 if argc ~= 2 then
@@ -19,6 +30,9 @@ end
 src = arg[1]
 save_path = get_base_path(src, "\\")
 block_size = arg[2]
+
+print(get_file_name(src))
+print(get_file_extension(src))
 
 -- https://arm-software.github.io/opengl-es-sdk-for-android/astc_textures.html
 block_sizes = {
